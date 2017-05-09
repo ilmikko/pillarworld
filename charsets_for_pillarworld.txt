@@ -1,0 +1,27 @@
+NOTE: Please note that all the dec ranges are approximates, to ease out the search for specific characters.
+
+DEC RANGE       Usability               Description of the set
+33-126          Everywhere              Basic ASCII range
+...-384         ?                       Extended ASCII, animals (upper-lowercase means age?) Some symbols as well
+912-1129        ?                       Symbols, greek, cyrillic
+5100-5200                               Arrows, pointy things
+5200-5555                               Lightning, crops, etc curvy things
+5751-5880       ?                       Runes, some interesting wire symbols in the front
+8200-8300                               Extra symbols, lines, some dot shapes, couple of ornaments
+8300-8330                               Super and sub for numbers except the darn 1 2 and 3 (super missing)
+8590-8710                               ALL KINDS OF ARROWS!
+8700-8860                               Mathematical symbols
+8850-8988                               Some more interesting mathematical symbols, Circles and squares with shapes inside them, random shapes
+9020-9080                               Interesting symbols (cards? Maybe for buildings?)
+9115-9169                               Maths and LINES! Yay! Lines are great.
+9470-9630                               PATHS! PATHS! ALL OF THE PATHS! And two loading bars, bottom to top, left to right
+9550-9740                               Shapes, all kinds, mostly triangles tho
+9800-9935                               All kinds of symbols
+9980-10060                              All kinds of STARS! And CROSSES! And a couple more symbols.
+10080-10101                             Some brackets and ornaments
+10230-10500                             BRAILLE! And some arrows at the start
+10530-10630                             MORE arrows.
+11000-11123                             EVEN MORE ARROWS BUT THESE ARE GOOD and some shapes like hexagon and half-filled squares
+19870-20029                             INTERESTING FIELD BITS!
+119500-119659                           MORE INTERESTING FIELD BITS!
+119800-120931                           Most common latin characters in various typefaces

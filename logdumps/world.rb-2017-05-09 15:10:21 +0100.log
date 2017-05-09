@@ -1,0 +1,32 @@
+[Log] [1]Console initialized
+[90m[dmp][2]Resizing to [79, 158][0m
+[90m[dmp][3]Resizing done[0m
+[Log] [4]Start rendering thread
+[32m[Inf][5]C: 11326, D: 8840[0m
+[90m[dmp][6]KEY: h[0m
+[31m[ERR][7]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][8]KEY: h[0m
+[31m[ERR][9]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][10]KEY: h[0m
+[31m[ERR][11]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][12]KEY: h[0m
+[31m[ERR][13]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][14]KEY: h[0m
+[31m[ERR][15]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][16]KEY: h[0m
+[31m[ERR][17]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][18]KEY: h[0m
+[31m[ERR][19]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][20]KEY: h[0m
+[31m[ERR][21]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][22]KEY: j[0m
+[31m[ERR][23]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][24]KEY: h[0m
+[31m[ERR][25]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][26]KEY: j[0m
+[31m[ERR][27]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[90m[dmp][28]KEY: h[0m
+[31m[ERR][29]INPUT: ERROR undefined method `update=' for nil:NilClass[0m
+[Log] [30]Terminating program (user signal)
+[Log] [31]Gracefully closing window
+[Log] [32]Writing to log file, bye.
