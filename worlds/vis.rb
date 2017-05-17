@@ -1,4 +1,6 @@
+Dir.chdir("../");
 require("./console.rb");
+
 require("./canvas.rb");
 require("./noise.rb");
 require("./input.rb");
@@ -17,7 +19,7 @@ $screen.sceneSet(
 
                         return $noise.perlin(x/m,y/m)<0;
 
-                        },x-55,y-15,50,50,char:':');
+                        },x-55,y-15,50,50,char:'!');
 
                 $canvas.draw(0,0,char:"+");
 

@@ -15,13 +15,6 @@ class Screen
                 [@dimensions[1],@dimensions[0]] # Swapped from h,w to w,h for convenience
         end
 
-        def update
-                @update
-        end
-        def update=(val)
-                @update=val;
-        end
-
         # --------------------------- CURSOR COMMANDS---------------------------
         def cursorSet(x=0,y=0)
                 # Add 1 to both x and y as the grid starts from 1,1; not 0,0.
@@ -64,7 +57,11 @@ class Screen
                         return
                 end
 
-                @scene.call(self.width,self.height);
+                begin
+                        @scene.call(self.width,self.height);
+                rescue StandardError => e
+                        $console.error("RENDER: ERROR #{e}");
+                end
                 @renderstate=1;
         end
         def clear(force=false)
@@ -76,11 +73,13 @@ class Screen
                 @currentframe={};
         end
         def resize
+                if @renderstate>0;
+                        return
+                end
+
                 @dimensions=$stdin.winsize;
 
                 $console.dump("Resizing to #{@dimensions}");
-
-                while @renderstate>0; end
 
                 @lastframe={};
                 @currentframe={};
@@ -97,6 +96,13 @@ class Screen
 
                 self.put(x,y,str);
         end
+        def writeLines(x,y,lines,align:0)
+                len=lines.length-1;
+                lines.each_with_index{|l,i|
+                        self.write(x,y-len+i,l,align:align);
+                }
+        end
+
         #def writeCentered(str)
         #        len=str.length/2;
         #        self.cursorLeft(len);
@@ -144,7 +150,9 @@ class Screen
                 pixelid=x+y*(w+1);
                 string=string.split("");
 
-                for g in 0..string.length-1
+                max=[string.length-1,w-x].min;
+
+                for g in 0..max
                         @drawsv+=1;
                         @currentframe[pixelid+g]=string[g];
                 end
@@ -175,7 +183,6 @@ class Screen
                 # Get dem fps
                 @currentframe={};
                 @lastframe={};
-                @update=false;
 
                 $console.log("Start rendering thread");
                 # New thread for frame rendering and resizing check
@@ -188,10 +195,7 @@ class Screen
                                         self.clear(true);
                                 end
 
-                                if (@update)
-                                        @update=false;
-                                        self.render(); # expensive
-                                end
+                                self.render(); # expensive
 
                                 self.drawDebugInfo();
 

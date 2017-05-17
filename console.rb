@@ -42,7 +42,7 @@ $colors={
 class Console < BasicObject
 	# How different types are formatted. String substitution is used.
 	@@formats={
-		"log":"[Log] %s",
+		"log":"[Log]%s",
 		"debug":$colors[:blue]+"[Dbg]%s"+$colors[:default],
 		"error":$colors[:red]+"[ERR]%s"+$colors[:default],
 		"warn":$colors[:yellow]+"[WRN]%s"+$colors[:default],
@@ -61,6 +61,11 @@ class Console < BasicObject
 		"dump":-100
 	};
 
+        def file;@file;end
+        def file=(v);@file=v;end
+        def echo;@echo;end
+        def echo=(v);@echo=v;end
+
         def lines
                 @lines
         end
@@ -75,6 +80,9 @@ class Console < BasicObject
 	def initialize(level=0)
 		@formats=@@formats;
 		@levels=@@levels;
+
+                @echo=false;
+                @file=false;
 
 		# Which level we are on (log levels below this are not displayed)
 		@level=level;
@@ -105,6 +113,10 @@ class Console < BasicObject
 
 
 		# Output our string (currently via puts)
+                if @echo
+                        $stdout.write(*args);
+                        $stdout.write("\r\n");
+                end
                 @lines.push(*args);
 	end
 end
@@ -113,8 +125,8 @@ $console=Console.new(-500);
 $console.log("Console initialized");
 
 at_exit do
-        $console.log("Writing to log file, bye.");
-        if ($console.lines.length>0)
+        if ($console.file&&$console.lines.length>0)
+                $console.log("Writing to log file, bye.");
                 File.write("logdumps/"+File.basename($PROGRAM_NAME)+"-#{Time.now}.log",$console.lines.join("\n"));
         end
 end
