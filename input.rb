@@ -34,7 +34,7 @@ class Input
                 @rules={
                         "\u0003":x,
                         'q':x
-                        };
+                };
 
                 STDIN.echo = false;
                 STDIN.raw!

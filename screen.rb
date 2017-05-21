@@ -23,18 +23,6 @@ class Screen
 
                 $stdout.write("\033[#{y};#{x}H");
         end
-        def cursorLeft(amt=1)
-                $stdout.write("\033[#{amt}D");
-        end
-        def cursorRight(amt=1)
-                $stdout.write("\033[#{amt}C");
-        end
-        def cursorUp(amt=1)
-                $stdout.write("\033[#{amt}A");
-        end
-        def cursorDown(amt=1)
-                $stdout.write("\033[#{amt}B");
-        end
         def cursorHide
                 $stdout.write("\033[?25l");
         end
@@ -94,11 +82,11 @@ class Screen
                         x-=str.length-1;
                 end
 
-                self.put(x,y,str);
+                self.puts(x,y,str);
         end
         def writeLines(x,y,lines,align:0)
                 len=lines.length-1;
-                lines.each_with_index{|l,i|
+                lines.each_with_index{ |l,i|
                         self.write(x,y-len+i,l,align:align);
                 }
         end
@@ -128,7 +116,7 @@ class Screen
         #        $stdout.write(char);
         #end
 
-        def put(x,y,string)
+        def puts(x,y,string)
 
                 w=self.width;
                 h=self.height;
@@ -156,6 +144,24 @@ class Screen
                         @drawsv+=1;
                         @currentframe[pixelid+g]=string[g];
                 end
+        end
+        def put(x,y,char)
+                x+=1;
+                y+=1;
+
+                w=self.width;
+                if (w<x)
+                        x=w;
+                end
+
+                h=self.height;
+                if (h<y)
+                        y=h;
+                end
+
+                pixelid=x+y*(w+1);
+                @drawsv+=1;
+                @currentframe[pixelid]=char;
         end
 
         # ----------------------------- CLASS INITS-----------------------------

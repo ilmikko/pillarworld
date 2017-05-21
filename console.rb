@@ -23,31 +23,16 @@
 #
 #
 
-$colors={
-        default:"\x1b[0m",
-        lightgreen:"\x1b[92m",
-        lightyellow:"\x1b[93m",
-        red:"\x1b[31m",
-        green:"\x1b[32m",
-        yellow:"\x1b[33m",
-        blue:"\x1b[36m",
-        magenta:"\x1b[35m",
-        blink:"\x1b[5m",
-        cyan:"\x1b[46m",
-        gray:"\x1b[2m",
-        darkgray:"\x1b[90m",
-        bgdarkgray:"\x1b[100m"
-};
-
-class Console < BasicObject
+class Console
 	# How different types are formatted. String substitution is used.
 	@@formats={
-		"log":"[Log]%s",
-		"debug":$colors[:blue]+"[Dbg]%s"+$colors[:default],
-		"error":$colors[:red]+"[ERR]%s"+$colors[:default],
-		"warn":$colors[:yellow]+"[WRN]%s"+$colors[:default],
-		"info":$colors[:green]+"[Inf]%s"+$colors[:default],
-		"dump":$colors[:darkgray]+"[dmp]%s"+$colors[:default]
+                default:"  %s",
+		"log":"l %s",
+		"debug":"D %s",
+		"error":"E %s",
+		"warn":"w %s",
+		"info":"i %s",
+		"dump":". %s"
 	};
 
 	# How different types are leveled, more important types have larger levels
@@ -78,9 +63,6 @@ class Console < BasicObject
 	end
 
 	def initialize(level=0)
-		@formats=@@formats;
-		@levels=@@levels;
-
                 @echo=false;
                 @file=false;
 
@@ -89,26 +71,23 @@ class Console < BasicObject
 
                 # To hold the console lines
                 @lines=[];
-
-                # To hold message ids
-                @msg=0;
 	end
 
 	# Catch-all for all methods that don't exist
 	# These get printed out nevertheless, accessed method name is the type
 	def method_missing(type, *args, &block)
 		# If log level is not sufficient, we shall not log at all
-                @msg+=1;
 
-		if @levels[type].to_i<@level then return; end
+		if @@levels[type].to_i<@level then return; end
 
                 # global formatting
-                idstamp="[#{@msg}]";
-                args[0]=idstamp+"%s" % args[0];
+                args[0]="%s %s" % [(Time.now.to_f*1000).floor.to_s.slice(-8,8),args[0]];
 
 		# If formatting for this type, format
-		if @formats.key? type.to_sym
-			args[0]=@formats[type] % args[0];
+		if @@formats.key? type.to_sym
+			args[0]=@@formats[type] % args[0];
+                else
+                        args[0]=@@formats[:default] % args[0];
 		end
 
 

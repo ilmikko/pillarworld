@@ -1,16 +1,18 @@
-class TimeBlock
+require("./tool.rb");
+
+class TimeBlock < Evented
         # TODO: Conditions of appearance...
         # TODO: Consequences...
         # TODO: History blocks for this block...
 
-        def start
+        def starttime
                 @start
+        end
+        def endtime
+                @end
         end
         def length
                 @length
-        end
-        def end
-                @end
         end
 
         def inspect
@@ -18,23 +20,25 @@ class TimeBlock
         end
 
         def initialize(start,length,name:"unnamed")
+                super();
+
                 @name=name;
+
                 @start=start;
-                @length=length;
                 @end=start+length;
+                @length=length;
         end
 end
 
 class GameTime
-        def newblock(startfromnow,*others)
-                block=TimeBlock.new(@now+startfromnow,*others);
-
+        def putblock(block)
+                startfromnow=block.starttime-@now;
                 if (startfromnow>0)
                         self.future=block;
-                elsif (startfromnow+length<0)
+                elsif (startfromnow+block.length>0)
                         self.active=block;
                 else
-                        self.history=block; # why would you do this
+                        self.history=block; # why would you do this - Also do we fire an end event if it already ended? no
                 end
         end
 
@@ -46,8 +50,19 @@ class GameTime
                 # Add stuff to active, in order.
                 # Binary search here, TODO: benchmark different solutions
 
-                blend=block.end;
-                ind=@active.bsearch_index{ |x| x.end >= blend; };
+                block.eventFire("start");
+
+                # check if we are skipping and need interpolation
+                # This happens when delta is larger than our block length;
+                # We are going to be skipping ahead of what has happened, sometimes quite large amounts.
+                # Hence we let the block control this with the "skip" event.
+                if (block.length<@delta)
+                        #$MSGS="RIP! WE DID A SKIP! #{rand}";
+                        block.eventFire("skip",@delta/block.length.to_f);
+                end
+
+                endtime=block.endtime;
+                ind=@active.bsearch_index{ |x| x.endtime >= endtime; };
 
                 if (ind==nil)
                         @active.push(block);
@@ -55,6 +70,7 @@ class GameTime
                         @active.insert(ind, block);
                 end
         end
+
         def history
                 # Get past TimeBlocks
                 @history
@@ -63,14 +79,14 @@ class GameTime
                 # Add stuff to history, in order.
                 # Binary search here, TODO: benchmark different solutions
 
-                start=block.start;
-                ind=@history.bsearch_index{ |x| x.start >= start; };
+                #starttime=block.starttime;
+                #ind=@history.bsearch_index{ |x| x.starttime >= starttime; };
 
-                if (ind==nil)
-                        @history.push(block);
-                else
-                        @history.insert(ind, block);
-                end
+                #if (ind==nil)
+                #        @history.push(block);
+                #else
+                #        @history.insert(ind, block);
+                #end
         end
 
         def future
@@ -81,8 +97,8 @@ class GameTime
                 # Add stuff to future, in order.
                 # Binary search here, TODO: benchmark different solutions
 
-                start=block.start;
-                ind=@future.bsearch_index{ |x| x.start >= start; };
+                starttime=block.starttime;
+                ind=@future.bsearch_index{ |x| x.starttime >= starttime; };
 
                 if (ind==nil)
                         @future.push(block);
@@ -114,14 +130,18 @@ class GameTime
                         while true
                                 @now+=@delta;
 
-                                # check if an event starts
-                                while (@future.length>0&&@now>@future[0].start)
-                                        self.active=@future.shift;
+                                # check if the next block(s) start
+                                while (@future.length>0&&@now>@future[0].starttime)
+                                        block=@future.shift;
+                                        self.active=block;
                                 end
 
-                                # check if an event ends
-                                while (@active.length>0&&@now>@active[0].end)
-                                        self.history=@active.shift;
+                                # check if the next block(s) end
+                                while (@active.length>0&&@now>@active[0].endtime)
+                                        block=@active.shift;
+
+                                        block.eventFire("end");
+                                        #self.history=block;
                                 end
 
                                 sleep(1.0/60.0);

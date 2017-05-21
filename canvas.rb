@@ -23,8 +23,8 @@ class Canvas
                 m=@zoom;
                 dw,dh=@screen.dimensions;
 
-                x=(centerx*m+dw/2).to_i;
-                y=(centery*m+dh/2).to_i;
+                sx=(centerx*m+dw/2-self.x*m).to_i;
+                sy=(centery*m+dh/2-self.y*m).to_i;
 
                 heighthalf=(height/2*m).to_i;
                 widthhalf=(width/2*m).to_i;
@@ -32,39 +32,55 @@ class Canvas
                 # The minimums and maximums are to speed up the process of drawing very large circles
                 # We don't have to check areas that are outside the viewport
 
-                for cy in -([heighthalf,y].min)..([heighthalf,dh-y].min)
-                        for cx in -([widthhalf,x].min)..([widthhalf,dw-x].min)
-                                begin
+                begin
+                        for cy in -([heighthalf,sy].min)..([heighthalf,dh-sy].min)
+                                for cx in -([widthhalf,sx].min)..([widthhalf,dw-sx].min)
+                                        # Plotting function
                                         if (f.call(cx,cy,m))
-                                                # check if screen x and y are out of range
-                                                sx=x+cx;
-                                                sy=y+cy;
+                                                x=sx+cx;
+                                                y=sy+cy;
 
-                                                @screen.put(sx,sy,char);
+                                                @screen.put(x,y,char);
                                         end
-                                rescue StandardError => e
-                                        $console.error("PLOT: ERROR #{e}");
                                 end
                         end
+                rescue StandardError => e
+                        $console.error("PLOT: ERROR #{e}");
                 end
         end
 
-        def draw(x=0,y=0,char: @char)
-                # Translate to screen coordinates (zoom plus center)
-                m=@zoom;
-                w,h=@screen.dimensions;
-                sx=(x*m+w/2).to_i;
-                sy=(y*m+h/2).to_i;
-
-                if (insideCanvas? sx,sy,w,h)
-                        @screen.put(sx,sy,char);
-                end
-        end
+        # Different known shapes
         def drawCircle(centerx=0,centery=0,radius: 1,char: @char)
                 self.plot(->(x,y,m){
                         return y*y+x*x<radius*radius*m*m;
                 },centerx,centery,radius*2,radius*2,char:char);
         end
+
+        def put(x=0,y=0,char: @char)
+                # Translate to screen coordinates (zoom plus center)
+                m=@zoom;
+                w,h=@screen.dimensions;
+                sx=(x*m+w/2-self.x*m).to_i;
+                sy=(y*m+h/2-self.y*m).to_i;
+
+                if (insideCanvas? sx,sy,w,h)
+                        @screen.put(sx,sy,char);
+                end
+        end
+
+        def render(rl)
+                rl.list.dup.each{ |k,o|
+                        o.renderlist.each{ |r|
+                                case r
+                                when :renderPoint
+                                        $canvas.put(*o.position,char:"X");
+                                when :renderCircle
+                                        $canvas.drawCircle(*o.position,char:".",radius:o.radius);
+                                end
+                        }
+                }
+        end
+
         def initialize(screen)
                 @char=".";
                 @zoom=1;
