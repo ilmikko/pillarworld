@@ -5,6 +5,8 @@ require('./time.rb');
 require('./space.rb');
 require('./canvas.rb');
 
+require("./noise.rb");
+
 require('./input.rb');
 
 # Several stages of generation to consider
@@ -33,7 +35,8 @@ $screen.sceneSet(
                         "Time delta: #{$time.delta}",
                         "Future: #{$time.future}",
                         "Active: #{$time.active}",
-                        fmt($time.now)
+                        fmt($time.now),
+                        "M:#{$canvas.zoom},X:#{$canvas.x},Y:#{$canvas.y},Z:0"
                 ];
 
                 $screen.writeLines(w-1,h-1,debug,align:2);
@@ -41,15 +44,25 @@ $screen.sceneSet(
 );
 
 $input.listen({
+        # Time scale
         '.':->{$time.delta*=2.0;},
         ',':->{$time.delta/=2.0;},
 
+        # Zoom
         '+':->{$canvas.zoom*=2.0;},
         '-':->{$canvas.zoom/=2.0;},
-        'h':->{$canvas.x-=1/$canvas.zoom;},
-        'l':->{$canvas.x+=1/$canvas.zoom;},
+
+        # Vim-like navigation
         'k':->{$canvas.y-=1/$canvas.zoom;},
-        'j':->{$canvas.y+=1/$canvas.zoom;}
+        'j':->{$canvas.y+=1/$canvas.zoom;},
+        'l':->{$canvas.x+=1/$canvas.zoom;},
+        'h':->{$canvas.x-=1/$canvas.zoom;},
+
+        # Arrow keys
+        "\e[A":->{$canvas.y-=1/$canvas.zoom;},
+        "\e[B":->{$canvas.y+=1/$canvas.zoom;},
+        "\e[C":->{$canvas.x+=1/$canvas.zoom;},
+        "\e[D":->{$canvas.x-=1/$canvas.zoom;}
 });
 
 def fmt(ms)
@@ -63,10 +76,9 @@ def fmt(ms)
 end
 
 def loop
-        Pillar.new(position:VectorRandom.new(12).xy,events:{
-                'end':->{
-                        loop
-                }
+        pillar=Pillar.new(position:VectorRandom.new(22).xy,radius:5)
+        pillar.on(:remove,->{
+                loop
         });
 end
 

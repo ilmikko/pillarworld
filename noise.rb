@@ -3,6 +3,14 @@
 class Noise
         @@cache={};
 
+        def seed
+                @seed
+        end
+
+        def rng
+                @rng
+        end
+
         # PERLIN NOISE
         def grad(x,y)
                 if (@@cache.key?(x))
@@ -12,7 +20,7 @@ class Noise
                 else
                         @@cache[x]={};
                 end
-                return @@cache[x][y]=[@rng.rand(2.0)-1.0,@rng.rand(2.0)-1.0];
+                return @@cache[x][y]=[@rng.rand,@rng.rand];
         end
         def lerp(a,b,w)
                 return w*b+(1.0-w)*a;
@@ -45,9 +53,27 @@ class Noise
 
                 return lerp(ix0,ix1,wy);
         end
-        def initialize(seed=12345)
+        def initialize(seed=Random.new_seed)
+                @seed=seed;
                 @rng=Random.new(seed);
         end
 end
 
-$noise=Noise.new;
+class VectorRandom
+        def xy
+                @xy
+        end
+        def x
+                @xy[0]
+        end
+        def y
+                @xy[1]
+        end
+        def initialize(radius=1)
+                delta=$noise.rng.rand*Math::PI*2;
+                @xy=[Math.cos(delta)*radius,Math.sin(delta)*radius];
+        end
+end
+
+$seed=12345;
+$noise=Noise.new($seed);

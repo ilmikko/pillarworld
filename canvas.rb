@@ -76,6 +76,8 @@ class Canvas
                                         $canvas.put(*o.position,char:"X");
                                 when :renderCircle
                                         $canvas.drawCircle(*o.position,char:".",radius:o.radius);
+                                when :renderCustomPlot
+                                        $canvas.plot(o.method(:renderCustomPlot),*o.position,*o.size,char:"y");
                                 end
                         }
                 }

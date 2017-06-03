@@ -1,5 +1,7 @@
 require("./tool.rb");
 
+require("./noise.rb");
+
 class Renderable < IDd
         def renderlist
                 @renderlist
@@ -12,44 +14,51 @@ class Renderable < IDd
 end
 
 class Physical < Renderable
-        def x
-                @position[0]
+        def x; @position[0] end
+        def x=(v); @position[0]=v; end
+
+        def y; @position[1] end
+        def y=(v); @position[1]=v; end
+
+        def w; @dimensions[0] end
+        def w=(v); @dimensions[0]=v; end
+        def h; @dimensions[1] end
+        def h=(v); @dimensions[1]=v; end
+
+        def size
+                @dimensions
         end
-        def y
-                @position[1]
-        end
+
         def position
                 @position
         end
-        def initialize(position:[0,0],events:{},**args)
+
+        def initialize(position:[0,0],dimensions:[2,2],**args)
                 super();
 
-                this = self;
                 @position=position;
-
-                @timeblock=TimeBlock.new($time.now,5000,name:"wo:#{@id}");
-
-                @timeblock.eventsListen({
-                        'start':->{
-                                $console.debug("Add world");
-                                $space.put(this);
-                        },
-                        'end':->{
-                                $console.debug("Remove world");
-                                $space.remove(this);
-                        }
-                });
-
-                @timeblock.eventsListen(events);
-
-                $time.putblock(@timeblock);
+                @dimensions=dimensions;
         end
 end
 
 class Pillar < Physical
         def radius
-                @radius
+                @dimensions[0]/2
         end
+        def radius=(r)
+                d=r*2;
+                @dimensions=[d,d];
+        end
+
+        def renderCustomPlot(x,y,m)
+                r=@dimensions[0]/2;
+                # if inside circle
+                if (y*y+x*x<r*r*m*m)
+                        # perlinzzzah
+                        return $noise.perlin(x/m,y/m)>@voidification;
+                end
+        end
+
         def initialize(radius:10,**args)
                 # Create a world using these simple steps
                 # First, pick x and y along world axes.
@@ -60,13 +69,39 @@ class Pillar < Physical
                 # Pick a radius for our world
                 # That's it! World created.
                 super(**args);
+                self.radius=radius;
 
                 # Render objects: for example, World contains 2 render objects.
                 # 1. The world circle / radius / whatever
                 # 2. A 'blip' to note there is something there, when zoomed out far enough
-                @renderlist.push(:renderCircle,:renderPoint);
+                @renderlist.push(:renderCustomPlot);
+                @renderlist.push(:renderPoint);
 
-                @radius=radius;
+                @voidification=0;
+
+                this = self;
+                @timeblock=TimeBlock.new($time.now,[
+                        {
+                                eventEnd:->{
+                                        $space.put(this);
+                                }
+                        },
+                        {
+                                length:5000
+                        },
+                        {
+                                length:20000,
+                                eventIter:->(age){
+                                        @voidification=age;
+                                },
+                                eventEnd:->{
+                                        $space.remove(this);
+                                }
+                        }
+                ]);
+
+                $time.putblock(@timeblock);
+
         end
 end
 
@@ -75,9 +110,11 @@ class Space
                 @list
         end
         def put(obj)
+                obj.trigger(:put);
                 @list[obj.id]=obj;
         end
         def remove(obj)
+                obj.trigger(:remove);
                 @list.delete(obj.id);
         end
         def initialize()

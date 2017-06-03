@@ -104,7 +104,7 @@ class Screen
 
         def drawDebugInfo(x=0,y=0)
                 self.cursorSet(x,y);
-                $stdout.write("Canvas Debug Info: FPS: #{@fps} Draws (virt): #{@drawsv} Draws (real): #{@drawsa} Draws (clrd): #{@drawsc}                ");
+                $stdout.write("Canvas Debug Info: FPS: #{@fps.round(2)} Draws (virt): #{@drawsv} Draws (real): #{@drawsa} Draws (clrd): #{@drawsc}    ");
                 @drawsv=0;
                 @drawsa=0;
                 @drawsc=0;
@@ -126,19 +126,23 @@ class Screen
 
                 if (w<x)
                         x=w;
+                elsif (x<0)
+                        x=0;
                 end
 
                 if (h<y)
                         y=h;
+                elsif (y<0)
+                        y=0;
                 end
+
+                max=[string.length-1,w-x].min;
 
                 #self.cursorSet(x,y);
                 #$stdout.write(string);
 
                 pixelid=x+y*(w+1);
                 string=string.split("");
-
-                max=[string.length-1,w-x].min;
 
                 for g in 0..max
                         @drawsv+=1;
@@ -176,7 +180,8 @@ class Screen
                 @renderstate=0;
 
                 # Debug stuff
-                @fps=nil;
+                @fps=-1;
+                @lastframetime=0;
                 @drawsv=0;
                 @drawsa=0;
                 @drawsc=0;
@@ -240,6 +245,13 @@ class Screen
                                         @renderstate=0;
                                 end
 
+                                # Calc real fps
+                                begin
+                                        @fps=1.0/(Time.now.to_f-@lastframetime);
+                                rescue ZeroDivisionError
+                                        @fps=-1;
+                                end
+                                @lastframetime=Time.now.to_f;
 
                                 # Everyone needs some rest
                                 Kernel::sleep(1.0/fps);
