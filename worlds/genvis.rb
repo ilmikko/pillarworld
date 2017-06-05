@@ -24,9 +24,19 @@ require('./input.rb');
 
 # All of these stages are saved, or the information to generate these stages is saved.
 
-$screen.sceneSet(
+def fmt(ms)
+        seconds=(ms/1000).to_i;
+        s="%02d" % (seconds%60);
+        m="%02d" % ((seconds/60)%60);
+        h="%02d" % ((seconds/60/60)%24);
+        d=(seconds/60/60/24)%365;
+        y=seconds/60/60/24/365;
+        return "#{h}:#{m}:#{s} - Day #{d} Year #{y}";
+end
+
+$canvas.sceneSet(
         ->(w,h){
-                $screen.clear();
+                #$canvas.clear();
 
                 $canvas.render($space);
 
@@ -36,10 +46,10 @@ $screen.sceneSet(
                         "Future: #{$time.future}",
                         "Active: #{$time.active}",
                         fmt($time.now),
-                        "M:#{$canvas.zoom},X:#{$canvas.x},Y:#{$canvas.y},Z:0"
+                        "M:#{$canvas.zoom},X:#{$canvas.x},Y:#{$canvas.y},Z:#{$canvas.z}"
                 ];
 
-                $screen.writeLines(w-1,h-1,debug,align:2);
+                $canvas.writeLines(w-1,h-1,debug,align:2);
         }
 );
 
@@ -62,18 +72,12 @@ $input.listen({
         "\e[A":->{$canvas.y-=1/$canvas.zoom;},
         "\e[B":->{$canvas.y+=1/$canvas.zoom;},
         "\e[C":->{$canvas.x+=1/$canvas.zoom;},
-        "\e[D":->{$canvas.x-=1/$canvas.zoom;}
-});
+        "\e[D":->{$canvas.x-=1/$canvas.zoom;},
 
-def fmt(ms)
-        seconds=(ms/1000).to_i;
-        s="%02d" % (seconds%60);
-        m="%02d" % ((seconds/60)%60);
-        h="%02d" % ((seconds/60/60)%24);
-        d=(seconds/60/60/24)%365;
-        y=seconds/60/60/24/365;
-        return "#{h}:#{m}:#{s} - Day #{d} Year #{y}";
-end
+        # Page up / down for z
+        "\e[5":->{$canvas.z+=1/$canvas.zoom;},
+        "\e[6":->{$canvas.z-=1/$canvas.zoom;}
+});
 
 def loop
         pillar=Pillar.new(position:VectorRandom.new(22).xy,radius:5)

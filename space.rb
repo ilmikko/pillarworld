@@ -20,10 +20,15 @@ class Physical < Renderable
         def y; @position[1] end
         def y=(v); @position[1]=v; end
 
+        def z; @position[2] end
+        def z=(v); @position[2]=v; end
+
         def w; @dimensions[0] end
         def w=(v); @dimensions[0]=v; end
         def h; @dimensions[1] end
         def h=(v); @dimensions[1]=v; end
+        def d; @dimensions[2] end
+        def d=(v); @dimensions[2]=v; end
 
         def size
                 @dimensions
@@ -33,7 +38,7 @@ class Physical < Renderable
                 @position
         end
 
-        def initialize(position:[0,0],dimensions:[2,2],**args)
+        def initialize(position:[0,0,0],dimensions:[2,2,2],**args)
                 super();
 
                 @position=position;
@@ -47,15 +52,22 @@ class Pillar < Physical
         end
         def radius=(r)
                 d=r*2;
-                @dimensions=[d,d];
+                @dimensions[0]=@dimensions[1]=d;
         end
 
-        def renderCustomPlot(x,y,m)
+        def height
+                @dimensions[2]
+        end
+        def height=(v)
+                @dimensions[2]=v;
+        end
+
+        def renderCustomPlot(x,y,z,m)
                 r=@dimensions[0]/2;
                 # if inside circle
                 if (y*y+x*x<r*r*m*m)
                         # perlinzzzah
-                        return $noise.perlin(x/m,y/m)>@voidification;
+                        return $noise.simplex(x/m,y/m,z/m)>@voidification;
                 end
         end
 
@@ -77,7 +89,7 @@ class Pillar < Physical
                 @renderlist.push(:renderCustomPlot);
                 @renderlist.push(:renderPoint);
 
-                @voidification=0;
+                @voidification=-1;
 
                 this = self;
                 @timeblock=TimeBlock.new($time.now,[
@@ -92,7 +104,7 @@ class Pillar < Physical
                         {
                                 length:20000,
                                 eventIter:->(age){
-                                        @voidification=age;
+                                        @voidification=-1+age*2;
                                 },
                                 eventEnd:->{
                                         $space.remove(this);
