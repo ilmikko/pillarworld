@@ -12,7 +12,7 @@ class Evented
         end
         def on(name,bd)
                 if @event.key? name
-                        @event[name].push(bd);
+                        @event[name]<<bd;
                 else
                         @event[name]=[bd];
                 end

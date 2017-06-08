@@ -1,4 +1,5 @@
 require("io/console");
+require("./console.rb");
 
 class Input
         def listen(keys)
@@ -27,7 +28,7 @@ class Input
                 x = ->{
                         $console.log("Terminating program (user signal)");
                         $input.close();
-                        $screen.close();
+                        $screen.close() if $screen;
                         exit(1);
                 };
 
@@ -52,7 +53,7 @@ class Input
 
                                 $console.debug("Input: [#{char}](#{char.ord})");
 
-                                key=char; # FIXME: this is sometimes incorrect (see up/down arrows for example)
+                                key=char;
 
                                 begin
                                         key=key.to_sym;
