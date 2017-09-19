@@ -31,8 +31,7 @@ class Console
 		"debug":"D %s",
 		"error":"E %s",
 		"warn":"w %s",
-		"info":"i %s",
-		"dump":". %s"
+		"info":"i %s"
 	};
 
 	# How different types are leveled, more important types have larger levels
@@ -42,12 +41,11 @@ class Console
 		"info":-10,
 		"log":-20,
 		"debug":-50,
-		"verbose":-75,
-		"dump":-100
+		"verbose":-75
 	};
 
-        def file;@file;end
-        def file=(v);@file=v;end
+        def dump;@filedump;end
+        def dump=(v);@filedump=v;end
         def echo;@echo;end
         def echo=(v);@echo=v;end
 
@@ -64,7 +62,7 @@ class Console
 
 	def initialize(level=0)
                 @echo=false;
-                @file=false;
+                @filedump=true;
 
 		# Which level we are on (log levels below this are not displayed)
 		@level=level;
@@ -104,7 +102,7 @@ $console=Console.new(-500);
 $console.log("Console initialized");
 
 at_exit do
-        if ($console.file&&$console.lines.length>0)
+        if ($console.dump&&$console.lines.length>0)
                 $console.log("Writing to log file, bye.");
                 File.write("logdumps/"+File.basename($PROGRAM_NAME)+"-#{Time.now}.log",$console.lines.join("\n"));
         end

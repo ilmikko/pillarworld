@@ -32,18 +32,39 @@ class Screen < Evented
         end
         def resize
                 @dimensions=$stdin.winsize;
-                $console.dump("Resized to #{@dimensions}");
+                $console.debug("Resized to #{@dimensions}");
                 self.trigger(:resize);
         end
 
-        def fg;@fg;end
-        def fg=(v);$stdout.write(v);end
-        def bg;@bg;end
-        def bg=(v);@bg=v;end
+        def color=(v);$stdout.write(v);end # TODO: Better color handling
 
         # -------------------------- GRAPHICS COMMANDS--------------------------
 
+        def write()
+
+        end
+
         def put(x,y,str)
+                h,w=@dimensions;
+
+                if (x>=w||y>=h||y<0)
+                        # Starting point out of bounds
+                        return;
+                end
+
+                # under/overflow prevention
+                if (x<0)
+                        str=str[-x..-1];
+                        x=0;
+                end
+
+                if (x+str.length>w)
+                        str=str[0..w-x-1];
+                end
+
+                x=(x+1).round.to_i;
+                y=(y+1).round.to_i;
+
                 $stdout.write("\033[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
         end
 

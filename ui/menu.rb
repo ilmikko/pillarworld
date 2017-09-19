@@ -3,35 +3,71 @@ Dir.chdir('../');
 require('./ui.rb');
 require('./input.rb');
 
-$console.file=true;
-
-# should appear as center of UI element
-$ui.append(UITextMultiline.new("Testing text alignment\nFalling Shadows"));
+$console.dump=true;
 
 $ui.direction=:col;
 
-$ui.append(UIArray.new().append(UITextMultiline.new("This is a short text.\nAsd\nThird line\nSomething to break\nSooner or later"),UIText.new('This is another short text.')));
+$ui.append(
+        UITextArea.new(ha: :left, ta: :left).append(
+                UILine.new('This is a ','rich text',' area. '),
+                UILine.new().append(
+                        UIText.new('This is on the second line.')
+                ),
+                UILine.new().append(
+                        UIText.new('Basically this is a text span that can be '),
+                        bb=UIText.new('individually modified',color: "\e[33m"),
+                        UIText.new('. This is still on the same line.')
+                )
+        ),
+        #UIText.new('Test'),
+        #UIText.new('aaaa2'),
+        UITextArea.new().append(
+                UILine.new('UIDiv2')
+        ),
+        UIFlex.new().append(
+                UIFlex.new().append(
+                        UITextArea.new().append(
+                                UIText.new('1234567890'),
+                                UIText.new('bbbbbbbbbb'),
+                                UIText.new('asdfghjkl;')
+                        ),
+                        UIFlex.new(direction: :col).append(
+                                UITextArea.new().append(
+                                        UIText.new('UIDiv1.5')
+                                ),
+                                UITextArea.new().append(
+                                        UIText.new('UIDiv2.0')
+                                )
+                        )
+                )
+        ),
+        UITextArea.new().append(
+                UIText.new('UIDiv3')
+        ),
+        UIFlex.new().append(
+                UITextArea.new().append(
+                        UIText.new('UIDiv4')
+                )
+        )
+        #UITextArea.new('Test'),
+        #UITextArea.new('Test2'),
+        #UIDiv.new().append(
+        #        UITextArea.new('Test3'),
+        #        UITextArea.new('Test4'),
+        #)
+);
 
-#$ui.append(UIText.new('This is yet another short text.'));
+$ui.update();
 
-ts = UIText.new('Different init');
-
-ts2 = UIText.new('Different init2');
-
-$ui.append(UIArray.new(direction: :row).append(ts,ts2));
-
-$ui.refresh();
-
+test=false;
 while true
-        ts.text="Different #{rand}";
-        ts2.text="Yet different #{rand}";
-        ts.update();
-        ts2.update();
-        sleep(1/60.0);
+        test=!test;
+        bb.color=test ? "\e[38;5;245m":"\e[33m";
+        #bb.text=test ? 'oo':'boooooo!';
+        #bb.parent.readjust;
+        #bb.parent.render;
+        bb.update();
+        sleep(0.1);
 end
-
-#$canvas.sceneSet(->(w,h){
-#        self.write('Hello this is a test',w/2,h/2,align: :center);
-#});
 
 sleep;

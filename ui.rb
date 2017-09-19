@@ -4,239 +4,311 @@ require('./console.rb');
 require('./screen.rb');
 #require('./canvas.rb');
 
-class UIArea
+class UINode
+        # Public functions every atom should have
         @@screen=$screen;
+        def parent;@parent;end
+        def parent=(v);@parent=v;end
 
-        def ixy;@ixy;end
-        def ixy=(v)@ixy=v;end
-        def iwh;@iwh;end
-        def iwh=(v)@iwh=v;end
+        # size: [w,h] in pixels
+        def wh;@wh;end
+        def wh=(v);@wh=v;end
 
-        def update()
-                # catcher for empty area update
-                # FIXME: remove later
+        def width;@wh[0];end
+        def height;@wh[1];end
+
+        # position: [x,y] in pixels
+        def xy;@xy;end
+        def xy=(v);@xy=v;end
+
+        # Reflow: when our size and position must change
+        def reflow(x,y,w,h)
+		$console.log("REFLOW: #{self} #{x},#{y},#{w},#{h}");
+                @xy=[x,y];
+                @wh=[w,h];
         end
 
-        def write(str,rx:0.5,ry:0.5,ax:0,ay:0,align: :left)
-                # rx, ry are RELATIVE X and Y
-                # ax, ay are ABSOLUTE X and Y
-                if (ry<0)
-                        # Line will be out of bounds anyway, so return now.
-                        return;
-                end
-
-                sx=@xy[0];
-                sy=@xy[1];
-                w=@wh[0];
-                h=@wh[1];
-
-                x=(rx*w+ax).to_i;
-                y=(ry*h+ay).to_i;
-
-                if (x>w||y>h)
-                        # Starting point out of bounds
-                        return;
-                end
-
-                sl=str.length;
-
-                if (align==:center)
-                        x-=sl/2-1;
-                elsif (align==:right)
-                        x-=sl-1;
-                end
-
-                if (x<0)
-                        str=str[-x..-1];
-                        x=0;
-                end
-
-                if (x+sl>w)
-                        str=str[0..w-x-1];
-                end
-
-                @@screen.put((sx+x+1).to_i,(sy+y+1).to_i,str);
+        def initialize
+                @xy=[0,0];
+                @wh=[0,0];
         end
-        def writeLines(x,y,lines,**args)
-                len=lines.length-1;
-                lines.each_with_index{ |l,i|
-                        self.write(x,y-len+i,l,**args);
-                }
-        end
-        def resize(x,y,w,h)
-                # Update and store the actual x,y,w,h for rendering
-                @xy=[x+@ixy[0]*w,y+@ixy[1]*h];
-                @wh=[@iwh[0]*w,@iwh[1]*h];
-        end
-        def initialize(x=0,y=0,w=1,h=1)
-                # Store the preferred x,y,w,h as floats from 0..1
-                @xy=0,0;
-                @wh=1,1;
-                @ixy=x,y;
-                @iwh=w,h;
+
+        # Redraw: when there is a need for a redraw (for example, the text has changed)
+        # Old update
+        def redraw
+                $console.warn("Redraw fallback function");
         end
 end
 
-class UITextMultiline < UIArea
-        def lines;@lines;end
-        def lines=(v)@lines=v;end
+class UIText < UINode
+        def length;@length;end
 
-        def textalign;@textalign;end
-        def textalign=(v)@textalign=v;end
-
-        def update()
-                len=@lines.length;
-
-                rx=0.5;
-                ry=0.5;
-                ax=0;
-                ay=0;
-
-                width=@lines.max_by{|x| x.length}.length;
-
-                if (@align[0]==:left)
-                        rx=0;
-                        ax=width/2;
-                elsif (@align[0]==:right)
-                        rx=1;
-                        ax=-width/2-1;
-                end
-
-                if (@align[1]==:top)
-                        ry=0;
-                elsif (@align[1]==:bot)
-                        ry=1;
-                        ay=-len;
-                else
-                        ay=-len/2+1;
-                end
-
-                if @textalign==:left
-                        ax-=width/2;
-                elsif @textalign==:right
-                        ax+=width/2;
-                end
-
-                for i in 0...len
-                        self.write(@lines[i],rx:rx,ry:ry,ax:ax,ay:ay+i,align:@textalign);
-                end
-        end
-
-        def initialize(text='',ta: :center,ha: :center, va: :center)
-                super(0,0,1,1);
-                @lines=text.split("\n");
-                @textalign=ta;
-                @align=[ha, va];
-        end
-end
-
-class UIText < UIArea
         def text;@text;end
-        def text=(v);@text=v;end
-
-        def update()
-                rx=0.5;
-                ry=0.5;
-                ax=0;
-                ay=0;
-
-                if (@align[0]==:left)
-                        rx=0;
-                elsif (@align[0]==:right)
-                        rx=1;
-                        ax=-1;
-                end
-
-                if (@align[1]==:top)
-                        ry=0;
-                elsif (@align[1]==:bot)
-                        ry=1;
-                        ay=-1;
-                end
-
-                self.write(@text,rx:rx,ry:ry,ax:ax,ay:ay,align: @align[0]);
+        def text=(v);
+                @text=v;
+                @length=v.length;
+                # We can know the size of this element by the length of the text
+                # UIText never spans multiple lines
+		$console.debug("Hi I'm '#{@text}' and my length is #{@length}");
+                @wh=[@length,1];
         end
 
-        def initialize(text='',ha: :center, va: :center)
-                super(0,0,1,1);
-                @text=text;
-                @align=[ha, va];
+	def crop;@crop;end
+	def crop(cl=0,cr=0);
+		@crop=cl,cr;
+	end
+
+	def visible;@visible;end
+	def visible=(v);@visible=v;end;
+
+	def reflow(x,y,w,h)
+		#super # We don't call super here, as we don't want to set our width just because of the container we're in.
+		@xy=[x,y];
+	end
+
+        def redraw
+		return if (!@visible);
+                #$console.log("Redrawing text #{@text}");
+
+                #@clear.() if @clear;
+                #@clear=@@parent.write(@text,pivot:@pivot,offset:@offset);
+
+                #x,y=@xy;
+                #l = @text.length;
+
+		xy=@xy;
+		text=@text.dup;
+		len=text.length;
+		cl,cr=@crop;
+
+		text=text[cl...len-cr]||'';
+		xy[0]+=cl; # Offset the left start to compensate for the crop
+
+                @@screen.put(*xy,text);
+        end
+
+        def initialize(text='')
+                super();
+
+		@crop=[0,0];
+		@visible=true;
+
+                self.text=text;
         end
 end
 
-class UIArray < UIArea
-        def direction;@direction;end
-        def direction=(v)@direction=v;end
-
-        def append(*els)
-                @elements.push(*els);
-                self.readjust();
-        end
-        def prepend(*els)
-                @elements.unshift(*els);
-                self.readjust();
-        end
-        def readjust()
-                len=@elements.length;
-                part=1/len.to_f;
-                if @direction==:row
-                        for i in 0...len
-                                @elements[i].ixy=[part*i,0];
-                                @elements[i].iwh=[part,1];
-                        end
-                else
-                        for i in 0...len
-                                @elements[i].ixy=[0,part*i];
-                                @elements[i].iwh=[1,part];
-                        end
-                end
+class UIArray < UINode
+        def append(*items)
+                this=self;
+                items.each{ |c|
+                        @children.push(c);
+                        c.parent=this;
+                }
 
                 self;
         end
-        def resize(x,y,w,h)
-                super(x,y,w,h);
-                x,y=@xy;
-                w,h=@wh;
-
-                len=@elements.length;
-                for i in 0...len
-                        @elements[i].resize(x,y,w,h);
-                end
+        def empty
+                @children.clear;
         end
 
-        def update
-                @elements.each{ |e|
-                        e.update();
+        def reflow(x,y,w,h)
+                super(x,y,w,h);
+
+		# Default UIArray behavior is to reflow directly to the children,
+		# thus "ignoring" the array's existence.
+
+                @children.each{ |c|
+                        c.reflow(x,y,w,h);
                 }
         end
 
-        def initialize(x=0,y=0,w=1,h=1,direction: :row)
-                super(x,y,w,h);
-                @elements=[];
+        def redraw
+                @children.each{ |c|
+                        c.redraw;
+                }
+        end
+
+        def initialize
+                super();
+
+                @children=[];
+        end
+end
+
+class UIParagraph < UIArray
+        def textalign;@textalign;end
+        def textalign=(v);
+                @textalign=v;
+        end
+
+	def reflow(x,y,w,h)
+                len=@children.length;
+
+		ox=0;
+		oy=0;
+		wh=[0,1];
+
+		ar=0;
+
+		if (@textalign==:center)
+			ar=0.5;
+		elsif (@textalign==:right)
+			ar=1;
+		end
+
+                $console.log("REFLOW PARAGRAPH: #{self} #{x},#{y},#{w},#{h}");
+
+		tick=0; # TODO: Better name for the tick. Tick is the method of remembering when to calc a new line's width.
+
+                for i in 0...len
+			c=@children[i];
+			if (i==tick)
+				# calc the next line width
+				lw=c.width; # Line width is never 0, and always has one child regardless of its width.
+				for j in i+1...len
+					# Calc if we can fit any more children here
+					d=@children[j];
+					if (lw+d.width<=w)
+						lw+=d.width;
+					else
+						tick=j;
+						break;
+					end
+				end
+				#$console.debug("Line \##{oy} width: #{lw}");
+			end
+
+			textalign = (w - lw) * ar;
+
+                        # next line in word wrap
+			if (ox+c.width>lw)
+				ox=0;
+				oy+=1;
+				wh[1]=oy+1; # No need for 'if' because we know it's bigger; it only increments
+			end
+
+			if (ox==0&&c.width>=w)
+				# The word is too big for the line
+				#$console.debug("Too beeg: #{c.text}");
+				c.crop((ar)*(lw-w),(1-ar)*(lw-w));
+			else
+				c.crop();
+			end
+
+			#$console.debug("TEXT ALIGN: w:#{w} lw:#{lw} #{w-lw}");
+
+			wh[0]=lw if (lw>wh[0]);
+
+			c.visible=(oy<h);
+
+			c.reflow(x+ox+textalign,y+oy,w,1);
+
+                        ox+=c.width;
+                end
+
+		self.wh=wh;
+		#$console.debug("#{self} size is #{wh}");
+        end
+
+        def initialize(text=nil,textalign: :left)
+                super();
+
+		self.textalign=textalign;
+
+		if (text)
+			texts=text.split(/(\s)/);
+			len=texts.length;
+
+			for g in 0...len
+				texts[g]=UIText.new(texts[g]);
+			end
+
+			self.append(*texts);
+		end
+        end
+end
+
+class UIFlex < UIArray
+        def append(*items)
+                super(*items);
+                # reflow with the same parameters
+                reflow(*@xy,*@wh);
+                self;
+        end
+
+        def reflow(x,y,w,h)
+                len=@children.length;
+
+		$console.log("Flex reflow: #{x} #{y} #{w} #{h}");
+
+                if @direction==:row
+                        part=w/len;
+
+                        for i in 0...len
+                                c=@children[i];
+
+                                c.reflow(x+part*i,y,part,h);
+                        end
+                else
+                        part=h/len;
+
+                        for i in 0...len
+                                c=@children[i];
+
+                                c.reflow(x,y+part*i,w,part);
+                        end
+                end
+        end
+
+        def initialize(direction: :row)
+                super();
                 @direction=direction;
         end
 end
 
-class UI < UIArray
-        def resize()
-                @screen.clear();
-                super(0,0,*@screen.dimensions);
+class UITextArea < UIArray
+	def reflow(x,y,w,h)
+		len=@children.length;
+
+		oy=0;
+
+		$console.log("TextArea reflow: #{x} #{y} #{w} #{h}");
+
+		for i in 0...len
+			c=@children[i];
+
+			c.reflow(x,y+oy,w,h);
+
+			oy+=c.wh[1];
+		end
+	end
+end
+
+class UI < UIFlex
+        def resize
+                reflow(0,0,*@@screen.dimensions);
+
+                @@screen.clear();
+                redraw;
         end
-        def refresh
-                self.resize();
-                self.update();
+
+        def show(*elems)
+                $console.debug("UI: Show: #{elems}");
+                empty;
+                append(*elems);
+                resize;
         end
-        def initialize(screen)
+
+        def initialize()
                 super();
 
-                @screen=screen;
-                @focus=nil;
+                @parent=self;
 
-                this = self;
-                @screen.on(:resize,->{
-                        this.refresh();
+                this=self;
+                @@screen.on(:resize,->{
+                        this.resize;
                 });
         end
 end
 
-$ui=UI.new($screen);
+$ui=UI.new();

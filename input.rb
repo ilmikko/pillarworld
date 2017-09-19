@@ -26,10 +26,7 @@ class Input
         def initialize
 
                 x = ->{
-                        $console.log("Terminating program (user signal)");
-                        $input.close();
-                        $screen.close() if $screen;
-                        exit(1);
+                        $main.close('user signal');
                 };
 
                 @rules={
@@ -58,7 +55,7 @@ class Input
                                 begin
                                         key=key.to_sym;
                                         if @rules.key? key
-                                                $console.dump("Input: #{char} exists in rules");
+                                                $console.debug("Input: #{char} exists in rules");
                                                 rule=@rules[key];
 
                                                 # Check if rule is iterable
