@@ -36,12 +36,10 @@ class Screen < Evented
                 self.trigger(:resize);
         end
 
-        def color=(v);$stdout.write(v);end # TODO: Better color handling
-
         # -------------------------- GRAPHICS COMMANDS--------------------------
 
-        def write()
-
+        def write(str='')
+		$stdout.write(str);
         end
 
         def put(x,y,str)
@@ -101,3 +99,7 @@ class Screen < Evented
 end
 
 $screen=Screen.new;
+
+at_exit{
+	$screen.close();
+}

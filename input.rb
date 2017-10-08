@@ -26,7 +26,11 @@ class Input
         def initialize
 
                 x = ->{
-                        $main.close('user signal');
+			if $main
+				$main.close('user signal');
+			else
+				exit;
+			end
                 };
 
                 @rules={
@@ -37,7 +41,7 @@ class Input
                 STDIN.echo = false;
                 STDIN.raw!
 
-                Thread.new {
+                Thread.new{
                         # Keypress check
                         while true
                                 char = STDIN.getch;
@@ -84,3 +88,7 @@ class Input
 end
 
 $input=Input.new();
+
+at_exit{
+	$input.close();
+}

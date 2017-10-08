@@ -38,10 +38,10 @@ class Console
 	@@levels={
 		"error":100,
 		"warn":10,
-		"info":-10,
-		"log":-20,
-		"debug":-50,
-		"verbose":-75
+		"info":5,
+		"log":1,
+		"debug":-20,
+		"verbose":-50
 	};
 
         def dump;@filedump;end
@@ -76,7 +76,7 @@ class Console
 	def method_missing(type, *args, &block)
 		# If log level is not sufficient, we shall not log at all
 
-		if @@levels[type].to_i<@level then return; end
+		return if @@levels[type]<@level;
 
                 # global formatting
                 args[0]="%s %s" % [(Time.now.to_f*1000).floor.to_s.slice(-8,8),args[0]];
@@ -98,7 +98,7 @@ class Console
 	end
 end
 
-$console=Console.new(-500);
+$console=Console.new(ENV['LOGLEVEL'].to_i);
 $console.log("Console initialized");
 
 at_exit do

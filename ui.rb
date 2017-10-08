@@ -1,14 +1,26 @@
 # UI handler
 
 require('./console.rb');
-require('./screen.rb');
-#require('./canvas.rb');
+require('./canvas.rb');
+
+require('./ui-animation.rb');
 
 class UINode
         # Public functions every atom should have
         @@screen=$screen;
+	@@canvas=$canvas;
+
+	# Definitions that are across all objects, or "common sense"
+	@@colors={
+		default:"\e[0m",
+		blue:"\e[034m"
+	};
+
         def parent;@parent;end
         def parent=(v);@parent=v;end
+
+	def id;@id;end
+	def id=(v);@id=v;end
 
         # size: [w,h] in pixels
         def wh;@wh;end
@@ -28,7 +40,8 @@ class UINode
                 @wh=[w,h];
         end
 
-        def initialize
+        def initialize(id: nil)
+		@id=id;
                 @xy=[0,0];
                 @wh=[0,0];
         end
@@ -41,7 +54,18 @@ class UINode
 end
 
 class UIText < UINode
+	@@default_color=:default;
+
         def length;@length;end
+
+	def color;@color;end
+	def color=(v);
+		if (v.is_a? String)
+			@color=v;
+		elsif (v.is_a? Symbol)
+			@color=@@colors[v];
+		end
+	end
 
         def text;@text;end
         def text=(v);
@@ -49,17 +73,17 @@ class UIText < UINode
                 @length=v.length;
                 # We can know the size of this element by the length of the text
                 # UIText never spans multiple lines
-		$console.debug("Hi I'm '#{@text}' and my length is #{@length}");
                 @wh=[@length,1];
         end
 
 	def crop;@crop;end
-	def crop(cl=0,cr=0);
-		@crop=cl,cr;
+	def cropx(cl=0,cr=0)
+		# cy, or 'y crop' is either zero or over. If it's zero, the text is visible, if it's over zero, the text is effectively hidden.
+		@crop[0,1]=cl,cr;
 	end
-
-	def visible;@visible;end
-	def visible=(v);@visible=v;end;
+	def cropy(cy=0)
+		@crop[2]=cy;
+	end
 
 	def reflow(x,y,w,h)
 		#super # We don't call super here, as we don't want to set our width just because of the container we're in.
@@ -67,14 +91,7 @@ class UIText < UINode
 	end
 
         def redraw
-		return if (!@visible);
-                #$console.log("Redrawing text #{@text}");
-
-                #@clear.() if @clear;
-                #@clear=@@parent.write(@text,pivot:@pivot,offset:@offset);
-
-                #x,y=@xy;
-                #l = @text.length;
+		return if (@crop[2]>0); # Return if y crop is >0
 
 		xy=@xy;
 		text=@text.dup;
@@ -84,15 +101,16 @@ class UIText < UINode
 		text=text[cl...len-cr]||'';
 		xy[0]+=cl; # Offset the left start to compensate for the crop
 
-                @@screen.put(*xy,text);
+                @@canvas.draw(*xy, text, color:@color);
         end
 
-        def initialize(text='')
-                super();
+        def initialize(text='',color: @@default_color,**_)
+                super(**_);
 
 		@crop=[0,0];
 		@visible=true;
 
+		self.color=color;
                 self.text=text;
         end
 end
@@ -128,8 +146,8 @@ class UIArray < UINode
                 }
         end
 
-        def initialize
-                super();
+        def initialize(**_)
+                super(**_);
 
                 @children=[];
         end
@@ -178,7 +196,7 @@ class UIParagraph < UIArray
 				#$console.debug("Line \##{oy} width: #{lw}");
 			end
 
-			textalign = (w - lw) * ar;
+			textalign = (w-lw) * ar;
 
                         # next line in word wrap
 			if (ox+c.width>lw)
@@ -190,41 +208,51 @@ class UIParagraph < UIArray
 			if (ox==0&&c.width>=w)
 				# The word is too big for the line
 				#$console.debug("Too beeg: #{c.text}");
-				c.crop((ar)*(lw-w),(1-ar)*(lw-w));
+				c.cropx((ar)*(lw-w),(1-ar)*(lw-w));
 			else
-				c.crop();
+				c.cropx();
+			end
+
+			if (oy<h)
+				c.cropy();
+			else
+				c.cropy(1);
 			end
 
 			#$console.debug("TEXT ALIGN: w:#{w} lw:#{lw} #{w-lw}");
 
 			wh[0]=lw if (lw>wh[0]);
 
-			c.visible=(oy<h);
-
 			c.reflow(x+ox+textalign,y+oy,w,1);
 
                         ox+=c.width;
                 end
 
-		self.wh=wh;
-		#$console.debug("#{self} size is #{wh}");
+		@xy=x,y;
+		@wh=wh;
         end
 
-        def initialize(text=nil,textalign: :left)
-                super();
+	def append(*stuff)
+		# We accept .append("text") instead of .append(UIText.new('text')) - they're equivalent.
+		arr=stuff.map{ |item|
+			if (item.is_a? String)
+				words=item.strip.split(/(\s)+/);
+				words.map{ |word|
+					UIText.new(word);
+				};
+			else
+				item;
+			end
+		}.flatten;
+		$console.log(arr);
+		super(*arr);
+	end
+
+        def initialize(*append,textalign: :left,**_)
+                super(**_);
 
 		self.textalign=textalign;
-
-		if (text)
-			texts=text.split(/(\s)/);
-			len=texts.length;
-
-			for g in 0...len
-				texts[g]=UIText.new(texts[g]);
-			end
-
-			self.append(*texts);
-		end
+		self.append(*append);
         end
 end
 
@@ -239,29 +267,33 @@ class UIFlex < UIArray
         def reflow(x,y,w,h)
                 len=@children.length;
 
-		$console.log("Flex reflow: #{x} #{y} #{w} #{h}");
+		# Don't need to reflow
+		# If you don't have any children
+		if len>0
+			$console.log("Flex reflow: #{x} #{y} #{w} #{h}");
 
-                if @direction==:row
-                        part=w/len;
+			if @direction==:row
+				part=w/len;
 
-                        for i in 0...len
-                                c=@children[i];
+				for i in 0...len
+					c=@children[i];
 
-                                c.reflow(x+part*i,y,part,h);
-                        end
-                else
-                        part=h/len;
+					c.reflow(x+part*i,y,part,h);
+				end
+			else
+				part=h/len;
 
-                        for i in 0...len
-                                c=@children[i];
+				for i in 0...len
+					c=@children[i];
 
-                                c.reflow(x,y+part*i,w,part);
-                        end
-                end
+					c.reflow(x,y+part*i,w,part);
+				end
+			end
+		end
         end
 
-        def initialize(direction: :row)
-                super();
+	def initialize(direction: :row,**_)
+                super(**_);
                 @direction=direction;
         end
 end
@@ -277,7 +309,8 @@ class UITextArea < UIArray
 		for i in 0...len
 			c=@children[i];
 
-			c.reflow(x,y+oy,w,h);
+			# Remove oy from h to state the available height for the text elements
+			c.reflow(x,y+oy,w,h-oy);
 
 			oy+=c.wh[1];
 		end
@@ -285,18 +318,21 @@ class UITextArea < UIArray
 end
 
 class UI < UIFlex
-        def resize
-                reflow(0,0,*@@screen.dimensions);
-
+        def update
+		reflow();
                 @@screen.clear();
-                redraw;
+                redraw();
         end
+
+	def reflow(*)
+                super(0,0,*@@screen.dimensions);
+	end
 
         def show(*elems)
                 $console.debug("UI: Show: #{elems}");
                 empty;
                 append(*elems);
-                resize;
+                update;
         end
 
         def initialize()
@@ -306,7 +342,7 @@ class UI < UIFlex
 
                 this=self;
                 @@screen.on(:resize,->{
-                        this.resize;
+                        this.update;
                 });
         end
 end

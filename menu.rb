@@ -12,7 +12,7 @@ class Menu
                 @menus[id]=*elems;
         end
         def show(id)
-                $console.log("Showing #{id} menu");
+                $console.log("Showing menu: #{id}");
                 if !@menus.key? id
                         raise "ID not found: #{id}";
                 end

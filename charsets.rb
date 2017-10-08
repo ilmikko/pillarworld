@@ -123,7 +123,6 @@ charsets=[
         ];
 
 $screen.clear();
-$screen.cursorSet(0,0);
 
 charsets.each do |cs|
 

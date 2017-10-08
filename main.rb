@@ -3,20 +3,22 @@ require('./menu.rb');
 class Main
         def close(reason)
                 $console.log("Terminating program (#{reason})");
-                $input.close() if $input;
-                $screen.close() if $screen;
                 exit(1);
         end
         def initialize
                 $menu.create(:simple,
 			UIFlex.new(direction: :col).append(
 				UITextArea.new.append(
-					UIParagraph.new('A quick brown fox jumps over a lazy dog',textalign: :left),
+					UIParagraph.new('A quick brown fox jumps over a lazy dog', textalign: :left),
+					UIParagraph.new(
+						$taxinamba=UIText.new('The text to the right is: '),
+						UIText.new('FABULOUS', color: :blue)
+					),
 					UIParagraph.new('Another puny a line!',textalign: :left)
 				),
 				UITextArea.new.append(
 					UIParagraph.new('Woot woot',textalign: :left),
-					UIParagraph.new('I have no idea if this shit will work',textalign: :left)
+					UIParagraph.new("Did you ever hear the tragedy of Darth Plaqueis the Wise? I shall tell you but unfortunately I can't remember anything else than the first paragraph of that text so I'm currently talking kind of out of my arse here but it's actually quite fine.",textalign: :left)
 				)
 			),
 			UIFlex.new(direction: :col).append(
@@ -74,5 +76,12 @@ class Main
                 );
         end
 end
+
+$input.listen({
+	"\r":->{
+		$taxinamba.parent.append(UIText.new('This is merely a test'));
+		$ui.update;
+	}
+});
 
 $main = Main.new;
