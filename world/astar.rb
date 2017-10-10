@@ -92,9 +92,25 @@ class Actor < Point
 		@list[x]={} if !@list.key?x;
 		@list[x][y]=PossibleLocation.new(x,y,score: score, path: path);
 	end
+	def iteration
+		failure=goTo(*$endpoint.xy)==false;
+		if failure
+			$world.layers.delete(1);
+			return true;
+		end
+		if $actor.xy==$endpoint.xy
+			$world.layers.delete(1);
+			$actor.getOwnPath.each{|x,y|
+				$world.add(Path.new(x,y),layer:1);
+			};
+			return true;
+		else
+			return false;
+		end
+	end
 	def goTo(x,y)
 		if (@xy==[x,y])
-			return;
+			return false;
 		end
 		# find near objects that we can move to
 		for dx in -1..1
@@ -124,7 +140,7 @@ class Actor < Point
 		while true
 			if sorted.length==0
 				$console.error("Cannot find a path!");
-				return;
+				return false;
 			end
 			nextpos=sorted.shift;
 			# check if we have already checked this location, if yes, then remove
@@ -162,6 +178,33 @@ end
 class World
 	def layers;@layers;end
 
+	def clear
+		@blocked={};
+		@layers[5]=[];
+	end
+
+	def load(str)
+		clear;
+		x=0;y=0;
+		str.split(//).each{|char|
+			if (char==" ")
+			elsif (char=="\n")
+				y+=1;
+				x=-1;
+			elsif (char=="\r")
+				x=-1;
+			elsif (char=="#")
+				block(x,y);
+			elsif (char=="S")
+				self.startPoint=[x,y];
+			elsif (char=="E")
+				self.endPoint=[x,y];
+			end
+			x+=1;
+		}
+		render;
+	end
+
 	def add(*args,layer: 0)
 		@layers[layer]=[] if !@layers[layer];
 		@layers[layer].push(*args);
@@ -170,6 +213,9 @@ class World
 	def startPoint=(v)
 		@layers.delete(11);
 		add($startpoint=StartPoint.new(*v),layer:11);
+
+		@layers.delete(2);
+		add($actor=Actor.new(*v),layer:2);
 		render
 	end
 	def endPoint=(v)
@@ -184,7 +230,7 @@ class World
 
 	def blocked?(x,y)
 		return true if (x<0||y<0);
-		return true if (x>@screen.width||y>@screen.height);
+		return true if (x>=@screen.width||y>=@screen.height);
 		return @blocked.key?(x) && @blocked[x].key?(y);
 	end
 
@@ -199,7 +245,6 @@ class World
 
 	def initialize(screen)
 		@layers={};
-		@blocklist=[];
 		@blocked={};
 		@screen=screen;
 	end
@@ -217,7 +262,6 @@ $world=World.new($screen);
 $world.startPoint=[1,1];
 $world.endPoint=[$screen.width-2,$screen.height-2];
 
-$world.add($actor=Actor.new(*$startpoint.xy),layer:2);
 $world.add($cursor=Cursor.new,layer:10);
 
 $input.listen({
@@ -239,14 +283,23 @@ $input.listen({
 		$world.block(*$cursor.xy);
 		render;
 	},
-	'':->{
-		$actor.goTo(*$endpoint.xy);
-		if $actor.xy==$endpoint.xy
-			$world.layers.delete(1);
-			$actor.getOwnPath.each{|x,y|
-				$world.add(Path.new(x,y),layer:1);
-			};
+	'm':->{
+		$world.load(File.read('map.txt'));
+	},
+	'a':->{
+		iterations_between_renders=100;
+		iteration=0;
+		while iteration+=1;
+			if iteration>iterations_between_renders
+				render;
+				iteration=0;
+			end
+			break if $actor.iteration();
 		end
+		render;
+	},
+	'':->{
+		$actor.iteration();
 		render;
 	}
 });
