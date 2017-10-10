@@ -42,7 +42,7 @@ class Screen < Evented
 		$stdout.write(str);
         end
 
-        def put(x,y,str)
+        def put(x,y,str,color: nil)
                 h,w=@dimensions;
 
                 if (x>=w||y>=h||y<0)
@@ -62,6 +62,10 @@ class Screen < Evented
 
                 x=(x+1).round.to_i;
                 y=(y+1).round.to_i;
+		
+		if color
+			str=color+str+"\e[0m";
+		end
 
                 $stdout.write("\033[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
         end

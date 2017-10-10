@@ -75,7 +75,7 @@ class Input
                                                 end
                                         end
                                 rescue StandardError => e
-                                        $console.error("INPUT: ERROR #{e}");
+                                        $console.error("INPUT: ERROR: #{e}");
                                 end
                         end
                 }

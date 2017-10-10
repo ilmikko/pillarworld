@@ -61,8 +61,8 @@ class Console
 	end
 
 	def initialize(level=0)
-                @echo=false;
-                @filedump=true;
+                @echo=true;
+                @filedump=false;
 
 		# Which level we are on (log levels below this are not displayed)
 		@level=level;
