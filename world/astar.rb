@@ -94,10 +94,6 @@ class Actor < Point
 	end
 	def iteration
 		failure=goTo(*$endpoint.xy)==false;
-		if failure
-			$world.layers.delete(1);
-			return true;
-		end
 		if $actor.xy==$endpoint.xy
 			$world.layers.delete(1);
 			$actor.getOwnPath.each{|x,y|
@@ -105,7 +101,12 @@ class Actor < Point
 			};
 			return true;
 		else
-			return false;
+			if failure
+				$world.layers.delete(1);
+				return true;
+			else
+				return false;
+			end
 		end
 	end
 	def goTo(x,y)
@@ -243,6 +244,19 @@ class World
 		@layers[5].push(Block.new(x,y));
 	end
 
+	def unblock(x,y)
+		return if !@blocked.key?x;
+		return if !@blocked[x].key?y;
+		@blocked[x].delete(y);
+		@layers[5].select!{|block|
+			if (block.xy==[x,y])
+				false
+			else
+				true
+			end
+		}
+	end
+
 	def initialize(screen)
 		@layers={};
 		@blocked={};
@@ -281,6 +295,10 @@ $input.listen({
 	},
 	' ':->{
 		$world.block(*$cursor.xy);
+		render;
+	},
+	'x':->{
+		$world.unblock(*$cursor.xy);
 		render;
 	},
 	'm':->{
