@@ -1,0 +1,2 @@
+This code isn't currently working, it used to visualize the world and use ../time.rb and ../space.rb, but the code was highly unreliable.
+I'm planning to come back to this after I get the basics of UI and animations sorted out, so that the canvas can integrate on that.

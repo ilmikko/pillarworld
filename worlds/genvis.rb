@@ -34,24 +34,22 @@ def fmt(ms)
         return "#{h}:#{m}:#{s} - Day #{d} Year #{y}";
 end
 
-$canvas.sceneSet(
-        ->(w,h){
-                #$canvas.clear();
+def render
+	#$canvas.clear();
 
-                $canvas.render($space);
+	$canvas.render($space);
 
-                debug=[
-                        "Gametime: #{$time.now}",
-                        "Time delta: #{$time.delta}",
-                        "Future: #{$time.future}",
-                        "Active: #{$time.active}",
-                        fmt($time.now),
-                        "M:#{$canvas.zoom},X:#{$canvas.x},Y:#{$canvas.y},Z:#{$canvas.z}"
-                ];
+	debug=[
+		"Gametime: #{$time.now}",
+		"Time delta: #{$time.delta}",
+		"Future: #{$time.future}",
+		"Active: #{$time.active}",
+		fmt($time.now),
+		"M:#{$canvas.zoom},X:#{$canvas.x},Y:#{$canvas.y},Z:#{$canvas.z}"
+	];
 
-                $canvas.writeLines(w-1,h-1,debug,align:2);
-        }
-);
+	$canvas.writeLines(w-1,h-1,debug,align:2);
+end
 
 $input.listen({
         # Time scale
