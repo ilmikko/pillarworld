@@ -1,8 +1,20 @@
-require('./console.rb');
+require('../console.rb');
 require('../screen.rb');
 require('../input.rb');
 
-# It's kinda effed up but it's a good start.
+# Astar algorithm, custom weights
+# Controls:
+# hjkl to move
+# space to place obstacles
+# x to remove them
+#
+# m to load map from ./map.txt
+#
+# enter to solve one iteration
+# a to solve all
+#
+# e to place end point
+# s to place start point
 
 def render
 	$world.render;

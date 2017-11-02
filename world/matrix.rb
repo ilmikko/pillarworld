@@ -1,6 +1,9 @@
+# 3D matrix transformations boii!
+# Press space to change the axis of rotation.
+
 require('../screen.rb');
 require('../input.rb');
-require('./console.rb');
+require('../console.rb');
 require('matrix');
 
 $w,$h=$screen.dimensions;
