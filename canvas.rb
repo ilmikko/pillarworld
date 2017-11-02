@@ -1,4 +1,4 @@
-require('./screen.rb');
+require_relative('./screen.rb');
 
 # TODO: Maybe in the future instead of doing a direct write we can queue the writes and every frame then order them so that we won't be changing colors and settings etc and the drawing is optimized.
 # That was a very awkward sentence so let me try again:
@@ -11,13 +11,46 @@ class Canvas
 	@@screen=$screen;
 	@@default_color="\e[0m";
 
-	def screen;@@screen;end
-
-	def draw(x,y,str,color: @@default_color)
-		@@screen.put(x,y,color+str);
+	def color(v)
+		@@screen.printf(v);
 	end
+	def endcolor()
+		@@screen.printf(@@default_color);
+	end
+
+	def write(x,y,str,**_)
+		@@screen.write(x,y,str,**_);
+	end
+
+	def draw(x,y,char: '#')
+		@@screen.put(x,y,char);
+	end
+
+	def hline(x,y,w,char: '#')
+		w=w.round.to_i;
+		if (w<0)
+			@@screen.put(x+w+1,y,char*(-w));
+		else
+			@@screen.put(x,y,char*w);
+		end
+	end
+
+	def vline(x,y,h,char: '#')
+		y=y.round.to_i;
+		h=h.round.to_i;
+		# If someone has a better solution let me know
+		if (h<0)
+			for y in y+h+1...y+1
+				@@screen.put(x,y,char);
+			end
+		else
+			for y in y...y+h
+				@@screen.put(x,y,char);
+			end
+		end
+	end
+
 	def initialize()
-		@colors={};
 	end
 end
 

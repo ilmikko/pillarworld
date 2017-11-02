@@ -2,9 +2,9 @@
 # Handles the screen, console output, terminals, etc.
 #
 
-require 'io/console';
-require('./console.rb');
-require('./tool.rb');
+require('io/console');
+require_relative('./console.rb');
+require_relative('./tool.rb');
 
 # TODO: Remove tool dependency
 

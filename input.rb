@@ -1,5 +1,5 @@
 require("io/console");
-require("./console.rb");
+require_relative("./console.rb");
 
 # A basic way to gather user input. You can just require('input') and
 # then do $input.listen(
