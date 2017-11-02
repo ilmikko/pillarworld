@@ -6,6 +6,8 @@ require 'io/console';
 require('./console.rb');
 require('./tool.rb');
 
+# TODO: Remove tool dependency
+
 class Screen < Evented
         def width
                 @dimensions[1]
@@ -24,6 +26,12 @@ class Screen < Evented
         def cursorShow
                 $stdout.write("\033[?25h");
         end
+	def cursorSet(x,y)
+		# The topleft corner is 1,1 instead of 0,0.
+                x=(x+1).round.to_i;
+                y=(y+1).round.to_i;
+		$stdout.write("\033[" << y.to_s << ';' << x.to_s << 'H');
+	end
 
         # --------------------------- SCREEN COMMANDS---------------------------
         def clear

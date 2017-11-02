@@ -6,46 +6,49 @@ $zoom=1;
 $x=0;
 $y=0;
 
-def zoomrender(w,h)
-
+def zoomrender()
+	w,h=$screen.dimensions;
         $screen.clear();
 
         for sy in 0..h
                 for sx in 0..w
                         ztest=((($x+sx-w/2)/$zoom)**2+(($y+sy-h/2)/$zoom)**2)/$zoom;
                         if (ztest<1&&ztest>0.5)
-                                $screen.putc(sx,sy,"X");
+                                $screen.put(sx,sy,"X");
                         end
                 end
         end
 
         $screen.cursorSet(w,h);
-        $screen.writeRight("X:#{$x} Y:#{$y} Zoom:#{$zoom}");
+        $screen.write(0,0,"X:#{$x} Y:#{$y} Zoom:#{$zoom}");
 end
-$screen.sceneSet(:zoomrender);
 
-def zoomlistener(char)
-        $console.dump("KEY: #{char}");
-        if (char=="+")
+$input.listen({
+	'+':->{
                 $zoom*=1.1;
-        elsif (char=="-")
+		zoomrender();
+	},
+	'-':->{
                 $zoom/=1.1;
-        elsif (char=="h")
-                $x-=$zoom;
-        elsif (char=="l")
-                $x+=$zoom;
-        elsif (char=="j")
-                $y-=$zoom;
-        elsif (char=="k")
-                $y+=$zoom;
-        else
-                return false;
-        end
-
-        $screen.render();
-        return true;
-end
-$input.listen(:zoomlistener);
+		zoomrender();
+	},
+	'h':->{
+		$x-=$zoom;
+		zoomrender();
+	},
+	'l':->{
+		$x+=$zoom;
+		zoomrender();
+	},
+	'j':->{
+		$y-=$zoom;
+		zoomrender();
+	},
+	'k':->{
+		$y+=$zoom;
+		zoomrender();
+	}
+});
 
 def printchars(w,h)
         $screen.clear();
@@ -54,6 +57,9 @@ def printchars(w,h)
 end
 #$screen.sceneSet(:printchars);
 
-$screen.render();
+while true
+	zoomrender();
+	sleep(0.1);
+end
 
 Kernel::sleep();
