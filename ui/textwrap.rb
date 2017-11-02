@@ -1,5 +1,7 @@
 require('./ui.rb');
 
+# Having issues with the text wrapping and overflow.
+
 $ui.show(
 	UIAlign.new.append(
 		UIBorder.new(width:40,height:11).append(

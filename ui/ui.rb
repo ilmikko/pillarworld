@@ -1,7 +1,7 @@
 # UI handler
 
-require('./console.rb');
-require('./canvas.rb');
+require('../console.rb');
+require('../canvas.rb');
 
 require('./ui-animation.rb');
 

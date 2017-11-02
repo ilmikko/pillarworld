@@ -1,5 +1,7 @@
 require('./ui.rb');
 
+# TODO: Make the paragraphs go bold to indicate selection status
+
 $ui.show(
 	UIPadding.new(padding:4).append(
 		UIBorder.new.append(

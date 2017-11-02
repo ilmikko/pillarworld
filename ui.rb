@@ -1,4 +1,5 @@
 # UI handler
+# NOTE: Obsolete! Go to ./ui to find the newest version of this.
 
 require('./console.rb');
 require('./canvas.rb');
