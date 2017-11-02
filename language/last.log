@@ -1,0 +1,430 @@
+l 57860707 Console initialized
+l 57860707 Getting words from words.txt!
+l 57860707 regex: (?-mix:[^abcdefghijklmnopqrstuvwxyz\s\-])
+l 57860707 There are 4 words here.
+l 57860707 Unique words: 4, removed 0 duplicates.
+l 57860707 Getting words from /home/iveks/vimwiki/BI1511/lectures.wiki!
+E 57860708 No such file or directory @ rb_sysopen - /home/iveks/vimwiki/BI1511/lectures.wiki
+l 57860708 [031mRandom[0m: 13 unique bits vs 17 total
+l 57860708 [031mRandom[0m: Average bit length per word: 4.25, stdev: 0.9574271077563381
+l 57860708 [034mEvenOdd[0m: 12 unique bits
+l 57860708 [034mEvenOdd[0m: Average bit length per word: 3.75, stdev: 0.9574271077563381
+i 57860708 Here we present to you
+i 57865541 [031mRandom[0m: ntsrm
+i 57865541 [031mRandom[0m: whmnto
+i 57865541 [031mRandom[0m: ntontwh
+i 57865541 [031mRandom[0m: elcee
+i 57865541 [034mEvenOdd[0m: olewhe
+i 57865541 [034mEvenOdd[0m: eroure
+i 57865541 [034mEvenOdd[0m: ectewh
+i 57865541 [034mEvenOdd[0m: ouctonte
+l 57865542 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57865542 [035mTrueLearner[0m: where
+l 57865542 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57865542 [035mTrueLearner[0m: count
+l 57865542 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57865542 [035mTrueLearner[0m: count
+l 57865542 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57865542 [035mTrueLearner[0m: where
+i 57866676 [031mRandom[0m: efrrl
+i 57866676 [031mRandom[0m: swhuuc
+i 57866676 [031mRandom[0m: frwhctero
+i 57866676 [031mRandom[0m: eee
+i 57866677 [034mEvenOdd[0m: ewhos
+i 57866677 [034mEvenOdd[0m: ofrouwhe
+i 57866677 [034mEvenOdd[0m: erowh
+i 57866677 [034mEvenOdd[0m: efrefr
+l 57866677 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57866677 [035mTrueLearner[0m: where
+l 57866677 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57866677 [035mTrueLearner[0m: select
+l 57866677 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57866677 [035mTrueLearner[0m: from
+l 57866678 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57866678 [035mTrueLearner[0m: select
+i 57872341 [031mRandom[0m: uoo
+i 57872341 [031mRandom[0m: eontl
+i 57872341 [031mRandom[0m: esuee
+i 57872341 [031mRandom[0m: ntmmrm
+i 57872341 [034mEvenOdd[0m: elole
+i 57872341 [034mEvenOdd[0m: ecem
+i 57872341 [034mEvenOdd[0m: ourel
+i 57872341 [034mEvenOdd[0m: oumel
+l 57872342 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57872342 [035mTrueLearner[0m: where
+l 57872342 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57872342 [035mTrueLearner[0m: count
+l 57872342 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57872342 [035mTrueLearner[0m: where
+l 57872342 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57872342 [035mTrueLearner[0m: from
+i 57874676 [031mRandom[0m: oesct
+i 57874676 [031mRandom[0m: octent
+i 57874676 [031mRandom[0m: lelee
+i 57874676 [031mRandom[0m: eruwhwh
+i 57874676 [034mEvenOdd[0m: emoufre
+i 57874676 [034mEvenOdd[0m: ofres
+i 57874677 [034mEvenOdd[0m: elouwh
+i 57874677 [034mEvenOdd[0m: elewho
+l 57874677 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57874677 [035mTrueLearner[0m: select
+l 57874677 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57874677 [035mTrueLearner[0m: where
+l 57874677 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57874677 [035mTrueLearner[0m: select
+l 57874678 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57874678 [035mTrueLearner[0m: select
+i 57875140 [031mRandom[0m: crfrnt
+i 57875140 [031mRandom[0m: mmrere
+i 57875140 [031mRandom[0m: oentmct
+i 57875140 [031mRandom[0m: ewhmm
+i 57875140 [034mEvenOdd[0m: ouctemo
+i 57875140 [034mEvenOdd[0m: oumele
+i 57875140 [034mEvenOdd[0m: erento
+i 57875141 [034mEvenOdd[0m: ectece
+l 57875141 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57875141 [035mTrueLearner[0m: from
+l 57875141 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875141 [035mTrueLearner[0m: count
+l 57875141 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875141 [035mTrueLearner[0m: where
+l 57875142 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875142 [035mTrueLearner[0m: count
+i 57875652 [031mRandom[0m: ecter
+i 57875652 [031mRandom[0m: oererct
+i 57875652 [031mRandom[0m: eeme
+i 57875652 [031mRandom[0m: clfrfre
+i 57875653 [034mEvenOdd[0m: ewhewh
+i 57875653 [034mEvenOdd[0m: erewh
+i 57875653 [034mEvenOdd[0m: oumeme
+i 57875653 [034mEvenOdd[0m: efrouse
+l 57875653 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875653 [035mTrueLearner[0m: count
+l 57875653 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875653 [035mTrueLearner[0m: where
+l 57875654 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875654 [035mTrueLearner[0m: select
+l 57875654 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57875654 [035mTrueLearner[0m: where
+i 57876148 [031mRandom[0m: whoo
+i 57876148 [031mRandom[0m: lwhmfro
+i 57876148 [031mRandom[0m: uoouwh
+i 57876148 [031mRandom[0m: soer
+i 57876148 [034mEvenOdd[0m: ereme
+i 57876149 [034mEvenOdd[0m: entont
+i 57876149 [034mEvenOdd[0m: entento
+i 57876149 [034mEvenOdd[0m: esewh
+l 57876149 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57876149 [035mTrueLearner[0m: count
+l 57876149 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57876149 [035mTrueLearner[0m: where
+l 57876149 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57876149 [035mTrueLearner[0m: select
+l 57876150 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57876150 [035mTrueLearner[0m: count
+i 57876580 [031mRandom[0m: frmlctr
+i 57876580 [031mRandom[0m: moeect
+i 57876580 [031mRandom[0m: luec
+i 57876580 [031mRandom[0m: ssnto
+i 57876580 [034mEvenOdd[0m: ocoure
+i 57876581 [034mEvenOdd[0m: ecoso
+i 57876581 [034mEvenOdd[0m: oulour
+i 57876581 [034mEvenOdd[0m: oulectou
+l 57876581 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57876581 [035mTrueLearner[0m: from
+l 57876581 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57876581 [035mTrueLearner[0m: from
+l 57876581 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57876581 [035mTrueLearner[0m: from
+l 57876581 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57876582 [035mTrueLearner[0m: select
+i 57877028 [031mRandom[0m: mluem
+i 57877028 [031mRandom[0m: frefrr
+i 57877028 [031mRandom[0m: mewhe
+i 57877028 [031mRandom[0m: rcuufr
+i 57877028 [034mEvenOdd[0m: efrounte
+i 57877028 [034mEvenOdd[0m: ewhefr
+i 57877029 [034mEvenOdd[0m: ewhem
+i 57877029 [034mEvenOdd[0m: elewh
+l 57877029 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877029 [035mTrueLearner[0m: where
+l 57877029 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57877029 [035mTrueLearner[0m: from
+l 57877029 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877029 [035mTrueLearner[0m: where
+l 57877030 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57877030 [035mTrueLearner[0m: from
+i 57877412 [031mRandom[0m: oeosu
+i 57877412 [031mRandom[0m: ectel
+i 57877412 [031mRandom[0m: ntfrsrs
+i 57877412 [031mRandom[0m: mwhuwh
+i 57877413 [034mEvenOdd[0m: ectome
+i 57877413 [034mEvenOdd[0m: ewhere
+i 57877413 [034mEvenOdd[0m: ocolou
+i 57877413 [034mEvenOdd[0m: esouwhe
+l 57877413 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877413 [035mTrueLearner[0m: where
+l 57877413 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877413 [035mTrueLearner[0m: count
+l 57877414 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877414 [035mTrueLearner[0m: count
+l 57877414 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877414 [035mTrueLearner[0m: where
+i 57877732 [031mRandom[0m: oercwh
+i 57877732 [031mRandom[0m: elosnt
+i 57877732 [031mRandom[0m: efrfrr
+i 57877732 [031mRandom[0m: freect
+i 57877732 [034mEvenOdd[0m: esefr
+i 57877732 [034mEvenOdd[0m: entecte
+i 57877732 [034mEvenOdd[0m: ontowh
+i 57877732 [034mEvenOdd[0m: oumero
+l 57877732 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877732 [035mTrueLearner[0m: select
+l 57877732 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877733 [035mTrueLearner[0m: count
+l 57877733 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877733 [035mTrueLearner[0m: select
+l 57877733 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57877733 [035mTrueLearner[0m: count
+i 57878020 [031mRandom[0m: occlct
+i 57878020 [031mRandom[0m: ntleco
+i 57878020 [031mRandom[0m: frlmc
+i 57878020 [031mRandom[0m: rwhctwhe
+i 57878020 [034mEvenOdd[0m: elor
+i 57878020 [034mEvenOdd[0m: erefr
+i 57878021 [034mEvenOdd[0m: olente
+i 57878021 [034mEvenOdd[0m: efroulo
+l 57878021 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878021 [035mTrueLearner[0m: count
+l 57878021 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57878021 [035mTrueLearner[0m: from
+l 57878021 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878021 [035mTrueLearner[0m: count
+l 57878022 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57878022 [035mTrueLearner[0m: from
+i 57878372 [031mRandom[0m: cle
+i 57878372 [031mRandom[0m: frmese
+i 57878372 [031mRandom[0m: erso
+i 57878372 [031mRandom[0m: rel
+i 57878372 [034mEvenOdd[0m: efrere
+i 57878372 [034mEvenOdd[0m: ement
+i 57878373 [034mEvenOdd[0m: esoul
+i 57878373 [034mEvenOdd[0m: esentou
+l 57878373 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57878373 [035mTrueLearner[0m: from
+l 57878373 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878373 [035mTrueLearner[0m: count
+l 57878373 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878373 [035mTrueLearner[0m: where
+l 57878373 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878373 [035mTrueLearner[0m: count
+i 57878740 [031mRandom[0m: entfrwhntct
+i 57878740 [031mRandom[0m: ueoe
+i 57878740 [031mRandom[0m: efrswhl
+i 57878740 [031mRandom[0m: ecoe
+i 57878741 [034mEvenOdd[0m: emel
+i 57878741 [034mEvenOdd[0m: ewherou
+i 57878741 [034mEvenOdd[0m: ewho
+i 57878741 [034mEvenOdd[0m: ewhe
+l 57878741 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878742 [035mTrueLearner[0m: count
+l 57878742 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878742 [035mTrueLearner[0m: where
+l 57878742 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57878742 [035mTrueLearner[0m: from
+l 57878742 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57878742 [035mTrueLearner[0m: where
+i 57879092 [031mRandom[0m: eeewhe
+i 57879092 [031mRandom[0m: ucooe
+i 57879092 [031mRandom[0m: ntolewh
+i 57879092 [031mRandom[0m: ntefros
+i 57879092 [034mEvenOdd[0m: efrowh
+i 57879093 [034mEvenOdd[0m: efrefro
+i 57879093 [034mEvenOdd[0m: oce
+i 57879093 [034mEvenOdd[0m: emefr
+l 57879093 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57879093 [035mTrueLearner[0m: count
+l 57879093 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57879093 [035mTrueLearner[0m: where
+l 57879093 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57879093 [035mTrueLearner[0m: select
+l 57879094 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57879094 [035mTrueLearner[0m: select
+i 57879749 [031mRandom[0m: ectuol
+i 57879749 [031mRandom[0m: whcelos
+i 57879749 [031mRandom[0m: ceco
+i 57879749 [031mRandom[0m: moer
+i 57879749 [034mEvenOdd[0m: esele
+i 57879749 [034mEvenOdd[0m: olewho
+i 57879749 [034mEvenOdd[0m: erente
+i 57879749 [034mEvenOdd[0m: ere
+l 57879749 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57879749 [035mTrueLearner[0m: count
+l 57879750 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57879750 [035mTrueLearner[0m: from
+l 57879750 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57879750 [035mTrueLearner[0m: where
+l 57879750 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57879750 [035mTrueLearner[0m: from
+i 57880164 [031mRandom[0m: loe
+i 57880164 [031mRandom[0m: mooo
+i 57880164 [031mRandom[0m: ntoelm
+i 57880164 [031mRandom[0m: eeoo
+i 57880164 [034mEvenOdd[0m: eror
+i 57880164 [034mEvenOdd[0m: ecento
+i 57880164 [034mEvenOdd[0m: eloct
+i 57880165 [034mEvenOdd[0m: ecte
+l 57880165 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880165 [035mTrueLearner[0m: select
+l 57880165 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880165 [035mTrueLearner[0m: where
+l 57880165 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880165 [035mTrueLearner[0m: where
+l 57880166 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880166 [035mTrueLearner[0m: count
+i 57880484 [031mRandom[0m: whleml
+i 57880484 [031mRandom[0m: cteure
+i 57880484 [031mRandom[0m: runtfr
+i 57880484 [031mRandom[0m: remwh
+i 57880484 [034mEvenOdd[0m: entewhe
+i 57880484 [034mEvenOdd[0m: owhem
+i 57880484 [034mEvenOdd[0m: ectouc
+i 57880484 [034mEvenOdd[0m: ouctewh
+l 57880485 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880485 [035mTrueLearner[0m: count
+l 57880485 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880485 [035mTrueLearner[0m: select
+l 57880485 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880485 [035mTrueLearner[0m: where
+l 57880485 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57880485 [035mTrueLearner[0m: from
+i 57880804 [031mRandom[0m: ontecte
+i 57880804 [031mRandom[0m: ntntctro
+i 57880804 [031mRandom[0m: oomct
+i 57880804 [031mRandom[0m: ueccs
+i 57880804 [034mEvenOdd[0m: ewhofr
+i 57880804 [034mEvenOdd[0m: omont
+i 57880804 [034mEvenOdd[0m: entes
+i 57880805 [034mEvenOdd[0m: emec
+l 57880805 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880805 [035mTrueLearner[0m: where
+l 57880805 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880805 [035mTrueLearner[0m: count
+l 57880805 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57880805 [035mTrueLearner[0m: from
+l 57880805 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57880805 [035mTrueLearner[0m: select
+i 57881316 [031mRandom[0m: clee
+i 57881317 [031mRandom[0m: whuuoe
+i 57881317 [031mRandom[0m: octemfre
+i 57881317 [031mRandom[0m: uuwh
+i 57881317 [034mEvenOdd[0m: ountect
+i 57881317 [034mEvenOdd[0m: orel
+i 57881317 [034mEvenOdd[0m: ecec
+i 57881317 [034mEvenOdd[0m: emonte
+l 57881317 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57881317 [035mTrueLearner[0m: from
+l 57881317 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57881317 [035mTrueLearner[0m: count
+l 57881317 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57881317 [035mTrueLearner[0m: from
+l 57881318 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57881318 [035mTrueLearner[0m: where
+i 57882420 [031mRandom[0m: ontcnto
+i 57882420 [031mRandom[0m: ntctewhnt
+i 57882420 [031mRandom[0m: soel
+i 57882420 [031mRandom[0m: omee
+i 57882420 [034mEvenOdd[0m: ectewh
+i 57882420 [034mEvenOdd[0m: enter
+i 57882420 [034mEvenOdd[0m: entece
+i 57882420 [034mEvenOdd[0m: esoume
+l 57882421 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57882421 [035mTrueLearner[0m: count
+l 57882421 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57882421 [035mTrueLearner[0m: select
+l 57882421 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57882421 [035mTrueLearner[0m: count
+l 57882421 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57882421 [035mTrueLearner[0m: select
+i 57883157 [031mRandom[0m: rntcto
+i 57883157 [031mRandom[0m: meentm
+i 57883157 [031mRandom[0m: crefrnt
+i 57883157 [031mRandom[0m: freee
+i 57883157 [034mEvenOdd[0m: efrofr
+i 57883157 [034mEvenOdd[0m: ewheso
+i 57883157 [034mEvenOdd[0m: ouctounto
+i 57883157 [034mEvenOdd[0m: omefr
+l 57883158 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57883158 [035mTrueLearner[0m: from
+l 57883158 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57883158 [035mTrueLearner[0m: select
+l 57883158 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57883158 [035mTrueLearner[0m: where
+l 57883158 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57883158 [035mTrueLearner[0m: count
+i 57883684 [031mRandom[0m: frrec
+i 57883685 [031mRandom[0m: me
+i 57883685 [031mRandom[0m: eues
+i 57883685 [031mRandom[0m: ctntwh
+i 57883685 [034mEvenOdd[0m: emefr
+i 57883685 [034mEvenOdd[0m: ewhewh
+i 57883685 [034mEvenOdd[0m: efrec
+i 57883685 [034mEvenOdd[0m: esom
+l 57883685 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57883685 [035mTrueLearner[0m: where
+l 57883685 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57883685 [035mTrueLearner[0m: from
+l 57883686 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57883686 [035mTrueLearner[0m: where
+l 57883686 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57883686 [035mTrueLearner[0m: select
+i 57884180 [031mRandom[0m: muctnte
+i 57884180 [031mRandom[0m: ontntoe
+i 57884180 [031mRandom[0m: mmoul
+i 57884180 [031mRandom[0m: elo
+i 57884180 [034mEvenOdd[0m: emele
+i 57884180 [034mEvenOdd[0m: entent
+i 57884180 [034mEvenOdd[0m: erele
+i 57884180 [034mEvenOdd[0m: ewhewh
+l 57884181 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57884181 [035mTrueLearner[0m: from
+l 57884181 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884181 [035mTrueLearner[0m: count
+l 57884181 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884181 [035mTrueLearner[0m: count
+l 57884181 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884181 [035mTrueLearner[0m: select
+i 57884837 [031mRandom[0m: rewhr
+i 57884837 [031mRandom[0m: rrowh
+i 57884837 [031mRandom[0m: efrfrl
+i 57884837 [031mRandom[0m: mso
+i 57884837 [034mEvenOdd[0m: entou
+i 57884837 [034mEvenOdd[0m: omese
+i 57884837 [034mEvenOdd[0m: ewheme
+i 57884837 [034mEvenOdd[0m: ente
+l 57884837 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884837 [035mTrueLearner[0m: count
+l 57884838 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884838 [035mTrueLearner[0m: select
+l 57884838 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884838 [035mTrueLearner[0m: select
+l 57884838 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57884838 [035mTrueLearner[0m: where
+i 57885540 [031mRandom[0m: llel
+i 57885540 [031mRandom[0m: whntrce
+i 57885540 [031mRandom[0m: ecent
+i 57885541 [031mRandom[0m: whewhll
+i 57885541 [034mEvenOdd[0m: ewhour
+i 57885541 [034mEvenOdd[0m: ontom
+i 57885541 [034mEvenOdd[0m: omes
+i 57885541 [034mEvenOdd[0m: ectel
+l 57885541 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57885541 [035mTrueLearner[0m: count
+l 57885541 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57885541 [035mTrueLearner[0m: where
+l 57885542 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0, 1.0]
+i 57885542 [035mTrueLearner[0m: where
+l 57885542 [035mTrueLearner[0m: word score: [1.0, 1.0, 1.0, 1.0]
+i 57885542 [035mTrueLearner[0m: from
+  57886596 
+l 57886596 Writing to log file, bye.

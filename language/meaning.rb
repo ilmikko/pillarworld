@@ -1,3 +1,5 @@
+# Just a class inheritance test, realized that this is probably not going to be worth it.
+
 class PhysicalObject
 	def initialize
 		@shape=:round;

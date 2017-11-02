@@ -277,7 +277,6 @@ end
 
 $words={};
 $words=includeWordsFromFile($words,'words.txt');
-$words=includeWordsFromFile($words,'/home/iveks/vimwiki/BI1511/lectures.wiki');
 
 # Let's set up some rules according to these words.
 # Split them up to lil bits, by consonants and wovels!

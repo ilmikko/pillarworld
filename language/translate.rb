@@ -1,4 +1,4 @@
-# generate using a ruleset
+# Mission: Generate a wide variety of languages using a ruleset
 #
 # Questions to answer (rules)
 # Punctuation? Does it have the same or different meaning?
@@ -26,6 +26,8 @@
 #	end
 #end
 #$console=Console.new;
+
+# TODO: under construction
 
 class Language
 	@@default_characters='01'.split(//);

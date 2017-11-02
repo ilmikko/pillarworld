@@ -3,6 +3,12 @@ require("./screen.rb");
 
 require 'io/console';
 
+# TODO: We cannot use Unicode if we want to allow terminal playing, which is something that I want to keep in mind.
+# This means that the game should first be designed without unicode, using the available character set, but then
+# allow for upgrade to unicode points if they are possible to display on the terminal (user settings?)
+
+# Charsets: t - type, a - array of ranges of code points for Unicode.
+# So, for example, [33,126] would be 33-126, or [1,3,5,6] would be 1-3 and 5-6.
 charsets=[
         {
                 t:"ASCII",
@@ -125,29 +131,29 @@ charsets=[
 $screen.clear();
 
 charsets.each do |cs|
-
-        $screen.write("\x1b[36m");
-        $screen.write("%-22.22s: "%cs[:t]);
-        $screen.write("\x1b[0m");
+	# write type
+        $stdout.write("\x1b[36m"); # different color
+        $stdout.write("%-22.22s: "%cs[:t]);
+        $stdout.write("\x1b[0m"); # reset color
 
         csa=cs[:a];
 
-        $screen.write("\x1b[100m");
+        $stdout.write("\x1b[100m"); # different color
 
         a=0;
         b=1;
 
         while csa[b]
                 for i in csa[a]..csa[b]
-                        $screen.write(i.chr("utf-8"));
+                        $stdout.write(i.chr("utf-8"));
                 end
 
                 a+=2;
                 b+=2;
         end
 
-        $screen.write("\x1b[0m");
-        $screen.write("\r\n");
+        $stdout.write("\x1b[0m"); # reset color
+        $stdout.write("\r\n");
 end
 
 # Pause until keypress

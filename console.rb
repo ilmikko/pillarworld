@@ -44,25 +44,34 @@ class Console
 		"verbose":-50
 	};
 
-        def dump;@filedump;end
         def dump=(v);@filedump=v;end
-        def echo;@echo;end
         def echo=(v);@echo=v;end
 
         def lines
                 @lines
         end
 
-	def level
+	def loglevel
 		@level
 	end
-	def level=(level)
+	def loglevel=(level)
 		@level=level
 	end
 
+	def time(id)
+		@timings[id]=Time.now;
+	end
+
+	def timeEnd(id)
+		return if !@timings.key?id;
+		self.info("#{id}: #{(Time.now-@timings[id])*1000}ms");
+	end
+
 	def initialize(level=0)
-                @echo=true;
-                @filedump=false;
+                @echo=false;
+                @filedump=true;
+
+		@timings={};
 
 		# Which level we are on (log levels below this are not displayed)
 		@level=level;
@@ -76,7 +85,7 @@ class Console
 	def method_missing(type, *args, &block)
 		# If log level is not sufficient, we shall not log at all
 
-		return if @@levels[type]<@level;
+		return if !@@levels[type].nil?&&@@levels[type]<@level;
 
                 # global formatting
                 args[0]="%s %s" % [(Time.now.to_f*1000).floor.to_s.slice(-8,8),args[0]];
@@ -104,6 +113,6 @@ $console.log("Console initialized");
 at_exit do
         if ($console.dump&&$console.lines.length>0)
                 $console.log("Writing to log file, bye.");
-                File.write("logdumps/"+File.basename($PROGRAM_NAME)+"-#{Time.now}.log",$console.lines.join("\n"));
+                File.write("last.log",$console.lines.join("\n"));
         end
 end

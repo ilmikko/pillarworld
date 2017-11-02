@@ -11,6 +11,8 @@ class Canvas
 	@@screen=$screen;
 	@@default_color="\e[0m";
 
+	def screen;@@screen;end
+
 	def draw(x,y,str,color: @@default_color)
 		@@screen.put(x,y,color+str);
 	end

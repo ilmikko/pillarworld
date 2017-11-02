@@ -1,4 +1,7 @@
 #!env ruby
+#
+# Pillarworld main executable
+#
 
 # Change working directory to the PW folder
 Dir.chdir(__dir__);

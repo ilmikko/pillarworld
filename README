@@ -1,4 +1,4 @@
-There is no gameplay yet. I'm testing different aspects of gameplay, including ui elements, animations, world data and rendering, et cetera.
-Keep in mind this is a playground, some things might break as the dependencies change rapidly, but if it's broken I probably don't know that it is, so just give me a shout out and I'll fix it.
+There is no actual gameplay yet. However I am testing different aspects of possible gameplay, including ui elements, animations, world data and rendering, et cetera.
+Please keep in mind this is a playground, some things might break as the dependencies change rapidly. If something is broken I probably don't know that it is because I'm too busy developing something else, but just give me a shout out and I'll fix it.
 
 TODO: Add a better readme about the project as a whole

@@ -1,5 +1,7 @@
 require('./menu.rb');
 
+# Main.rb - in the future this file will combine everything we have into a single neat package.
+
 class Main
         def close(reason)
                 $console.log("Terminating program (#{reason})");
