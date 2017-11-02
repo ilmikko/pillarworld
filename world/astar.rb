@@ -90,13 +90,14 @@ class Actor < Point
 		score=Math::sqrt((@xy[0]-x)**2+(@xy[1]-y)**2)+getOwnScore(*@xy);
 		path=getOwnPath()+[[x,y]];
 		@list[x]={} if !@list.key?x;
-		@list[x][y]=PossibleLocation.new(x,y,score: score, path: path);
+		@list[x][y]=PossibleLocation.new(x,y, score: score, path: path);
 	end
 	def iteration
 		failure=goTo(*$endpoint.xy)==false;
-		if $actor.xy==$endpoint.xy
+		if @xy==$endpoint.xy
+			# Successful path
 			$world.layers.delete(1);
-			$actor.getOwnPath.each{|x,y|
+			@list[@xy[0]][@xy[1]].path.each{|x,y|
 				$world.add(Path.new(x,y),layer:1);
 			};
 			return true;
@@ -266,7 +267,7 @@ class World
 		@screen.clear();
 		@layers.each{ |k,l|
 			l.each{|o|
-				@screen.put(*o.xy,o.char,color:o.color);
+				@screen.write(*o.xy,o.char,color:o.color);
 			}
 		}
 	end

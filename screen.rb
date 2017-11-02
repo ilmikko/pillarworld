@@ -35,20 +35,28 @@ class Screen < Evented
                 $console.debug("Resized to #{@dimensions}");
                 self.trigger(:resize);
         end
+	def printf(*args)
+		$stdout.write(*args);
+	end
 
         # -------------------------- GRAPHICS COMMANDS--------------------------
 
-        def write(str='')
-		$stdout.write(str);
+        def put(x,y,str)
+
+		h,w=@dimensions;
+
+		return if (x<0||y<0||x>w||y>h);
+
+                x=(x+1).round.to_i;
+                y=(y+1).round.to_i;
+
+                $stdout.write("\033[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
         end
 
-        def put(x,y,str,color: nil)
+        def write(x,y,str,color: nil)
                 h,w=@dimensions;
 
-                if (x>=w||y>=h||y<0)
-                        # Starting point out of bounds
-                        return;
-                end
+		return if (x<-str.length+1||x>=w||y>=h||y<0); # Starting point out of bounds
 
                 # under/overflow prevention
                 if (x<0)
@@ -90,7 +98,7 @@ class Screen < Evented
                                 end
 
                                 # Everyone needs some rest
-                                Kernel::sleep(1.0/30.0);
+                                Kernel::sleep(1.0/60.0);
                         end
                 }
         end

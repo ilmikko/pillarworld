@@ -46,50 +46,39 @@ class UINode
 	def id=(v);@id=v;end
 
         # position: [x,y] in pixels
-        def xy;@xy;end
+	def xy;[self.x,self.y];end
 	def x;@xy[0];end
 	def y;@xy[1];end
 
-	def x=(v)
+	def x=(v);
 		@xy[0]=v;
-		change;
 	end
-	def y=(v)
+	def y=(v);
 		@xy[1]=v;
-		change;
 	end
+
 	def xy=(xy);
 		self.x=xy[0];
 		self.y=xy[1];
-		change;
 	end
 
         # size: [w,h] in pixels
-        def wh;@wh;end
-
+	def wh;[self.w,self.h];end
         def w;@wh[0];end
         def h;@wh[1];end
 
 	def w=(v);
+		v=@preferredwh[0] if !@preferredwh[0].nil? && v>@preferredwh[0];
 		@wh[0]=v;
-		change;
 	end
 	def h=(v);
+		v=@preferredwh[1] if !@preferredwh[1].nil? && v>@preferredwh[1];
 		@wh[1]=v;
-		change;
 	end
+
 	def wh=(wh);
 		self.w=wh[0];
 		self.h=wh[1];
-	end
-
-	def xyw=(xyw);
-		self.xy=xyw[0..1];
-		self.w=xyw[2];
-	end
-	def xyh=(xyh);
-		self.xy=xyh[0..1];
-		self.h=xyh[2];
 	end
 
 	def xywh=(xywh);
@@ -99,10 +88,11 @@ class UINode
 
 	def change;end # Hook for something has changed
 
-        def initialize(id: nil)
+        def initialize(id: nil,width:nil,height:nil)
 		@id=id;
                 @xy=[0,0];
                 @wh=[0,0];
+		@preferredwh=[width,height];
         end
 
         # Redraw: when there is a need for a redraw (for example, the text has changed)
@@ -121,10 +111,10 @@ class UIText < UINode
                 @length=v.length;
                 # We can know the size of this element by the length of the text
                 # UIText never spans multiple lines
+		@preferredwh[0]=@length;
 		self.w=@length;
+		self.change;
         end
-
-	def h=(v);end # h always stays 1
 
 	def crop;@crop;end
 	def cropx(cl=0,cr=0)
@@ -167,6 +157,7 @@ class UIText < UINode
 		@crop=[0,0,0];
 		@visible=true;
 		@wh=[0,1];
+		@preferredwh=[0,1];
 
 		self.color=color;
                 self.text=text;
@@ -179,6 +170,7 @@ class UIPass < UINode
 
 	def change;
 		@child.xywh=[*@xy,*@wh];
+		@child.change;
 	end
 
 	def redraw;
@@ -191,9 +183,81 @@ class UIPass < UINode
 	end
 end
 
-class UIBorder < UIPass
+# this might replace UITextArea and textAlign in UIParagraph (if we get paragraph to not use all of its space)
+class UIAlign < UIPass
+	def horizontalalign;@horizontalalign;end
+	@@verticalaligns={
+		top:0,
+		center:0.5,
+		bottom:1
+	}
+	@@horizontalaligns={
+		left:0,
+		center:0.5,
+		right:1
+	}
+
+	def verticalalign;
+		@@verticalaligns.key(@verticalalign);
+	end
+	def verticalalign=(v);
+		@verticalalign=@@verticalaligns[v];
+	end
+
+	def horizontalalign;
+		@@horizontalaligns.key(@horizontalalign);
+	end
+	def horizontalalign=(v);
+		@horizontalalign=@@horizontalaligns[v];
+	end
+
+	def change;
+		w,h=@wh;
+		x,y=@xy;
+
+		@child.wh=@wh;
+		@child.change;
+		# calc aligns, position
+		cw,ch=@child.wh;
+		
+		ha=(w-cw)*@horizontalalign;
+		va=(h-ch)*@verticalalign;
+
+		@child.xy=[x+ha,y+va];
+		@child.change;
+	end
+
+	def initialize(horizontalalign: :center, verticalalign: :center,**_)
+		super(**_);
+		self.horizontalalign=horizontalalign;
+		self.verticalalign=verticalalign;
+	end
+end
+
+class UIPadding < UIPass
+	@@default_padding=1;
+
+	def padding;@padding;end
+	def padding=(v);@padding=v;end
+
+	def change;
+		w,h=@wh;
+		x,y=@xy;
+
+		width=@padding;
+		@child.xywh=[x+width,y+width,w-width*2,h-width*2];
+		@child.change;
+	end
+
+	def initialize(padding:1,**_)
+		super(**_);
+
+		self.padding=padding;
+	end
+end
+
+class UIBorder < UIPadding
 	@@default_characters='─│┌┐└┘';
-	@@default_width=1;
 
 	def characters;@characters;end
 	def characters=(v);
@@ -206,16 +270,6 @@ class UIBorder < UIPass
 			v=v[0..1].split(//).map{|c|c<<c}.join+v[2..5] if v.length==6;
 		end
 		@characters=v;
-	end
-
-	def borderwidth;@width;end
-	def borderwidth=(v);@width=v;end
-
-	def change;
-		w,h=@wh;
-		x,y=@xy;
-
-		@child.xywh=[x+@width,y+@width,w-@width*2,h-@width*2];
 	end
 
 	def redraw;
@@ -255,10 +309,9 @@ class UIBorder < UIPass
 		@@canvas.endcolor;
 	end
 
-	def initialize(width: @@default_width,characters: @@default_characters,color: @@default_color,**_)
+	def initialize(characters: @@default_characters,color: @@default_color,**_)
 		super(**_);
 
-		self.borderwidth=width;
 		self.color=color;
 		self.characters=characters;
 	end
@@ -284,6 +337,7 @@ class UIArray < UINode
 
 		@children.each{ |c|
 			c.xywh=[*@xy,*@wh];
+			c.change;
 		}
 	end
 
@@ -335,6 +389,8 @@ class UIParagraph < UIArray
 		linewidth=0;
 		linec=0;
 
+		@preferredwh=[0,0];
+
 		ox=0;
 		oy=0;
 
@@ -372,11 +428,14 @@ class UIParagraph < UIArray
 			end
 
 			c.xy=[x+ox+alignoffset,y+oy];
+			c.change;
 
 			ox+=c.w;
+
+			@preferredwh[0]=ox if ox>@preferredwh[0];
 		end
 
-		@wh[1]=oy+1;
+		@preferredwh[1]=oy+1;
 	end
 
         def initialize(*append,textalign: :left,**_)
@@ -415,6 +474,8 @@ class UITextArea < UIArray
 
 			# Remove oy from h to state the available height for the text elements
 			c.xywh=[x,y+oy,w,h-oy];
+			c.change;
+
 			oy+=c.h;
 			#c.y=10;#y+oy;
 		end
@@ -425,6 +486,7 @@ class UITextArea < UIArray
 
 		@children.each{|c|
 			c.y+=verticaloffset;
+			c.change;
 		}
 	end
 	def initialize(verticalalign: :top,**_)
@@ -436,7 +498,6 @@ end
 class UIFlex < UIArray
         def append(*items)
                 super(*items);
-		change;
                 self;
         end
 
@@ -455,6 +516,7 @@ class UIFlex < UIArray
 				for i in 0...len
 					c=@children[i];
 					c.xywh=[x+part*i,y,part,h];
+					c.change;
 				end
 			else
 				part=h/len;
@@ -462,6 +524,7 @@ class UIFlex < UIArray
 				for i in 0...len
 					c=@children[i];
 					c.xywh=[x,y+part*i,w,part];
+					c.change;
 				end
 			end
 		end
@@ -482,6 +545,7 @@ class UI < UIArray
 
 	def reflow()
 		self.xywh=[0,0,*@@screen.dimensions];
+		self.change;
 	end
 
         def show(*elems)
