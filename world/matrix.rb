@@ -45,16 +45,20 @@ class Box
 	def draw()
 		x,y,z=@x,@y,@z;
 
-		put(x-@w/2,y-@h/2,z,'1')
-		put(x+@w/2,y-@h/2,z,'2')
-		put(x-@w/2,y+@h/2,z,'3')
-		put(x+@w/2,y+@h/2,z,'4')
+		put(x-@w/2,y-@h/2,z-@d/2,'1')
+		put(x-@w/2,y-@h/2,z+@d/2,'9')
+		put(x+@w/2,y-@h/2,z-@d/2,'2')
+		put(x+@w/2,y-@h/2,z+@d/2,'8')
+		put(x-@w/2,y+@h/2,z-@d/2,'3')
+		put(x-@w/2,y+@h/2,z+@d/2,'7')
+		put(x+@w/2,y+@h/2,z-@d/2,'4')
+		put(x+@w/2,y+@h/2,z+@d/2,'6')
 
 		put(x,y,z,'X');
 	end
-	def initialize(x:0,y:0,z:0,w:10,h:10)
+	def initialize(x:0,y:0,z:0,w:10,h:10,d:10)
 		@x,@y,@z=x,y,z;
-		@w,@h=w,h;
+		@w,@h,@d=w,h,d;
 		@matrix=Matrix.identity(3);
 	end
 end
