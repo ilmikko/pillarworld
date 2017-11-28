@@ -1,6 +1,4 @@
 # UI handler
-$debug=true;
-
 require_relative('../console.rb');
 require_relative('canvas');
 

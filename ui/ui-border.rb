@@ -27,6 +27,9 @@ class UIBorder < UIPadding
 		# change color
 		print(@color) if @color;
 
+		x=x.round.to_i;
+		y=y.round.to_i;
+
 		# Draw lines
 
 		# top
