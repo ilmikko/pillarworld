@@ -7,8 +7,8 @@ require('./canvas.rb');
 require('./ui-animation.rb');
 
 class UINode
-        # Public functions every atom should have
-        @@screen=$screen;
+	# Public functions every atom should have
+	@@screen=$screen;
 	@@canvas=$canvas;
 
 	# Definitions that are across all objects, or "common sense"
@@ -17,47 +17,47 @@ class UINode
 		blue:"\e[034m"
 	};
 
-        def parent;@parent;end
-        def parent=(v);@parent=v;end
+	def parent;@parent;end
+	def parent=(v);@parent=v;end
 
 	def id;@id;end
 	def id=(v);@id=v;end
 
-        # size: [w,h] in pixels
-        def wh;@wh;end
-        def wh=(v);@wh=v;end
+	# size: [w,h] in pixels
+	def wh;@wh;end
+	def wh=(v);@wh=v;end
 
-        def width;@wh[0];end
-        def height;@wh[1];end
+	def width;@wh[0];end
+	def height;@wh[1];end
 
-        # position: [x,y] in pixels
-        def xy;@xy;end
-        def xy=(v);@xy=v;end
+	# position: [x,y] in pixels
+	def xy;@xy;end
+	def xy=(v);@xy=v;end
 
-        # Reflow: when our size and position must change
-        def reflow(x,y,w,h)
+	# Reflow: when our size and position must change
+	def reflow(x,y,w,h)
 		$console.log("REFLOW: #{self} #{x},#{y},#{w},#{h}");
-                @xy=[x,y];
-                @wh=[w,h];
-        end
+		@xy=[x,y];
+		@wh=[w,h];
+	end
 
-        def initialize(id: nil)
+	def initialize(id: nil)
 		@id=id;
-                @xy=[0,0];
-                @wh=[0,0];
-        end
+		@xy=[0,0];
+		@wh=[0,0];
+	end
 
-        # Redraw: when there is a need for a redraw (for example, the text has changed)
-        # Old update
-        def redraw
-                $console.warn("Redraw fallback function");
-        end
+	# Redraw: when there is a need for a redraw (for example, the text has changed)
+	# Old update
+	def redraw
+		$console.warn("Redraw fallback function");
+	end
 end
 
 class UIText < UINode
 	@@default_color=:default;
 
-        def length;@length;end
+	def length;@length;end
 
 	def color;@color;end
 	def color=(v);
@@ -68,14 +68,14 @@ class UIText < UINode
 		end
 	end
 
-        def text;@text;end
-        def text=(v);
-                @text=v;
-                @length=v.length;
-                # We can know the size of this element by the length of the text
-                # UIText never spans multiple lines
-                @wh=[@length,1];
-        end
+	def text;@text;end
+	def text=(v);
+		@text=v;
+		@length=v.length;
+		# We can know the size of this element by the length of the text
+		# UIText never spans multiple lines
+		@wh=[@length,1];
+	end
 
 	def crop;@crop;end
 	def cropx(cl=0,cr=0)
@@ -91,7 +91,7 @@ class UIText < UINode
 		@xy=[x,y];
 	end
 
-        def redraw
+	def redraw
 		return if (@crop[2]>0); # Return if y crop is >0
 
 		xy=@xy;
@@ -102,66 +102,66 @@ class UIText < UINode
 		text=text[cl...len-cr]||'';
 		xy[0]+=cl; # Offset the left start to compensate for the crop
 
-                @@canvas.draw(*xy, text, color:@color);
-        end
+		@@canvas.draw(*xy, text, color:@color);
+	end
 
-        def initialize(text='',color: @@default_color,**_)
-                super(**_);
+	def initialize(text='',color: @@default_color,**_)
+		super(**_);
 
 		@crop=[0,0];
 		@visible=true;
 
 		self.color=color;
-                self.text=text;
-        end
+		self.text=text;
+	end
 end
 
 class UIArray < UINode
-        def append(*items)
-                this=self;
-                items.each{ |c|
-                        @children.push(c);
-                        c.parent=this;
-                }
+	def append(*items)
+		this=self;
+		items.each{ |c|
+			@children.push(c);
+			c.parent=this;
+		}
 
-                self;
-        end
-        def empty
-                @children.clear;
-        end
+		self;
+	end
+	def empty
+		@children.clear;
+	end
 
-        def reflow(x,y,w,h)
-                super(x,y,w,h);
+	def reflow(x,y,w,h)
+		super(x,y,w,h);
 
 		# Default UIArray behavior is to reflow directly to the children,
 		# thus "ignoring" the array's existence.
 
-                @children.each{ |c|
-                        c.reflow(x,y,w,h);
-                }
-        end
+		@children.each{ |c|
+			c.reflow(x,y,w,h);
+		}
+	end
 
-        def redraw
-                @children.each{ |c|
-                        c.redraw;
-                }
-        end
+	def redraw
+		@children.each{ |c|
+			c.redraw;
+		}
+	end
 
-        def initialize(**_)
-                super(**_);
+	def initialize(**_)
+		super(**_);
 
-                @children=[];
-        end
+		@children=[];
+	end
 end
 
 class UIParagraph < UIArray
-        def textalign;@textalign;end
-        def textalign=(v);
-                @textalign=v;
-        end
+	def textalign;@textalign;end
+	def textalign=(v);
+		@textalign=v;
+	end
 
 	def reflow(x,y,w,h)
-                len=@children.length;
+		len=@children.length;
 
 		ox=0;
 		oy=0;
@@ -175,11 +175,11 @@ class UIParagraph < UIArray
 			ar=1;
 		end
 
-                $console.log("REFLOW PARAGRAPH: #{self} #{x},#{y},#{w},#{h}");
+		$console.log("REFLOW PARAGRAPH: #{self} #{x},#{y},#{w},#{h}");
 
 		tick=0; # TODO: Better name for the tick. Tick is the method of remembering when to calc a new line's width.
 
-                for i in 0...len
+		for i in 0...len
 			c=@children[i];
 			if (i==tick)
 				# calc the next line width
@@ -199,7 +199,7 @@ class UIParagraph < UIArray
 
 			textalign = (w-lw) * ar;
 
-                        # next line in word wrap
+			# next line in word wrap
 			if (ox+c.width>lw)
 				ox=0;
 				oy+=1;
@@ -226,12 +226,12 @@ class UIParagraph < UIArray
 
 			c.reflow(x+ox+textalign,y+oy,w,1);
 
-                        ox+=c.width;
-                end
+			ox+=c.width;
+		end
 
 		@xy=x,y;
 		@wh=wh;
-        end
+	end
 
 	def append(*stuff)
 		# We accept .append("text") instead of .append(UIText.new('text')) - they're equivalent.
@@ -249,24 +249,24 @@ class UIParagraph < UIArray
 		super(*arr);
 	end
 
-        def initialize(*append,textalign: :left,**_)
-                super(**_);
+	def initialize(*append,textalign: :left,**_)
+		super(**_);
 
 		self.textalign=textalign;
 		self.append(*append);
-        end
+	end
 end
 
 class UIFlex < UIArray
-        def append(*items)
-                super(*items);
-                # reflow with the same parameters
-                reflow(*@xy,*@wh);
-                self;
-        end
+	def append(*items)
+		super(*items);
+		# reflow with the same parameters
+		reflow(*@xy,*@wh);
+		self;
+	end
 
-        def reflow(x,y,w,h)
-                len=@children.length;
+	def reflow(x,y,w,h)
+		len=@children.length;
 
 		# Don't need to reflow
 		# If you don't have any children
@@ -291,12 +291,12 @@ class UIFlex < UIArray
 				end
 			end
 		end
-        end
+	end
 
 	def initialize(direction: :row,**_)
-                super(**_);
-                @direction=direction;
-        end
+		super(**_);
+		@direction=direction;
+	end
 end
 
 class UITextArea < UIArray
@@ -319,33 +319,33 @@ class UITextArea < UIArray
 end
 
 class UI < UIFlex
-        def update
+	def update
 		reflow();
-                @@screen.clear();
-                redraw();
-        end
-
-	def reflow(*)
-                super(0,0,*@@screen.dimensions);
+		@@screen.clear();
+		redraw();
 	end
 
-        def show(*elems)
-                $console.debug("UI: Show: #{elems}");
-                empty;
-                append(*elems);
-                update;
-        end
+	def reflow(*)
+		super(0,0,*@@screen.dimensions);
+	end
 
-        def initialize()
-                super();
+	def show(*elems)
+		$console.debug("UI: Show: #{elems}");
+		empty;
+		append(*elems);
+		update;
+	end
 
-                @parent=self;
+	def initialize()
+		super();
 
-                this=self;
-                @@screen.on(:resize,->{
-                        this.update;
-                });
-        end
+		@parent=self;
+
+		this=self;
+		@@screen.on(:resize,->{
+			this.update;
+		});
+	end
 end
 
 $ui=UI.new();
