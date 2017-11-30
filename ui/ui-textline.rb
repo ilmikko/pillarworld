@@ -22,7 +22,10 @@ class UITextLine < UIArray
 		if maxw==0
 			# Width is 0, word wrap is useless.
 			# Just don't show the children.
-			# TODO: Hide yo kids
+			@children.each{|c|
+				c.w=0;
+				c.change;
+			}
 			return;
 		end
 
@@ -36,8 +39,18 @@ class UITextLine < UIArray
 				# Conveniently, offset now contains the width of the current line. Check if it is the width of our element.
 				widthmax=offset if offset>widthmax;
 				offset=0;
+				if line>=maxh
+					# No more lines in the element.
+					for j in i...@children.length
+						c=@children[j];
+						c.h=0;
+						c.change;
+					end
+					break;
+				end
 			end
 			c.xy=[x+offset,y+line];
+			c.wh=[maxw,1];
 			c.change;
 			offset+=c.w;
 		end
