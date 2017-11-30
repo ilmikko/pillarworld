@@ -13,6 +13,7 @@ require_relative('ui-border');
 require_relative('ui-paragraph');
 require_relative('ui-textarea');
 require_relative('ui-flex');
+require_relative('ui-stack');
 
 class UI < UIArray
 	def update

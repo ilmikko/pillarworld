@@ -3,7 +3,7 @@ require('./ui.rb');
 $ui.show(
 	UIPadding.new(padding: 8).append(
 		UIBorder.new().append(
-			UIFlex.new.append(
+			UIStack.new(direction: :col).append(
 				UITextLine.new("This is a single line of text."),
 				UITextLine.new("Here's another, which is hopefully a bit more sophisticated.")
 			)
