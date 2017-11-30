@@ -38,6 +38,7 @@ class UITextLine < UIArray
 				offset=0;
 			end
 			c.xy=[x+offset,y+line];
+			c.change;
 			offset+=c.w;
 		end
 
