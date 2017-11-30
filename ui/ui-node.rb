@@ -31,8 +31,8 @@ class UINode
 	# Redraw: when there is a need for a redraw (for example, the text has changed)
 	# Old update
 	def redraw
-		if !@write.nil? && !@canvas.nil?
-			@canvas.write(*@xy,@write,color:@color);
+		if !@write.nil? && !canvas.nil?
+			canvas.write(*@xy,@write,color:@color);
 		end
 	end
 end

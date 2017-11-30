@@ -1,6 +1,6 @@
 class UINode
 	@@debugcolors=(41..47).to_a+(100..107).to_a;
-	@@debug=true;
+	@@debug=false;
 	def redraw()
 		col=@@debugcolors.sample;
 		if @@debug
@@ -13,8 +13,8 @@ class UINode
 				canvas.write(*@xy,@write,color:"\e[#{col}m");
 			end
 		else
-			if !@write.nil? && !@canvas.nil?
-				@canvas.write(*@xy,@write,color:@color);
+			if !@write.nil? && !canvas.nil?
+				canvas.write(*@xy,@write,color:@color);
 			end
 		end
 	end
