@@ -3,7 +3,6 @@ class UINode
 	@@debug=false;
 	def redraw()
 		col=@@debugcolors.sample;
-		$console.log("My write property is #{@write}");
 		if @write.nil?
 			# Generate a thing to write
 			canvas.write(*@xy,'<',color:"\e[#{col}m");

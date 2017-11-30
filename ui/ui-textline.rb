@@ -14,12 +14,43 @@ class UITextLine < UIArray
 
 	def change
 		x,y=@xy;
+		maxw,maxh=@wh;
+		widthmax=0;
+
+		$console.log("#{maxw} #{maxh}");
+
+		if maxw==0
+			# Width is 0, word wrap is useless.
+			# Just don't show the children.
+			# TODO: Hide yo kids
+			return;
+		end
+
+		line=0;
 		offset=0;
-		@children.each{|c|
-			c.xy=[x+offset,y];
+		# Fit children in maxw,maxh (word wrap)
+		for i in 0...@children.length
+			c=@children[i];
+			if offset>=maxw || offset+c.w>=maxw
+				line+=1;
+				# Conveniently, offset now contains the width of the current line. Check if it is the width of our element.
+				widthmax=offset if offset>widthmax;
+				offset=0;
+			end
+			c.xy=[x+offset,y+line];
 			offset+=c.w;
-			c.change;
-		}
+		end
+
+		widthmax=offset if offset>widthmax;
+
+		# Scale us according to our content (don't use more space than we have to)
+		@wh=[widthmax,line+1];
+		$console.log("Ahoy! I just set my wh to #{@wh}");
+	end
+
+	def redraw
+		$console.log("Heya! I'm redrawing with #{@wh}");
+		super;
 	end
 
 	def initialize(words='')
