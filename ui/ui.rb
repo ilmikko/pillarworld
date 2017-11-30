@@ -3,8 +3,9 @@ require_relative('../console.rb');
 require_relative('canvas');
 
 require_relative('ui-node');
-require_relative('ui-text');
 require_relative('ui-array');
+require_relative('ui-text');
+require_relative('ui-textline');
 require_relative('ui-pass');
 require_relative('ui-align');
 require_relative('ui-padding');
