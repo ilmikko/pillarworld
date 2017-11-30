@@ -29,6 +29,7 @@ class UIArray < UINode
 	def redraw
 		super;
 
+		$console.log("Redrawing #{self} and its' #{@children.length} children...");
 		@children.each{ |c|
 			c.redraw;
 		}
