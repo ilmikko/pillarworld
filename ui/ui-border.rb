@@ -3,19 +3,88 @@
 # An UIPadding with a visible display.
 #
 class UIBorder < UIPadding
-	@@default_characters='─│┌┐└┘';
+	# Lines
+	@@default_lines='─│─│'.split(//);
+	def line_n;@lines[0];end
+	def line_n=(v);@lines[0]=v;end
+	def line_e;@lines[1];end
+	def line_e=(v);@lines[1]=v;end
+	def line_s;@lines[2];end
+	def line_s=(v);@lines[2]=v;end
+	def line_w;@lines[3];end
+	def line_w=(v);@lines[3]=v;end
 
-	def characters;@characters;end
-	def characters=(v);
-		v=@@default_characters if !v||v.length==0;
-		raise SyntaxError('Too many characters for border!') if v.length>8;
-		while v.length<8
-			v<<v if v.length==1;
-			v<<v[-1] if v.length==3||v.length==5||v.length==7;
-			v=v.split(//).map{|c|c<<c}.join if v.length==2||v.length==4;
-			v=v[0..1].split(//).map{|c|c<<c}.join+v[2..5] if v.length==6;
-		end
-		@characters=v;
+	# Corners
+	@@default_corners='┌┐└┘'.split(//);
+	def corner_nw;@corners[0];end
+	def corner_nw=(v);@corners[0]=v;end
+	def corner_ne;@corners[1];end
+	def corner_ne=(v);@corners[1]=v;end
+	def corner_sw;@corners[2];end
+	def corner_sw=(v);@corners[2]=v;end
+	def corner_se;@corners[3];end
+	def corner_se=(v);@corners[3]=v;end
+
+	# Double straight lines (where the border is only 1 char long)
+	@@default_doubles='─│'.split(//);
+	def double_h;@doubles[0];end
+	def double_h=(v);@doubles[0]=v;end
+	def double_v;@doubles[1];end
+	def double_v=(v);@doubles[1]=v;end
+
+	# Caps (where the border is only 1 char long) and dot (1x1)
+	@@default_caps='╷╶╵╴∙'.split(//);
+	def cap_n;@caps[0];end
+	def cap_n=(v);@caps[0]=v;end
+	def cap_e;@caps[1];end
+	def cap_e=(v);@caps[1]=v;end
+	def cap_s;@caps[2];end
+	def cap_s=(v);@caps[2]=v;end
+	def cap_w;@caps[3];end
+	def cap_w=(v);@caps[3]=v;end
+
+	def dot;@caps[4];end
+	def dot=(v);@caps[4]=v;end
+
+	# Line shorthands
+	def line_h=(v);
+		self.double_h=
+		self.line_n=
+		self.line_s=v;
+	end
+	def line_v=(v);
+		self.double_v=
+		self.line_e=
+		self.line_w=v;
+	end
+
+	# Corner shorthand
+	def corner=(v);
+		self.cap_n=
+		self.cap_e=
+		self.cap_s=
+		self.cap_w=
+		self.corner_nw=
+		self.corner_ne=
+		self.corner_sw=
+		self.corner_se=v;
+	end
+
+	# Line shorthand
+	def line=(v);
+		self.line_h=
+		self.line_v=v;
+	end
+
+	def border=(v);
+		self.corner_nw=
+		self.corner_ne=
+		self.corner_sw=
+		self.corner_se=
+		self.line_n=
+		self.line_e=
+		self.line_s=
+		self.line_w=v;
 	end
 
 	def redraw;
@@ -38,35 +107,36 @@ class UIBorder < UIPadding
 			# Full draw
 		
 			# Draw lines
-			# top
-			@@canvas.hline(x+cornerradius,y,w-cornerradius*2,char: @characters[0]);
-			# bottom
-			@@canvas.hline(x+cornerradius,y+h-1,w-cornerradius*2,char: @characters[1]);
-			# left
-			@@canvas.vline(x,y+cornerradius,h-cornerradius*2,char: @characters[2]);
-			# right
-			@@canvas.vline(x+w-1,y+cornerradius,h-cornerradius*2,char: @characters[3]);
+			# n
+			@@canvas.hline(x+cornerradius,y,w-cornerradius*2,char: @lines[0]);
+			# e
+			@@canvas.vline(x+w-1,y+cornerradius,h-cornerradius*2,char: @lines[1]);
+			# s
+			@@canvas.hline(x+cornerradius,y+h-1,w-cornerradius*2,char: @lines[2]);
+			# w
+			@@canvas.vline(x,y+cornerradius,h-cornerradius*2,char: @lines[3]);
 
 			# Draw corners
 			# nw
-			@@canvas.put(x,y,@characters[4]);
+			@@canvas.put(x,y,@corners[0]);
 			# ne
-			@@canvas.put(x+w-1,y,@characters[5]);
+			@@canvas.put(x+w-1,y,@corners[1]);
 			# sw
-			@@canvas.put(x,y+h-1,@characters[6]);
+			@@canvas.put(x,y+h-1,@corners[2]);
 			# se
-			@@canvas.put(x+w-1,y+h-1,@characters[7]);
+			@@canvas.put(x+w-1,y+h-1,@corners[3]);
+		elsif h==1 && w>1
+			# Do not draw corners, draw caps
+			@@canvas.hline(x+1,y,w-2,char: @doubles[0]);
+			@@canvas.put(x,y,@caps[1])
+			@@canvas.put(x+w-1,y,@caps[3])
 		elsif w==1 && h>1
 			# Do not draw corners, draw caps
-			@@canvas.vline(x,y+1,h-2,char: "│");
-			@@canvas.put(x,y,"╷")
-			@@canvas.put(x,y+h-1,"╵")
-		elsif h==1 && w>1
-			@@canvas.hline(x+1,y,w-2,char: "─");
-			@@canvas.put(x,y,"╶")
-			@@canvas.put(x+w-1,y,"╴")
+			@@canvas.vline(x,y+1,h-2,char: @doubles[1]);
+			@@canvas.put(x,y,@caps[0])
+			@@canvas.put(x,y+h-1,@caps[2])
 		elsif w==1 && h==1
-			@@canvas.put(x,y,"∙");
+			@@canvas.put(x,y,@caps[4]);
 		end
 		# Else draw nothing
 
@@ -77,10 +147,81 @@ class UIBorder < UIPadding
 		super; # remember to draw the child
 	end
 
-	def initialize(characters:@@default_characters,color:nil,**_)
+	# Use ww instead of w because w is width
+	def initialize(border:nil, corner:nil, line:nil, horizontal:nil, vertical:nil,	# Shorthands
+		       nw:nil, ne:nil, sw:nil, se:nil,  				# Corners
+		       nn:nil, ss:nil, ee:nil, ww:nil,  				# Lines
+		       dh:nil, dv:nil, 							# Doubles
+		       cn:nil, cs:nil, ce:nil, cw:nil,					# Caps
+		       dot:nil,								# Dot
+		       color:nil, **_)
 		super(**_);
 
+		@lines=@@default_lines.dup;
+		@corners=@@default_corners.dup;
+		@doubles=@@default_doubles.dup;
+		@caps=@@default_caps.dup;
+
+		# The border consists of the following 'elements':
+		#
+		# border:
+		# 	corner:
+		# 		nw:
+		# 			Northwest corner
+		# 		ne:
+		# 			Northeast corner
+		# 		sw:
+		# 			Southwest corner
+		# 		se:
+		# 			Southeast corner
+		# 	line:
+		# 		horizontal:
+		#	 		nn:
+		#	 			North line
+		#	 		ss:
+		#	 			South line
+		#	 	vertical:
+		# 			ee:
+		# 				East line
+		# 			ww:
+		# 				West line
+
+		# Going from large to small
+		self.border=border if !border.nil?;
+
+		# Shorthands
+		self.corner=corner if !corner.nil?;
+		self.line=line if !line.nil?;
+
+		# Line shorthands
+		self.line_h=horizontal if !horizontal.nil?;
+		self.line_v=vertical if !vertical.nil?;
+
+		# Doubles
+		self.double_h=dh if !dh.nil?;
+		self.double_v=dv if !dv.nil?;
+
+		# Caps
+		self.cap_n=cn if !cn.nil?;
+		self.cap_s=cs if !cs.nil?;
+		self.cap_e=ce if !ce.nil?;
+		self.cap_w=cw if !cw.nil?;
+		self.dot=dot if !dot.nil?;
+
+		# Corners
+		self.corner_nw=nw if !nw.nil?;
+		self.corner_ne=ne if !ne.nil?;
+		self.corner_sw=sw if !sw.nil?;
+		self.corner_se=se if !se.nil?;
+
+		# Lines
+		self.line_n=nn if !nn.nil?;
+		self.line_s=ss if !ss.nil?;
+		self.line_e=ee if !ee.nil?;
+		self.line_w=ww if !ww.nil?;
+
+		$console.log(@nesw);
+
 		self.color=color;
-		self.characters=characters;
 	end
 end
