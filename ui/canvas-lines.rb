@@ -1,5 +1,6 @@
 class Canvas
 	def hline(x,y,w,char: '#')
+		return if !char.is_a? String or char.empty?;
 		w=w.round.to_i;
 		if (w<0)
 			put(x+w+1,y,char*(-w));
@@ -9,6 +10,7 @@ class Canvas
 	end
 
 	def vline(x,y,h,char: '#')
+		return if !char.is_a? String or char.empty?;
 		y=y.round.to_i;
 		h=h.round.to_i;
 		# If someone has a better solution let me know
