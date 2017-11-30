@@ -19,7 +19,15 @@ class UITextLine < UIArray
 
 		$console.log("#{maxw} #{maxh}");
 
-		if maxw==0
+		if maxh<=0
+			# Height is 0, word wrap is useless.
+			# Don't show the children.
+			@children.each{|c|
+				c.h=0;
+				c.change;
+			}
+			return;
+		elsif maxw<=0
 			# Width is 0, word wrap is useless.
 			# Just don't show the children.
 			@children.each{|c|

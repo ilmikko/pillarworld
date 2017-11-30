@@ -21,7 +21,6 @@ class UIStack < UIArray
 		else
 			for i in 0...len
 				c=@children[i];
-				c.xy=[x,y+offset];
 				c.xywh=[x,y+offset,w,h-offset];
 				c.change;
 				offset+=c.h;
@@ -29,7 +28,7 @@ class UIStack < UIArray
 		end
 	end
 
-	def initialize(direction: :row,**_)
+	def initialize(direction: :col,**_)
 		super(**_);
 		@direction=direction;
 	end
