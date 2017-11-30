@@ -27,29 +27,49 @@ class UIBorder < UIPadding
 		# change color
 		print(@color) if @color;
 
+		# Even if it's 1.5 cells, we can only use the 1
+		w=w.floor.to_i;
+		h=h.floor.to_i;
+
 		x=x.round.to_i;
 		y=y.round.to_i;
 
-		# Draw lines
+		if w>1 && h>1
+			# Full draw
+		
+			# Draw lines
+			# top
+			@@canvas.hline(x+cornerradius,y,w-cornerradius*2,char: @characters[0]);
+			# bottom
+			@@canvas.hline(x+cornerradius,y+h-1,w-cornerradius*2,char: @characters[1]);
+			# left
+			@@canvas.vline(x,y+cornerradius,h-cornerradius*2,char: @characters[2]);
+			# right
+			@@canvas.vline(x+w-1,y+cornerradius,h-cornerradius*2,char: @characters[3]);
 
-		# top
-		@@canvas.hline(x+cornerradius,y,w-cornerradius*2,char: @characters[0]);
-		# bottom
-		@@canvas.hline(x+cornerradius,y+h-1,w-cornerradius*2,char: @characters[1]);
-		# left
-		@@canvas.vline(x,y+cornerradius,h-cornerradius*2,char: @characters[2]);
-		# right
-		@@canvas.vline(x+w-1,y+cornerradius,h-cornerradius*2,char: @characters[3]);
+			# Draw corners
+			# nw
+			@@canvas.put(x,y,@characters[4]);
+			# ne
+			@@canvas.put(x+w-1,y,@characters[5]);
+			# sw
+			@@canvas.put(x,y+h-1,@characters[6]);
+			# se
+			@@canvas.put(x+w-1,y+h-1,@characters[7]);
+		elsif w==1 && h>1
+			# Do not draw corners, draw caps
+			@@canvas.vline(x,y+1,h-2,char: "│");
+			@@canvas.put(x,y,"╷")
+			@@canvas.put(x,y+h-1,"╵")
+		elsif h==1 && w>1
+			@@canvas.hline(x+1,y,w-2,char: "─");
+			@@canvas.put(x,y,"╶")
+			@@canvas.put(x+w-1,y,"╴")
+		elsif w==1 && h==1
+			@@canvas.put(x,y,"∙");
+		end
+		# Else draw nothing
 
-		# Draw corners
-		# nw
-		@@canvas.put(x,y,@characters[4]);
-		# ne
-		@@canvas.put(x+w-1,y,@characters[5]);
-		# sw
-		@@canvas.put(x,y+h-1,@characters[6]);
-		# se
-		@@canvas.put(x+w-1,y+h-1,@characters[7]);
 
 		# Reset color
 		print("\e[m") if @color;
