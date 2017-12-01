@@ -19,9 +19,6 @@ class UIParagraph < UIArray
 		@textalign=@@textaligns[v];
 	end
 
-	def change
-	end
-
 	def initialize(textalign: :left,**_)
 		@wh=[10,10];
 		@preferredwh=[10,10];
