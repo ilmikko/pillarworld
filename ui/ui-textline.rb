@@ -8,6 +8,8 @@ class UITextLine < UIArray
 				else
 					raise "Error: Cannot append #{item.class} into #{self.class}";
 				end
+			else
+				item;
 			end
 		}.flatten)
 	end
