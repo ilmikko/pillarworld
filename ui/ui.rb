@@ -4,16 +4,16 @@ require_relative('canvas');
 
 require_relative('ui-node');
 require_relative('ui-array');
+require_relative('ui-align');
+require_relative('ui-stack');
+require_relative('ui-flex');
 require_relative('ui-text');
 require_relative('ui-textline');
 require_relative('ui-pass');
-require_relative('ui-align');
 require_relative('ui-padding');
 require_relative('ui-border');
-require_relative('ui-paragraph');
 require_relative('ui-textarea');
-require_relative('ui-flex');
-require_relative('ui-stack');
+require_relative('ui-paragraph');
 
 class UI < UIArray
 	def update
@@ -22,9 +22,9 @@ class UI < UIArray
 		redraw;
 	end
 
-	def reflow()
+	def reflow
 		self.xywh=[0,0,*@@canvas.wh];
-		self.change;
+		change;
 	end
 
 	def show(*elems)
