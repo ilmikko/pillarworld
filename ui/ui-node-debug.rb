@@ -1,6 +1,6 @@
 class UINode
 	@@debugcolors=(41..47).to_a+(100..107).to_a;
-	@@debug=false;
+	@@debug=true;
 	def redraw()
 		col=@@debugcolors.sample;
 		if @@debug

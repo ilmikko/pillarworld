@@ -5,8 +5,7 @@
 # Usage:
 # UIAlign.new(horizontalalign: :center, verticalalign: :center).append(...)
 #
-class UIAlign < UIPass
-	def horizontalalign;@horizontalalign;end
+class UIAlign < UIArray
 	@@verticalaligns={
 		top:0,
 		center:0.5,
@@ -52,6 +51,7 @@ class UIAlign < UIPass
 
 	def initialize(ha: nil, va: nil, horizontalalign: :center, verticalalign: :center,**_)
 		super(**_);
+
 		self.horizontalalign=ha || horizontalalign;
 		self.verticalalign=va || verticalalign;
 	end

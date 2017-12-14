@@ -12,14 +12,12 @@ class UIArray < UINode
 
 		self;
 	end
+
 	def empty
 		@children.clear;
 	end
 
 	def change
-		x,y=@xy;
-		w,h=@wh;
-
 		@children.each{ |c|
 			c.xywh=[*@xy,*@wh];
 			c.change;
