@@ -31,7 +31,7 @@ class Screen
 	def initialize
 		print("\e[?25l");
 		@onresize=[];
-		@wh=[0,0];
+		@wh=$stdin.winsize.reverse;
 
 		# New thread for resizing check
 		Thread.new{
