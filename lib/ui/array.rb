@@ -14,6 +14,7 @@ class UI::Array < UI::Node
 	end
 
 	def empty
+		$console.debug("Emptying #{self}");
 		@children.clear;
 	end
 

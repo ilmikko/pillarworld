@@ -32,6 +32,7 @@ class UI::Node
 	# Old update
 	def redraw
 		if !@write.nil? && !@@canvas.nil?
+			$console.debug("Write (no debug)");
 			@@canvas.write(*@xy,@write,color:@color);
 		end
 	end

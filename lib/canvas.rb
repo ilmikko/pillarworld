@@ -13,12 +13,15 @@ class Canvas
 		@wh[1];
 	end
 	def clear
+		$console.debug("Clearing canvas #{self}");
 		print("\e[2J");
 	end
 	def onresize(func)
 		@onresize.push(func);
 	end
+
 	def put(x,y,char)
+		$console.debug("Putting on canvas #{self}");
 		print("\e[" << (y.round.to_i+1).to_s << ';' << (x.round.to_i+1).to_s << 'H' << char.to_s);
 	end
 
