@@ -29,7 +29,7 @@ class UI
 	#######
 	
 	def initialize
-		@canvas=Canvas.new;
+		@canvas=::Canvas.new;
 		@root=UI::Root.new(@canvas);
 		@canvas.onresize(->{
 			@root.update;
@@ -49,5 +49,7 @@ require 'ui/pass';
 require 'ui/padding';
 require 'ui/border';
 require 'ui/paragraph';
+
+require 'ui/canvas';
 
 require 'ui/root';
