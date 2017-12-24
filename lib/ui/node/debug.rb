@@ -1,10 +1,9 @@
 class UI::Node
 	@@debugcolors=(41..47).to_a+(100..107).to_a;
-	@@debug=true;
 	def redraw()
 		return if @@canvas.nil?;
 		col=@@debugcolors.sample;
-		if @@debug
+		if UI.debug?
 			if @write.nil?
 				text=self.class;
 				# Generate a thing to write

@@ -6,6 +6,14 @@ class UI
 	attr_accessor :canvas;
 	attr_accessor :root;
 
+	def self.debug=(v)
+		@@debug=v;
+	end
+
+	def self.debug?
+		!!@@debug
+	end
+
 	def show(*elems)
 		$console.debug("UI: Show: #{elems}");
 		@root.empty;

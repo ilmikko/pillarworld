@@ -1,7 +1,7 @@
 require_relative('../ui');
 
 UI.new.show(
-	UI::Padding.new(padding:2).append(
+	UI::Padding.new(padding:1).append(
 		UI::Flex.new(direction: :column).append(
 			UI::Flex.new.append(
 				UI::Border.new.append(

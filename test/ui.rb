@@ -2,3 +2,5 @@
 
 require_relative('test'); # Require master test file
 require('ui');
+
+UI.debug=true;
