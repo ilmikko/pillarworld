@@ -49,94 +49,94 @@ class UIBorder < UIPadding
 	# Line shorthands
 	def line_h=(v);
 		self.double_h=
-		self.line_n=
-		self.line_s=v;
+			self.line_n=
+			self.line_s=v;
 	end
 	def line_v=(v);
 		self.double_v=
-		self.line_e=
-		self.line_w=v;
+			self.line_e=
+			self.line_w=v;
 	end
 
 	# Corner shorthand
 	def corner=(v);
 		self.cap_n=
-		self.cap_e=
-		self.cap_s=
-		self.cap_w=
-		self.corner_nw=
-		self.corner_ne=
-		self.corner_sw=
-		self.corner_se=v;
+			self.cap_e=
+			self.cap_s=
+			self.cap_w=
+			self.corner_nw=
+			self.corner_ne=
+			self.corner_sw=
+			self.corner_se=v;
 	end
 
 	# Line shorthand
 	def line=(v);
 		self.line_h=
-		self.line_v=v;
+			self.line_v=v;
 	end
 
 	def border=(v);
 		self.corner_nw=
-		self.corner_ne=
-		self.corner_sw=
-		self.corner_se=
-		self.line_n=
-		self.line_e=
-		self.line_s=
-		self.line_w=v;
+			self.corner_ne=
+			self.corner_sw=
+			self.corner_se=
+			self.line_n=
+			self.line_e=
+			self.line_s=
+			self.line_w=v;
 	end
 
 	def redraw;
 		$console.log("Border redrawing");
 		w,h=@wh;
 		x,y=@xy;
+		#$console.log("Border #{self} pos: #{@xy} size: #{@wh}");
 
-		cornerradius=1; # usually 1, shouldn't change this
 		# change color
 		print(@color) if @color;
 
-		# Even if it's 1.5 cells, we can only use the 1
-		w=w.floor.to_i;
-		h=h.floor.to_i;
-
-		x=x.round.to_i;
-		y=y.round.to_i;
+		# corners
+		nw=[x,y];
+		ne=[(x+w-1),y];
+		se=[(x+w-1),(y+h-1)];
+		sw=[x,(y+h-1)];
 
 		if w>1 && h>1
 			# Full draw
-		
+
 			# Draw lines
 			# n
-			@@canvas.hline(x+cornerradius,y,w-cornerradius*2,char: @lines[0]);
-			# e
-			@@canvas.vline(x+w-1,y+cornerradius,h-cornerradius*2,char: @lines[1]);
+			@@canvas.hline(*nw,w,char: @lines[0]);
 			# s
-			@@canvas.hline(x+cornerradius,y+h-1,w-cornerradius*2,char: @lines[2]);
+			@@canvas.hline(*sw,w,char: @lines[2]);
 			# w
-			@@canvas.vline(x,y+cornerradius,h-cornerradius*2,char: @lines[3]);
+			@@canvas.vline(*nw,h,char: @lines[3]);
+			# e
+			@@canvas.vline(*ne,h,char: @lines[1]);
 
 			# Draw corners
 			# nw
-			@@canvas.put(x,y,@corners[0]);
+			@@canvas.put(*nw,@corners[0]);
 			# ne
-			@@canvas.put(x+w-1,y,@corners[1]);
+			@@canvas.put(*ne,@corners[1]);
 			# sw
-			@@canvas.put(x,y+h-1,@corners[2]);
+			@@canvas.put(*sw,@corners[2]);
 			# se
-			@@canvas.put(x+w-1,y+h-1,@corners[3]);
+			@@canvas.put(*se,@corners[3]);
+
 		elsif h==1 && w>1
 			# Do not draw corners, draw caps
-			@@canvas.hline(x+1,y,w-2,char: @doubles[0]);
-			@@canvas.put(x,y,@caps[1])
-			@@canvas.put(x+w-1,y,@caps[3])
+			@@canvas.hline(*nw,w,char: @doubles[0]);
+			@@canvas.put(*nw,@caps[1])
+			@@canvas.put(*ne,@caps[3])
 		elsif w==1 && h>1
 			# Do not draw corners, draw caps
-			@@canvas.vline(x,y+1,h-2,char: @doubles[1]);
-			@@canvas.put(x,y,@caps[0])
-			@@canvas.put(x,y+h-1,@caps[2])
+			@@canvas.vline(*nw,h,char: @doubles[1]);
+			@@canvas.put(*nw,@caps[0])
+			@@canvas.put(*sw,@caps[2])
 		elsif w==1 && h==1
-			@@canvas.put(x,y,@caps[4]);
+			@@canvas.put(*nw,@caps[4]);
 		end
 		# Else draw nothing
 
@@ -149,12 +149,12 @@ class UIBorder < UIPadding
 
 	# Use ww instead of w because w is width
 	def initialize(border:nil, corner:nil, line:nil, horizontal:nil, vertical:nil,	# Shorthands
-		       nw:nil, ne:nil, sw:nil, se:nil,  				# Corners
-		       nn:nil, ss:nil, ee:nil, ww:nil,  				# Lines
-		       dh:nil, dv:nil, 							# Doubles
-		       cn:nil, cs:nil, ce:nil, cw:nil,					# Caps
-		       dot:nil,								# Dot
-		       color:nil, **_)
+								 nw:nil, ne:nil, sw:nil, se:nil,  				# Corners
+								 nn:nil, ss:nil, ee:nil, ww:nil,  				# Lines
+								 dh:nil, dv:nil, 							# Doubles
+								 cn:nil, cs:nil, ce:nil, cw:nil,					# Caps
+								 dot:nil,								# Dot
+								 color:nil, **_)
 		super(**_);
 
 		@lines=@@default_lines.dup;
@@ -220,7 +220,7 @@ class UIBorder < UIPadding
 		self.line_e=ee if !ee.nil?;
 		self.line_w=ww if !ww.nil?;
 
-		$console.log(@nesw);
+		#$console.log(@nesw);
 
 		self.color=color;
 	end
