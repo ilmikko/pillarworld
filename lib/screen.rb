@@ -31,6 +31,10 @@ class Screen
 		print("\e[" << (y.round.to_i+1).to_s << ';' << (x.round.to_i+1).to_s << 'H' << char.to_s);
 	end
 
+	def erase(x,y)
+		put(x,y,' '); # for now
+	end
+
 	def resize(wh)
 		@wh=wh;
 
