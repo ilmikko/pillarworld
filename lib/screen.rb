@@ -2,7 +2,7 @@ Thread.abort_on_exception=true;
 
 require('io/console');
 
-class Canvas
+class Screen
 	def wh;
 		@wh
 	end
@@ -13,7 +13,6 @@ class Canvas
 		@wh[1];
 	end
 	def clear
-		$console.debug("Clearing canvas #{self}");
 		print("\e[2J");
 	end
 	def onresize(func)
@@ -21,7 +20,7 @@ class Canvas
 	end
 
 	def put(x,y,char)
-		$console.debug("Putting on canvas #{self}");
+		return if x<0 or y<0;
 		print("\e[" << (y.round.to_i+1).to_s << ';' << (x.round.to_i+1).to_s << 'H' << char.to_s);
 	end
 
@@ -66,5 +65,5 @@ class Canvas
 	end
 end
 
-require_relative 'canvas/text'
-require_relative 'canvas/lines'
+require_relative 'screen/text'
+require_relative 'screen/lines'

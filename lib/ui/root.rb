@@ -1,16 +1,16 @@
 class UI::Root < UI::Array
 	def update
-		self.xywh=[0,0,*@@canvas.wh];
+		self.xywh=[0,0,*@@screen.wh];
 		change;
-		@@canvas.clear();
+		@@screen.clear();
 		redraw;
 	end
 
-	def initialize(canvas)
+	def initialize(screen)
 		@parent=self;
-		@@canvas=canvas;
+		@@screen=screen;
 
-		$console.log("Root canvas is set as #{@@canvas}");
+		$console.log("Root screen is set as #{@@screen}");
 
 		super();
 	end

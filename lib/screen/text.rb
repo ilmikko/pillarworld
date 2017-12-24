@@ -1,4 +1,4 @@
-class Canvas
+class Screen
 	def write(x,y,str,color: nil)
 		w,h=@wh;
 		return if (x<-str.length+1||x>=w||y>=h||y<0); # Starting point out of bounds

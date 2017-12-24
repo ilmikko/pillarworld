@@ -1,9 +1,9 @@
 class UI::Node
-	@@canvas=nil;
+	attr_reader :parent
+
+	@@screen=nil;
 
 	def own(parent);
 		@parent=parent;
 	end
-
-	def parent;@parent;end
 end

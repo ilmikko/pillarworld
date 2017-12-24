@@ -31,9 +31,9 @@ class UI::Node
 	# Redraw: when there is a need for a redraw (for example, the text has changed)
 	# Old update
 	def redraw
-		if !@write.nil? && !@@canvas.nil?
+		if !@write.nil? && !@@screen.nil?
 			$console.debug("Write (no debug)");
-			@@canvas.write(*@xy,@write,color:@color);
+			@@screen.write(*@xy,@write,color:@color);
 		end
 	end
 end

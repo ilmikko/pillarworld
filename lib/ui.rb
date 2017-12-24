@@ -1,10 +1,10 @@
 # UI handler
 require 'console';
-require 'canvas';
+require 'screen';
 
 class UI
-	attr_accessor :canvas;
-	attr_accessor :root;
+	attr_reader :screen;
+	attr_reader :root;
 
 	@@debug=false;
 
@@ -29,9 +29,9 @@ class UI
 	#######
 	
 	def initialize
-		@canvas=::Canvas.new;
-		@root=UI::Root.new(@canvas);
-		@canvas.onresize(->{
+		@screen=::Screen.new;
+		@root=UI::Root.new(@screen);
+		@screen.onresize(->{
 			@root.update;
 		});
 	end
@@ -50,6 +50,7 @@ require 'ui/padding';
 require 'ui/border';
 require 'ui/paragraph';
 
+require 'ui/view';
 require 'ui/canvas';
 
 require 'ui/root';

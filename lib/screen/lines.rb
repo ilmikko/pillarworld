@@ -1,4 +1,4 @@
-class Canvas
+class Screen
 	def hline(x,y,w,char: '#')
 		return if !char.is_a? String or char.empty? or w==0;
 
