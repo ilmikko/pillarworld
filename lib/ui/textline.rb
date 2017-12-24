@@ -1,10 +1,10 @@
 class UI::TextLine < UI::Array
 	def append(*items)
 		super(*items.map{|item|
-			if !item.is_a? UINode
+			if !item.is_a? UI::Node
 				# Convert strings to UIText by their words.
 				if item.is_a? String
-					item.split(/(\s+)/).map{|word| UIText.new(word)}
+					item.split(/(\s+)/).map{|word| UI::Text.new(word)}
 				else
 					raise "Error: Cannot append #{item.class} into #{self.class}";
 				end

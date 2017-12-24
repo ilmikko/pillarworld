@@ -35,11 +35,11 @@ class UI::Paragraph < UI::Stack
 	def append(*items)
 		super(*items.map{|item|
 			# We allow strings.
-			if !item.is_a? UINode
+			if !item.is_a? UI::Node
 				if item.is_a? String
 					# Split strings by newline, and make them UITextLines
 					item.split(/\n/).map{|i|
-						i=UITextLine.new(i);
+						i=UI::TextLine.new(i);
 					};
 				else
 					raise "Error: Cannot append #{item.class} into #{self.class}";
