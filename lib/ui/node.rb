@@ -5,6 +5,8 @@
 #
 
 class UI::Node
+	attr_accessor :id
+
 	def color;@color;end
 	def color=(v);
 		if (v.is_a? String)
@@ -16,16 +18,15 @@ class UI::Node
 		end
 	end
 
-	def id;@id;end
-	def id=(v);@id=v;end
-
 	def change;end # Hook for when something has changed
 
 	def initialize(id: nil,width:nil,height:nil)
 		@id=id;
 		@xy=[0,0];
 		@wh=[0,0];
-		@preferredwh=[width,height];
+		@preferred_wh=[nil,nil];
+		$console.log("Set p_wh to #{[width,height]}");
+		self.p_wh=[width,height];
 	end
 
 	# Redraw: when there is a need for a redraw (for example, the text has changed)

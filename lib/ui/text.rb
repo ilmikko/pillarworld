@@ -12,8 +12,8 @@ class UI::Text < UI::Node
 
 		# We can know the size of this element by the length of the text
 		# UIText never spans multiple lines
-		@preferredwh=[@length,1];
-		self.wh=@preferredwh;
+		self.p_wh=[@length,1];
+		self.wh=self.p_wh;
 		change;
 	end
 
@@ -37,7 +37,7 @@ class UI::Text < UI::Node
 	def initialize(text='',color: nil,**_)
 		super(**_);
 
-		@preferredwh=[0,0];
+		self.p_wh=[0,0];
 
 		self.color=color;
 		self.text=text;
