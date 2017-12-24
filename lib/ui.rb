@@ -6,6 +6,8 @@ class UI
 	attr_accessor :canvas;
 	attr_accessor :root;
 
+	@@debug=false;
+
 	def self.debug=(v)
 		@@debug=v;
 	end
