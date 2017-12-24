@@ -26,7 +26,8 @@ class UI::Node
 		@wh=[0,0];
 		@preferred_wh=[nil,nil];
 		$console.log("Set p_wh to #{[width,height]}");
-		self.p_wh=[width,height];
+		self.p_w=width if !width.nil?;
+		self.p_h=height if !height.nil?;
 	end
 
 	# Redraw: when there is a need for a redraw (for example, the text has changed)

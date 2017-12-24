@@ -17,10 +17,7 @@ class UI::Node
 	def p_h;@preferred_wh[1];end
 
 	def p_wh=(wh);self.p_w=wh[0];self.p_h=wh[1];end
-	def p_w=(v);
-		$console.log("The preferred width of #{self} is #{v}");
-		@preferred_wh[0]=v;
-	end
+	def p_w=(v);@preferred_wh[0]=v;end
 	def p_h=(v);@preferred_wh[1]=v;end
 
 	# size: [w,h] in pixels
@@ -33,8 +30,6 @@ class UI::Node
 		$console.log("Set width of #{self} to #{v}");
 		if pw.nil?
 			@wh[0]=v; # No preferred width
-		elsif pw==:h
-			@wh[0]=@wh[1]; # Preferred that width = height
 		elsif v>pw
 			@wh[0]=pw; # Use preferred width as we have the space
 		end
@@ -44,8 +39,6 @@ class UI::Node
 		ph=@preferred_wh[1];
 		if ph.nil?
 			@wh[1]=v; # No preferred height
-		elsif ph==:w
-			@wh[1]=@wh[0]; # Preferred that height = width
 		elsif v>ph
 			@wh[1]=ph; # Use preferred height as we have the space
 		end
