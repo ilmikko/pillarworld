@@ -1,0 +1,2 @@
+The pillarworld illustrator is used to 'draw' some simple scenes in the UI, and maybe make test suite for the UI later.
+Right now I'm just interested in the ability to save and load ANSI codes from files and open them in a vim-like environment for easy editing.
