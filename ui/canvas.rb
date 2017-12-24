@@ -6,6 +6,12 @@ class Canvas
 	def wh;
 		@wh
 	end
+	def width;
+		@wh[0];
+	end
+	def height;
+		@wh[1];
+	end
 	def clear
 		print("\e[2J");
 	end
@@ -13,7 +19,7 @@ class Canvas
 		@onresize.push(func);
 	end
 	def put(x,y,char)
-		print("\e[" << (y.to_i+1).to_s << ';' << (x.to_i+1).to_s << 'H' << char.to_s);
+		print("\e[" << (y.round.to_i+1).to_s << ';' << (x.round.to_i+1).to_s << 'H' << char.to_s);
 	end
 
 	#######
@@ -21,7 +27,6 @@ class Canvas
 	#######
 
 	def initialize
-		clear;
 		print("\e[?25l");
 		@onresize=[];
 		@wh=[0,0];
@@ -45,6 +50,7 @@ class Canvas
 		at_exit{
 			close;
 		}
+		clear;
 	end
 	def resize
 		@onresize.each{|func|
