@@ -1,0 +1,26 @@
+Default border (most useful):
+
+eaf
+c d encoded as abcdefgh (8, max)
+gbh
+
++b+
+
++-+
+| | encoded as -|+ (3)
++-+
+
+┌─┐
+│ │ encoded as ─│└┐┌┘ (6)
+└─┘
+
+So if you have an encoded string, is there ambiguity?
+
+1		→ a=b=c=d=e=f=g=h=1
+12 		→ a=b=c=d=1; e=f=g=h=2;
+123		→ ab=1; cd=2; e=f=g=h=3;
+1234		→ ab=1; cd=2; ef=3; gh=4; (?)
+12345		→ a=1; b=2; c=3; d=4; e=f=g=h=5;
+123456		→ a=1; b=2; c=3; d=4; ef=5; gh=6;
+1234567		→ a=1; b=2; c=3; d=4; e=5; f=6; gh=7; (?)
+12345678	→ a=1; b=2; c=3; d=4; e=5; f=6; g=7; h=8;
