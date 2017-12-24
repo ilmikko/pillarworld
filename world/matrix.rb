@@ -1,12 +1,17 @@
 # 3D matrix transformations boii!
 # Press space to change the axis of rotation.
 
-require('../screen.rb');
-require('../input.rb');
-require('../console.rb');
+$LOAD_PATH.push('../lib');
+
+require('console');
+require('screen');
+require('input');
+
 require('matrix');
 
-$w,$h=$screen.dimensions;
+$screen=Screen.new;
+
+$w,$h=$screen.wh;
 $perspective=1.1;
 
 def putc(x,y,z,c)

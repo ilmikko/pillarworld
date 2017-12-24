@@ -1,7 +1,3 @@
-require('../console.rb');
-require('../screen.rb');
-require('../input.rb');
-
 # Astar algorithm, custom weights
 # Controls:
 # hjkl to move
@@ -15,6 +11,14 @@ require('../input.rb');
 #
 # e to place end point
 # s to place start point
+
+$LOAD_PATH.push('../lib');
+
+require('console');
+require('screen');
+require('input');
+
+$screen=Screen.new;
 
 def render
 	$world.render;
