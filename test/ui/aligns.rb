@@ -1,70 +1,70 @@
-require('./ui.rb');
+require_relative('../ui');
 
-$ui.show(
-	UIPadding.new(padding:2).append(
-		UIFlex.new(direction: :column).append(
-			UIFlex.new.append(
-				UIBorder.new.append(
-					UIAlign.new().append(
-						UIText.new('Default')
+UI.new.show(
+	UI::Padding.new(padding:2).append(
+		UI::Flex.new(direction: :column).append(
+			UI::Flex.new.append(
+				UI::Border.new.append(
+					UI::Align.new().append(
+						UI::Text.new('Default')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(va: :center,  ha: :center).append(
-						UIText.new('Center')
+				UI::Border.new.append(
+					UI::Align.new(va: :center,  ha: :center).append(
+						UI::Text.new('Center')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(ha: :right).append(
-						UIText.new('East')
+				UI::Border.new.append(
+					UI::Align.new(ha: :right).append(
+						UI::Text.new('East')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(va: :bottom).append(
-						UIText.new('South')
+				UI::Border.new.append(
+					UI::Align.new(va: :bottom).append(
+						UI::Text.new('South')
 					)
 				)
 			),
-			UIFlex.new.append(
-				UIBorder.new.append(
-					UIAlign.new(ha: :left).append(
-						UIText.new('West')
+			UI::Flex.new.append(
+				UI::Border.new.append(
+					UI::Align.new(ha: :left).append(
+						UI::Text.new('West')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(va: :top).append(
-						UIText.new('North')
+				UI::Border.new.append(
+					UI::Align.new(va: :top).append(
+						UI::Text.new('North')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(va: :top, ha: :left).append(
-						UIText.new('NW')
+				UI::Border.new.append(
+					UI::Align.new(va: :top, ha: :left).append(
+						UI::Text.new('NW')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(va: :top, ha: :right).append(
-						UIText.new('NE')
+				UI::Border.new.append(
+					UI::Align.new(va: :top, ha: :right).append(
+						UI::Text.new('NE')
 					)
 				)
 			),
-			UIFlex.new.append(
-				UIBorder.new.append(
-					UIAlign.new(va: :bottom, ha: :left).append(
-						UIText.new('SW')
+			UI::Flex.new.append(
+				UI::Border.new.append(
+					UI::Align.new(va: :bottom, ha: :left).append(
+						UI::Text.new('SW')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new(va: :bottom, ha: :right).append(
-						UIText.new('SE')
+				UI::Border.new.append(
+					UI::Align.new(va: :bottom, ha: :right).append(
+						UI::Text.new('SE')
 					)
 				),
-				UIBorder.new.append(
-					UIAlign.new.append(
-						UIText.new('Default')
+				UI::Border.new.append(
+					UI::Align.new.append(
+						UI::Text.new('Default')
 					)
 				),
-				UIBorder.new.append(
-					UIText.new('No align')
+				UI::Border.new.append(
+					UI::Text.new('No align')
 				)
 			)
 		)

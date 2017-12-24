@@ -1,5 +1,4 @@
-require('../console.rb');
-require('./canvas.rb');
+require_relative('../canvas');
 
 canvas=Canvas.new;
 canvas.hline(1,1,5);

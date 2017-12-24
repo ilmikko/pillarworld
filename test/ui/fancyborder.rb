@@ -1,18 +1,18 @@
-require('./ui.rb');
+require_relative('../ui');
 
 # time to go modal; how could I say that the max-width and max-height for this are 20 in every case? And of course centered?
 
-$ui.show(
-	UIAlign.new.append(
-		UIBorder.new(width:22,height:12).append(
-			UIFlex.new.append(
-				UIFlex.new(direction: :col).append(
-					UIBorder.new,
-					UIBorder.new,
+UI.new.show(
+	UI::Align.new.append(
+		UI::Border.new(width:22,height:12).append(
+			UI::Flex.new.append(
+				UI::Flex.new(direction: :col).append(
+					UI::Border.new,
+					UI::Border.new,
 				),
-				UIFlex.new(direction: :col).append(
-					UIBorder.new,
-					UIBorder.new,
+				UI::Flex.new(direction: :col).append(
+					UI::Border.new,
+					UI::Border.new,
 				)
 			)
 			#UIAlign.new.append(

@@ -1,19 +1,19 @@
-require('./ui.rb');
+require_relative('../ui');
 
-$ui.show(
-	UIPadding.new(padding:3).append(
+UI.new.show(
+	UI::Padding.new(padding:3).append(
 		# Default border
-		UIBorder.new().append(
+		UI::Border.new().append(
 			# Discount border with -|+
-			UIBorder.new(corner: '+', vertical: '|', horizontal: '-').append(
+			UI::Border.new(corner: '+', vertical: '|', horizontal: '-').append(
 				# Border with only corners
-				UIBorder.new(line: '').append(
+				UI::Border.new(line: '').append(
 					# A strange border
-					UIBorder.new(vertical: 'I', ee:'').append(
+					UI::Border.new(vertical: 'I', ee:'').append(
 						# A border with custom doubles
-						UIBorder.new(dh: '=', dv: 'H').append(
+						UI::Border.new(dh: '=', dv: 'H').append(
 							# A border with a custom dot and no corners
-							UIBorder.new(corner: '', dot: '+')
+							UI::Border.new(corner: '', dot: '+')
 						)
 					)
 				)

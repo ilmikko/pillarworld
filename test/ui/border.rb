@@ -1,41 +1,41 @@
-require('./ui.rb');
+require_relative('../ui');
 
 # time to go modal; how could I say that the max-width and max-height for this are 20 in every case? And of course centered?
 
-$ui.show(
-	UIPadding.new(padding:11).append(
-		UIFlex.new(direction: :column).append(
-			UIFlex.new.append(
-				UIBorder.new().append(
-					UIText.new('1')
+UI.new.show(
+	UI::Padding.new(padding:11).append(
+		UI::Flex.new(direction: :column).append(
+			UI::Flex.new.append(
+				UI::Border.new().append(
+					UI::Text.new('1')
 				),
-				UIBorder.new().append(
-					UIText.new('2')
+				UI::Border.new().append(
+					UI::Text.new('2')
 				),
-				UIBorder.new().append(
-					UIText.new('3')
+				UI::Border.new().append(
+					UI::Text.new('3')
 				)
 			),
-			UIFlex.new.append(
-				UIBorder.new().append(
-					UIText.new('4')
+			UI::Flex.new.append(
+				UI::Border.new().append(
+					UI::Text.new('4')
 				),
-				UIBorder.new().append(
-					UIText.new('5')
+				UI::Border.new().append(
+					UI::Text.new('5')
 				),
-				UIBorder.new().append(
-					UIText.new('6')
+				UI::Border.new().append(
+					UI::Text.new('6')
 				)
 			),
-			UIFlex.new.append(
-				UIBorder.new().append(
-					UIText.new('7')
+			UI::Flex.new.append(
+				UI::Border.new().append(
+					UI::Text.new('7')
 				),
-				UIBorder.new().append(
-					UIText.new('8')
+				UI::Border.new().append(
+					UI::Text.new('8')
 				),
-				UIBorder.new().append(
-					UIText.new('9')
+				UI::Border.new().append(
+					UI::Text.new('9')
 				)
 			)
 		)

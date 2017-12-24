@@ -2,10 +2,7 @@
 # Master test: test that we can have a bordered area to test other tests in.
 #
 
-# ../../lib because we're in test/ui/
-$LOAD_PATH.push('lib');
-
-require('ui');
+require_relative('../ui');
 
 UI.new.show(
 	UI::Align.new.append(
