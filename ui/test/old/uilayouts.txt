@@ -1,8 +1,0 @@
-The basic ui layout goes like this:
-
-UIFlex
-	UIFlex
-		...
-			UITextArea
-				UIParagraph
-					UIText
