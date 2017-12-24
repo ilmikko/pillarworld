@@ -3,6 +3,13 @@ Thread.abort_on_exception=true;
 require('io/console');
 
 class Screen
+	@@screens=[];
+	def self.resize(wh)
+		@@screens.each{|screen|
+			screen.resize(wh);
+		}
+	end
+
 	def wh;
 		@wh
 	end
@@ -24,46 +31,30 @@ class Screen
 		print("\e[" << (y.round.to_i+1).to_s << ';' << (x.round.to_i+1).to_s << 'H' << char.to_s);
 	end
 
+	def resize(wh)
+		@wh=wh;
+
+		clear;
+
+		# Fire event
+		@onresize.each{|func|
+			func.();
+		}
+	end
+
 	#######
 	private
 	#######
 
 	def initialize
-		print("\e[?25l");
 		@onresize=[];
 		@wh=$stdin.winsize.reverse;
-
-		# New thread for resizing check
-		Thread.new{
-			lastwinsize=nil;
-			loop{
-				# Resize check, every n frames
-				if ($stdin.winsize!=lastwinsize)
-					lastwinsize=$stdin.winsize;
-					@wh=lastwinsize.reverse;
-					clear;
-					resize;
-				end
-
-				# Everyone needs some rest
-				sleep(1.0/60.0);
-			}
-		}
-		at_exit{
-			close;
-		}
 		clear;
-	end
-	def resize
-		@onresize.each{|func|
-			func.();
-		}
-	end
-	def close
-		clear;
-		print("\e[?25h");
+		@@screens.push(self);
+		$console.warn("There are currently #{@@screens.length} screens active (an application needs only one in most cases)!") if @@screens.length>1;
 	end
 end
 
-require_relative 'screen/text'
-require_relative 'screen/lines'
+require('screen/resize');
+require('screen/text');
+require('screen/lines');
