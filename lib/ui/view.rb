@@ -10,6 +10,7 @@
 class UI::View < UI::Node
 	def scene=(v)
 		@scene=v;
+		redraw; # Always redraw when scene changes
 	end
 
 	def put(x,y,char)
@@ -21,11 +22,12 @@ class UI::View < UI::Node
 	end
 
 	def redraw
+		#$console.log("Redrawing #{self} with scene #{@scene}");
 		@scene.() if @scene;
 	end
 
 	def initialize(scene=nil,**_)
-		@scene=scene;
 		super(**_);
+		self.scene=scene if !scene.nil?;
 	end
 end
