@@ -1,22 +1,29 @@
 $LOAD_PATH.push('../lib');
 
+$LOAD_PATH.push('lib');
+
 require 'ui';
 require 'console';
 
-$console.loglevel=-1000;
+require 'illustration';
 
-$console.debug('Debug messages work');
+test=Illustration.load('demo/test.ifl');
 
-UI.debug=true;
+# Set view w and h
 
 UI.new.show(
-	UI::Border.new(padding: 6).append(
-		UI::Border.new(w: :h).append(
+	UI::Align.new.append(
+		UI::Border.new(width: test.width+2, height: test.height+2).append(
 			view=UI::View.new
 		)
 	)
 );
 
-view.write(2,2,'This is a test');
+view.scene=->{
+	test.each_cell{|x,y,cell|
+		$console.log("#{x},#{y},#{cell}");
+		view.put(x,y,cell);
+	}
+};
 
 sleep;
