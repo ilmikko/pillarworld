@@ -10,23 +10,12 @@
 class Screen::Color
 	module Screen::Color::Defaults
 		def convert(r,g,b)
-			"\e[31m"
+			''
 		end
 		def initialize(r,g,b)
 			# Reduce this to an ANSI color - this way we can then check for color overlaps in screen
 			@original=[r,g,b];
 			@colstr=convert(r,g,b);
-		end
-	end
-
-	module Screen::Color::Reduced
-		include Screen::Color::Defaults
-		def convert(r,g,b)
-			r/=5;
-			g/=5;
-			b/=5;
-
-			"\e[38;5;" << (16+r*36+g*6+b) << 'm';
 		end
 	end
 
@@ -37,10 +26,43 @@ class Screen::Color
 		end
 	end
 
+	module Screen::Color::Reduced
+		include Screen::Color::Defaults
+		def convert(r,g,b)
+			r/=51;
+			g/=51;
+			b/=51;
+
+			"\e[38;5;" << (16+r*36+g*6+b).to_s << 'm';
+		end
+	end
+
 	module Screen::Color::Bare
 		include Screen::Color::Defaults
 		def convert(r,g,b)
-			''
+			r/=128;
+			g/=128;
+			b/=128;
+
+			i=r+g*2+b*4;
+
+			if i>0;
+				$console.log("#{i} becomes " << "\e[9#{i.to_s}mthis");
+				"\e[9" << i.to_s << 'm';
+			else
+				"\e[0;30m"; # Black is still black.
+			end
+		end
+	end
+
+	module Screen::Color::System
+		include Screen::Color::Defaults
+		def convert(r,g,b)
+			r/=128;
+			g/=128;
+			b/=128;
+
+			"\e[3" << (r+g*2+b*4).to_s << 'm';
 		end
 	end
 end
@@ -70,6 +92,8 @@ class Screen::Color
 			include Screen::Color::Reduced
 		elsif v==:bare
 			include Screen::Color::Bare
+		elsif v==:system
+			include Screen::Color::System
 		else
 			raise "Unknown color mode: #{v}";
 		end

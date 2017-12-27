@@ -8,7 +8,7 @@ screen=Screen.new;
 
 class Screen
 	def putr(x,y,str)
-		put(x,y,str);
+		put(x-str.length,y,str);
 	end
 end
 
@@ -182,7 +182,7 @@ x-=col;
 
 # Screen, a better way to change color (and ensure it works across platforms)
 y+=2;
-screen.putr(x,y,"\e[mOptimal");
+screen.putr(x+col,y,"\e[mOptimal");
 Screen::Color.mode=:optimal;
 
 x+=col;
@@ -196,7 +196,7 @@ x+=col;
 x-=col;
 
 y+=2;
-screen.putr(x,y,"\e[mReduced");
+screen.putr(x+col,y,"\e[mReduced");
 Screen::Color.mode=:reduced;
 
 x+=col;
@@ -210,8 +210,22 @@ x+=col;
 x-=col;
 
 y+=2;
-screen.putr(x,y,"\e[mBare");
+screen.putr(x+col,y,"\e[mBare");
 Screen::Color.mode=:bare;
+
+x+=col;
+	screenprint(x,y,screen);
+	x+=col;
+		screenput(x,y,screen);
+		x+=col;
+			screenputcust(x,y,screen);
+		x-=col;
+	x-=col;
+x-=col;
+
+y+=2;
+screen.putr(x+col,y,"\e[mSystem");
+Screen::Color.mode=:system;
 
 x+=col;
 	screenprint(x,y,screen);
