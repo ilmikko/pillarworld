@@ -47,7 +47,7 @@ class Screen::Color
 			i=r+g*2+b*4;
 
 			if i>0;
-				$console.log("#{i} becomes " << "\e[9#{i.to_s}mthis");
+				#$console.log("#{i} becomes " << "\e[9#{i.to_s}mthis\e[m");
 				"\e[9" << i.to_s << 'm';
 			else
 				"\e[0;30m"; # Black is still black.
@@ -84,8 +84,8 @@ class Screen::Color
 		# however, I might add a 'force' option later in the case that we do need to
 		# cycle through the color modes, for example in the settings.
 		#
-		$console.warn("Changing the color mode multiple times is not recommended, as it may lead to unexpected behavior.") if @@mode!=:none;
 		$console.log("Setting color mode to #{v}...");
+		$console.warn("Changing the color mode multiple times is not recommended, as it may lead to unexpected behavior.") if @@mode!=:none;
 		if v==:optimal
 			include Screen::Color::Optimal
 		elsif v==:reduced

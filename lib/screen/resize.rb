@@ -7,7 +7,7 @@ Thread.new{
 		# Resize check, every n frames
 		if ($stdin.winsize!=lastwinsize)
 			lastwinsize=$stdin.winsize;
-			Screen.resize(lastwinsize.reverse);
+			Screen.resize(*lastwinsize.reverse);
 		end
 
 		# Everyone needs some rest
