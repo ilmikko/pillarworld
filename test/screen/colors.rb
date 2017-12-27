@@ -1,121 +1,226 @@
 require_relative('../screen');
 
+# In optimal mode, we use the true range of colors.
+# In reduce mode, we only use the 256 colors available.
+# In bare mode, we only use the system colors.
+
 screen=Screen.new;
 
+class Screen
+	def putr(x,y,str)
+		put(x,y,str);
+	end
+end
+
+def raw(x,y,screen)
+	# Raw colors (standard, may change)
+	print("\e[30m");
+	screen.put(x+0,y,"#");
+	print("\e[31m");
+	screen.put(x+1,y,"#");
+	print("\e[32m");
+	screen.put(x+2,y,"#");
+	print("\e[33m");
+	screen.put(x+3,y,"#");
+	print("\e[34m");
+	screen.put(x+4,y,"#");
+	print("\e[35m");
+	screen.put(x+5,y,"#");
+	print("\e[36m");
+	screen.put(x+6,y,"#");
+	print("\e[37m");
+	screen.put(x+7,y,"#");
+end
+
+def rawhi(x,y,screen)
+	# High intensity colors (non standard)
+	print("\e[90m");
+	screen.put(x+0,y,"#");
+	print("\e[91m");
+	screen.put(x+1,y,"#");
+	print("\e[92m");
+	screen.put(x+2,y,"#");
+	print("\e[93m");
+	screen.put(x+3,y,"#");
+	print("\e[94m");
+	screen.put(x+4,y,"#");
+	print("\e[95m");
+	screen.put(x+5,y,"#");
+	print("\e[96m");
+	screen.put(x+6,y,"#");
+	print("\e[97m");
+	screen.put(x+7,y,"#");
+end
+
+def raw256(x,y,screen)
+	print("\e[38;5;0m");
+	screen.put(x+0,y,"#");
+	print("\e[38;5;9m");
+	screen.put(x+1,y,"#");
+	print("\e[38;5;10m");
+	screen.put(x+2,y,"#");
+	print("\e[38;5;11m");
+	screen.put(x+3,y,"#");
+	print("\e[38;5;12m");
+	screen.put(x+4,y,"#");
+	print("\e[38;5;13m");
+	screen.put(x+5,y,"#");
+	print("\e[38;5;14m");
+	screen.put(x+6,y,"#");
+	print("\e[38;5;15m");
+	screen.put(x+7,y,"#");
+end
+
+def rawtrue(x,y,screen)
+	print("\e[38;2;0;0;0m");
+	screen.put(x+0,y,"#");
+	print("\e[38;2;255;0;0m");
+	screen.put(x+1,y,"#");
+	print("\e[38;2;0;255;0m");
+	screen.put(x+2,y,"#");
+	print("\e[38;2;255;255;0m");
+	screen.put(x+3,y,"#");
+	print("\e[38;2;0;0;255m");
+	screen.put(x+4,y,"#");
+	print("\e[38;2;255;0;255m");
+	screen.put(x+5,y,"#");
+	print("\e[38;2;0;255;255m");
+	screen.put(x+6,y,"#");
+	print("\e[38;2;255;255;255m");
+	screen.put(x+7,y,"#");
+end
+
+def screenprint(x,y,screen)
+	$console.log(Screen::Color[:red]);
+	print(Screen::Color[:black]);
+	screen.put(x+0,y,"#");
+	print(Screen::Color[:red]);
+	screen.put(x+1,y,"#");
+	print(Screen::Color[:green]);
+	screen.put(x+2,y,"#");
+	print(Screen::Color[:yellow]);
+	screen.put(x+3,y,"#");
+	print(Screen::Color[:blue]);
+	screen.put(x+4,y,"#");
+	print(Screen::Color[:magenta]);
+	screen.put(x+5,y,"#");
+	print(Screen::Color[:cyan]);
+	screen.put(x+6,y,"#");
+	print(Screen::Color[:white]);
+	screen.put(x+7,y,"#");
+end
+
+def screenput(x,y,screen)
+	screen.put(x+0,y,"#",color: Screen::Color[:black]);
+	screen.put(x+1,y,"#",color: Screen::Color[:red]);
+	screen.put(x+2,y,"#",color: Screen::Color[:green]);
+	screen.put(x+3,y,"#",color: Screen::Color[:yellow]);
+	screen.put(x+4,y,"#",color: Screen::Color[:blue]);
+	screen.put(x+5,y,"#",color: Screen::Color[:magenta]);
+	screen.put(x+6,y,"#",color: Screen::Color[:cyan]);
+	screen.put(x+7,y,"#",color: Screen::Color[:white]);
+end
+
+def screenputcust(x,y,screen)
+	screen.put(x+0,y,"#",color: Screen::Color[0,0,0]);
+	screen.put(x+1,y,"#",color: Screen::Color[255,0,0]);
+	screen.put(x+2,y,"#",color: Screen::Color[0,255,0]);
+	screen.put(x+3,y,"#",color: Screen::Color[255,255,0]);
+	screen.put(x+4,y,"#",color: Screen::Color[0,0,255]);
+	screen.put(x+5,y,"#",color: Screen::Color[255,0,255]);
+	screen.put(x+6,y,"#",color: Screen::Color[0,255,255]);
+	screen.put(x+7,y,"#",color: Screen::Color[255,255,255]);
+end
+
+x=1;
+y=1;
+col=14;
+
+x+=col;
+	screen.put(x,y,"\e[mRaw Sys");
+	x+=col;
+		screen.put(x,y,"\e[mRaw HI");
+		x+=col;
+			screen.put(x,y,"\e[mRaw 256");
+			x+=col;
+				screen.put(x,y,"\e[mRaw True");
+			x-=col;
+		x-=col;
+	x-=col;
+x-=col;
+
+y+=2;
+
 # First, raw way to change color
-screen.put(1,2,"\e[mRaw colors (might change due to system palette) and high intensity colors (90-)");
-print("\e[30m");
-screen.put(1,3,"#");
-print("\e[31m");
-screen.put(2,3,"#");
-print("\e[32m");
-screen.put(3,3,"#");
-print("\e[33m");
-screen.put(4,3,"#");
-print("\e[34m");
-screen.put(5,3,"#");
-print("\e[35m");
-screen.put(6,3,"#");
-print("\e[36m");
-screen.put(7,3,"#");
-print("\e[37m");
-screen.put(8,3,"#");
-#print("\e[0;30m");
-#screen.put(9,3,"#");
-#print("\e[31m");
-#screen.put(10,3,"#");
-#print("\e[32m");
-#screen.put(11,3,"#");
-#print("\e[33m");
-#screen.put(12,3,"#");
-#print("\e[34m");
-#screen.put(13,3,"#");
-#print("\e[35m");
-#screen.put(14,3,"#");
-#print("\e[36m");
-#screen.put(15,3,"#");
-#print("\e[37m");
-#screen.put(16,3,"#");
+x+=col;
+	raw(x,y,screen);
+	x+=col;
+		rawhi(x,y,screen);
+		x+=col;
+			raw256(x,y,screen);
+			x+=col;
+				rawtrue(x,y,screen);
+			x-=col;
+		x-=col;
+	x-=col;
+x-=col;
 
-# high intensity colors (non standard)
-print("\e[90m");
-screen.put(1,4,"#");
-print("\e[91m");
-screen.put(2,4,"#");
-print("\e[92m");
-screen.put(3,4,"#");
-print("\e[93m");
-screen.put(4,4,"#");
-print("\e[94m");
-screen.put(5,4,"#");
-print("\e[95m");
-screen.put(6,4,"#");
-print("\e[96m");
-screen.put(7,4,"#");
-print("\e[97m");
-screen.put(8,4,"#");
+# Divisor
+y+=2;
+screen.hline(x,y,80-x-1,char:'-');
 
-# Raw 256 color palette
-screen.put(1,5,"\e[mRaw 256-colors (might change due to system palette)");
-print("\e[38;5;0m");
-screen.put(1,6,"#");
-print("\e[38;5;9m");
-screen.put(2,6,"#");
-print("\e[38;5;10m");
-screen.put(3,6,"#");
-print("\e[38;5;11m");
-screen.put(4,6,"#");
-print("\e[38;5;12m");
-screen.put(5,6,"#");
-print("\e[38;5;13m");
-screen.put(6,6,"#");
-print("\e[38;5;14m");
-screen.put(7,6,"#");
-print("\e[38;5;15m");
-screen.put(8,6,"#");
+y+=2;
+x+=col;
+	screen.put(x,y,"\e[mScreen print");
+	x+=col;
+		screen.put(x,y,"\e[mScreen sug");
+		x+=col;
+			screen.put(x,y,"\e[mScreen cust");
+		x-=col;
+	x-=col;
+x-=col;
 
-# Second, better way to change color
+# Screen, a better way to change color (and ensure it works across platforms)
+y+=2;
+screen.putr(x,y,"\e[mOptimal");
+Screen::Color.mode=:optimal;
 
-screen.put(1,8,"\e[mScreen colors, mapped the best way to the terminal");
-screen.color=:black;
-screen.put(1,9,"#");
-screen.color=:red;
-screen.put(2,9,"#");
-screen.color=:green;
-screen.put(3,9,"#");
-screen.color=:yellow;
-screen.put(4,9,"#");
-screen.color=:blue;
-screen.put(5,9,"#");
-screen.color=:magenta;
-screen.put(6,9,"#");
-screen.color=:cyan;
-screen.put(7,9,"#");
-screen.color=:white;
-screen.put(8,9,"#");
+x+=col;
+	screenprint(x,y,screen);
+	x+=col;
+		screenput(x,y,screen);
+		x+=col;
+			screenputcust(x,y,screen);
+		x-=col;
+	x-=col;
+x-=col;
 
-# Third, best way to change color
+y+=2;
+screen.putr(x,y,"\e[mReduced");
+Screen::Color.mode=:reduced;
 
-screen.put(1,11,"\e[mScreen colors, syntactical sugar");
-screen.put(1,12,"#",color: Color[:black]);
-screen.put(2,12,"#",color: Color[:red]);
-screen.put(3,12,"#",color: Color[:green]);
-screen.put(4,12,"#",color: Color[:yellow]);
-screen.put(5,12,"#",color: Color[:blue]);
-screen.put(6,12,"#",color: Color[:magenta]);
-screen.put(7,12,"#",color: Color[:cyan]);
-screen.put(8,12,"#",color: Color[:white]);
+x+=col;
+	screenprint(x,y,screen);
+	x+=col;
+		screenput(x,y,screen);
+		x+=col;
+			screenputcust(x,y,screen);
+		x-=col;
+	x-=col;
+x-=col;
 
-# custom colors
+y+=2;
+screen.putr(x,y,"\e[mBare");
+Screen::Color.mode=:bare;
 
-screen.put(1,14,"\e[mScreen colors, custom true color, reduced if necessary");
-screen.put(1,15,"#",color: Color[0,0,0]);
-screen.put(2,15,"#",color: Color[255,0,0]);
-screen.put(3,15,"#",color: Color[0,255,0]);
-screen.put(4,15,"#",color: Color[255,255,0]);
-screen.put(5,15,"#",color: Color[0,0,255]);
-screen.put(6,15,"#",color: Color[255,0,255]);
-screen.put(7,15,"#",color: Color[0,255,255]);
-screen.put(8,15,"#",color: Color[255,255,255]);
+x+=col;
+	screenprint(x,y,screen);
+	x+=col;
+		screenput(x,y,screen);
+		x+=col;
+			screenputcust(x,y,screen);
+		x-=col;
+	x-=col;
+x-=col;
 
 sleep;
