@@ -4,13 +4,17 @@ require_relative('../screen');
 # In reduce mode, we only use the 256 colors available.
 # In bare mode, we only use the system colors.
 
-screen=Screen.new;
-
-class Screen
+class ScreenHelper < Screen
 	def putr(x,y,str)
 		put(x-str.length,y,str);
 	end
+	def put(x,y,str,color: nil)
+		print(color) if !color.nil?;
+		super(x,y,str);
+	end
 end
+
+screen=ScreenHelper.new;
 
 def raw(x,y,screen)
 	# Raw colors (standard, may change)
@@ -91,7 +95,7 @@ def rawtrue(x,y,screen)
 end
 
 def screenprint(x,y,screen)
-	$console.log(Screen::Color[:red]);
+	#$console.log(Screen::Color[:red]);
 	print(Screen::Color[:black]);
 	screen.put(x+0,y,"#");
 	print(Screen::Color[:red]);
