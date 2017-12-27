@@ -5,8 +5,9 @@
 
 # Change working directory to the PW folder
 Dir.chdir(__dir__);
+$LOAD_PATH.push('lib');
 
-require('./console.rb');
+require 'console';
 require('./main.rb');
 
 $console.log('Pillarworld main executable, yay');

@@ -3,7 +3,7 @@
 #
 
 require('io/console');
-require_relative('./console.rb');
+require('console');
 require_relative('./tool.rb');
 
 # TODO: Remove tool dependency

@@ -1,4 +1,6 @@
-require("./console.rb");
+$LOAD_PATH.push('./lib');
+
+require('console');
 require("./screen.rb");
 
 require 'io/console';
