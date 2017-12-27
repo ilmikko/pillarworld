@@ -26,8 +26,9 @@ class Screen
 		@onresize.push(func);
 	end
 
-	def put(x,y,char)
+	def put(x,y,char,color: nil)
 		return if x<0 or y<0;
+		print(color) if color.is_a? Screen::Color;
 		print("\e[" << (y.round.to_i+1).to_s << ';' << (x.round.to_i+1).to_s << 'H' << char.to_s);
 	end
 
@@ -59,6 +60,7 @@ class Screen
 	end
 end
 
+require('screen/color');
 require('screen/resize');
 require('screen/text');
 require('screen/lines');

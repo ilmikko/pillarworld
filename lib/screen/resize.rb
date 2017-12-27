@@ -16,5 +16,5 @@ Thread.new{
 }
 
 at_exit{
-	print("\e[?25h"); # Show cursor
+	print("\e[?25h\e[H\e[m"); # Clear screen, Show cursor, Reset color
 }
