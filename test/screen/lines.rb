@@ -1,6 +1,6 @@
-require_relative('../canvas');
+require_relative('../screen');
 
-canvas=Canvas.new;
+canvas=Screen.new;
 canvas.hline(1,1,5);
 canvas.hline(1,2,-1);
 canvas.hline(canvas.width/2,0,-3);
