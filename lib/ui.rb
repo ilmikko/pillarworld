@@ -1,6 +1,6 @@
 # UI handler
 require 'console';
-require 'screen';
+require 'view';
 
 class UI
 	attr_reader :screen;
@@ -31,7 +31,7 @@ class UI
 	def initialize
 		@screen=::Screen.new;
 		@root=UI::Root.new(@screen);
-		@screen.onresize(->{
+		@screen.on('resize',->{
 			@root.update;
 		});
 	end
