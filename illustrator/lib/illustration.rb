@@ -23,13 +23,16 @@ class Illustration
 		w=@width;
 		h=@height;
 
+		characters=@characters.dup;
+		colors=@colors.dup;
+
 		for i in 0...len
 			x=i % w;
 			y=i / w;
-			char=@characters[i];
+			char=characters[i];
 			col='';
-			col=@colors[i].map{|c|"\e[#{c}m"}.join if !@colors[i].nil?;
-			yield [x,y,col+char];
+			col=colors[i].map{|c|"\e[#{c}m"}.join if !@colors[i].nil?;
+			yield [x,y,col,char];
 		end
 	end
 	
