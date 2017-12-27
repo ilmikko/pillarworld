@@ -15,14 +15,15 @@ class UI::View < UI::Node
 		redraw; # Always redraw when scene changes
 	end
 
-	def put(x,y,char)
+	def put(x,y,char,force:false)
 		w,h=@wh;
 		x=x.round;
 		y=y.round;
 		return if x<0 or y<0 or x>=w or y>=h; # Prevent writing outside of the view
-		
+
 		# Return if we already have this in the cache (trying to rewrite a cell)
-		return if @clearcache["#{x},#{y}"]==char;
+		return if !force and @clearcache["#{x},#{y}"]==char;
+
 		# Store in cache
 		@clearcache["#{x},#{y}"]=char;
 
@@ -30,11 +31,18 @@ class UI::View < UI::Node
 		@@screen.put(sx+x,sy+y,char);
 	end
 
+	def get(x,y)
+		@clearcache["#{x},#{y}"];
+	end
+
+	def color(string)
+		@@screen.color(string);
+	end
+
 	def clear
 		# TODO: clearing in different situations
 		sx,sy=@xy;
 		@clearcache.dup.each{|k,v|
-			$console.log("#{k}->#{v}");
 			x,y=k.split(",");
 			@@screen.erase(sx+x.to_i,sy+y.to_i);
 		}
@@ -70,6 +78,7 @@ class UI::View < UI::Node
 		@fps=fps;
 
 		@clearcache={};
+		@colorcache={};
 		
 		if fps>0
 			$console.log("View #{self} creates an fps thread with fps=#{@fps}");
