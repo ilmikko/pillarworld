@@ -30,12 +30,10 @@ view.scene=->{
 	# the character (if our colors aren't matching, we still want to write)
 	test.each_cell{|x,y,col,char|
 		$console.log("#{x},#{y},#{char}");
-		view.color(col);
-		view.put(x,y,char,force:true);
+		view.put(x,y,char,color: col);
 	}
-	view.color("\e[m\e[7m");
-	view.put(*cursor.xy,"#{view.get(*cursor.xy)}",force:true);
-	view.color("\e[m");
+	#view.negate(*cursor.xy);
+	view.put(*cursor.xy,'+');
 };
 
 $input.listen({

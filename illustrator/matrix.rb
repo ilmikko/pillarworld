@@ -83,10 +83,11 @@ def putz(x,y,z,c)
 	$view.put(x,y,c);
 end
 
-$view.scene=->(timedelta){
+$view.scene=->(){
 	$w,$h=$view.wh;
+	$view.clear;
 	box.draw();
-	box.rotateY(timedelta);
+	box.rotateY(0.05);
 };
 
 sleep;
