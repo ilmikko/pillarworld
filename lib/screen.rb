@@ -52,6 +52,8 @@ class Screen
 		@w,@h=$stdin.winsize.reverse;
 		clear;
 
+		print("\e[0m"); # Reset everything
+
 		@@screens << self;
 
 		$console.warn("There are currently #{@@screens.length} screens active (an application needs only one in most cases)!") if @@screens.length>1;
