@@ -72,34 +72,44 @@ class View
 		@scene.call if !@scene.nil?;
 	end
 
-	def write(x,y,str,color: nil)
+	def write(x,y,str,**sets)
 		# TODO: write centered or right-aligned?
 		len=str.length;
 
+		print("\e[0m"); # HACK: reset the modifiers for this string
+
 		# Get the bounds - sometimes we don't need to loop through the entire string.
-		
+		set(sets);
 
 		for i in 0...len
 			# Break if put fails, because that means it's out of bounds
 			# TODO: What about if we start from behind?
-			put(x+i,y,str[i],color:color);
+			put(x+i,y,str[i]);
 		end
 	end
 
-	def put(x,y,char,color: nil)
+	def set(sets)
+		print(Screen::Modifier.negate) if sets[:negate];
+		print(Screen::Modifier.bold) if sets[:bold];
+		print(Screen::Modifier.faint) if sets[:faint];
+		print(Screen::Modifier.italic) if sets[:italic];
+		print(Screen::Modifier.underline) if sets[:underline];
+		print(sets[:color].to_s) if sets[:color];
+	end
+
+	def put(x,y,char,**sets)
 		# Cache optimizations - we don't need to clear the whole screen
 		# (and in fact, a single View should never clear a whole Screen)
 		#
 		# Return if we have this particular one already cached
 		# return if cached?(x,y); (TODO: This is still buggy as we need to check color as well)
-		
-		print(color.to_s) if !color.nil?;
+		set(sets);
 
 		# We need these for caching
 		x=x.round.to_i if !x.is_a? Integer;
 		y=y.round.to_i if !y.is_a? Integer;
 
-		$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h}");
+		#$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h}");
 		# Prevent writing outside of the view
 		return false if x<0 or y<0 or x>=@w or y>=@h;
 		
@@ -141,7 +151,7 @@ class View
 				screen=Screen.new;
 				if w==0 and h==0
 					$console.log("Resizing to the created screen...");
-					resize(*screen.wh);
+					self.wh=*screen.wh;
 				end
 			end
 		end

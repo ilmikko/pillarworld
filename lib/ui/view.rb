@@ -16,8 +16,8 @@ class UI::View < UI::Node
 		@view.scene=v;
 	end
 
-	def put(x,y,char,color:nil)
-		@view.put(x,y,char,color:color);
+	def put(*args,**_)
+		@view.put(*args,**_)
 	end
 
 	def erase(x,y)
