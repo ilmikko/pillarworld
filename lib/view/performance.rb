@@ -37,12 +37,14 @@ class View::Performance < View
 		# Kill old threads
 		@thread.kill if !@thread.nil?;
 		$console.log("Rethreading #{self}");
-		@thread=Thread.new{
-			loop{
-				redraw;
-				sleep(1/@fps);
+		if @fps>0
+			@thread=Thread.new{
+				loop{
+					redraw;
+					sleep(1/@fps);
+				}
 			}
-		}
+		end
 	end
 	def initialize(*args,fps:-1,**_)
 		super(*args,**_);
