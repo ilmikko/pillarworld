@@ -7,17 +7,6 @@
 class UI::Node
 	attr_accessor :id
 
-	def color;@color;end
-	def color=(v);
-		if (v.is_a? String)
-			@color=v;
-		elsif (v.is_a? Symbol)
-			@color=@@colors[v];
-		elsif (v.nil?)
-			@color=nil;
-		end
-	end
-
 	def change;end # Hook for when something has changed
 
 	def initialize(id: nil,width:nil,height:nil)

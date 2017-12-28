@@ -154,7 +154,7 @@ class UI::Border < UI::Padding
 								 dh:nil, dv:nil, 							# Doubles
 								 cn:nil, cs:nil, ce:nil, cw:nil,					# Caps
 								 dot:nil,								# Dot
-								 color:nil, **_)
+								 **_)
 		super(**_);
 
 		@lines=@@default_lines.dup;
@@ -221,7 +221,5 @@ class UI::Border < UI::Padding
 		self.line_w=ww if !ww.nil?;
 
 		#$console.log(@nesw);
-
-		self.color=color;
 	end
 end
