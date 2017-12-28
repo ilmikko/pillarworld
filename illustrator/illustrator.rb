@@ -33,7 +33,8 @@ view.scene=->{
 		view.put(x,y,char,color: col);
 	}
 	#view.negate(*cursor.xy);
-	view.put(*cursor.xy,'+');
+	print("\e[m");
+	view.put(*cursor.xy,"+");
 };
 
 $input.listen({

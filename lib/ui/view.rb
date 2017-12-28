@@ -25,7 +25,11 @@ class UI::View < UI::Node
 	end
 
 	def clear
-		@view.clear
+		@view.clear;
+	end
+
+	def redraw
+		@view.redraw;
 	end
 
 	def change
