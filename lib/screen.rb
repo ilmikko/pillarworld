@@ -61,6 +61,7 @@ class Screen
 end
 
 require('screen/color');
+require('screen/modifiers');
 require('screen/resize');
 require('screen/text');
 require('screen/lines');
