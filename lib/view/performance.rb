@@ -17,6 +17,15 @@ class View::Performance < View
 			}
 		end
 	end
+
+	def set(**sets)
+		
+	end
+
+	#######
+	private
+	#######
+
 	def initialize(*args,fps:-1,**_)
 		super(*args,**_);
 

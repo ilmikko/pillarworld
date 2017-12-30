@@ -10,8 +10,8 @@ require('view');
 require('matrix');
 
 $screen=Screen.new;
-$view=View::Performance.new(0,0,90,30,screen:$screen,fps:60);
-$view2=View.new(0,30,90,20,screen:$screen);
+$view=View::Performance.new(90,30,screen:$screen,fps:60);
+$view2=View.new(90,20,y:30,screen:$screen);
 
 $view2.scene=->(){
 	$console.log("Redrawing scene2");
