@@ -9,7 +9,7 @@ class ScreenHelper < Screen
 		put(x-str.length,y,str);
 	end
 	def put(x,y,str,color: nil)
-		print(color) if !color.nil?;
+		print("\e[#{color}m") if !color.nil?;
 		super(x,y,str);
 	end
 end
@@ -96,21 +96,21 @@ end
 
 def screenprint(x,y,screen)
 	#$console.log(Screen::Color[:red]);
-	print(Screen::Color[:black]);
+	print("\e[#{Screen::Color[:black]}m");
 	screen.put(x+0,y,"#");
-	print(Screen::Color[:red]);
+	print("\e[#{Screen::Color[:red]}m");
 	screen.put(x+1,y,"#");
-	print(Screen::Color[:green]);
+	print("\e[#{Screen::Color[:green]}m");
 	screen.put(x+2,y,"#");
-	print(Screen::Color[:yellow]);
+	print("\e[#{Screen::Color[:yellow]}m");
 	screen.put(x+3,y,"#");
-	print(Screen::Color[:blue]);
+	print("\e[#{Screen::Color[:blue]}m");
 	screen.put(x+4,y,"#");
-	print(Screen::Color[:magenta]);
+	print("\e[#{Screen::Color[:magenta]}m");
 	screen.put(x+5,y,"#");
-	print(Screen::Color[:cyan]);
+	print("\e[#{Screen::Color[:cyan]}m");
 	screen.put(x+6,y,"#");
-	print(Screen::Color[:white]);
+	print("\e[#{Screen::Color[:white]}m");
 	screen.put(x+7,y,"#");
 end
 

@@ -52,7 +52,9 @@ class Screen
 		@w,@h=$stdin.winsize.reverse;
 		clear;
 
-		print("\e[0m"); # Reset everything
+		# Set the screen to our default state
+		@state=Screen::State.default;
+		@state.use;
 
 		@@screens << self;
 
@@ -61,7 +63,11 @@ class Screen
 end
 
 require('screen/color');
+
+Screen::Color.mode=:reduced; # for now.
+
 require('screen/modifiers');
+require('screen/state');
 require('screen/resize');
 require('screen/text');
 require('screen/lines');

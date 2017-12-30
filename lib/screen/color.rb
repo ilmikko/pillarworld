@@ -57,14 +57,17 @@ class Screen::Color
 		def initialize(r,g,b)
 			# Reduce this to an ANSI color - this way we can then check for color overlaps in screen
 			@original=[r,g,b];
-			@colstr=convert(r,g,b);
+			@colstr=convert(r,g,b).join(';');
 		end
 	end
 
 	module Screen::Color::Optimal
 		include Screen::Color::Defaults
 		def convert(r,g,b)
-			"\e[38;2;" << r.to_s << ';' << g.to_s << ';' << b.to_s << 'm';
+			[38,2,r,g,b];
+		end
+		def convert_bg(r,g,b)
+			[48,2,r,g,b];
 		end
 	end
 
@@ -75,7 +78,14 @@ class Screen::Color
 			g/=51;
 			b/=51;
 
-			"\e[38;5;" << (16+r*36+g*6+b).to_s << 'm';
+			[38,5,16+r*36+g*6+b];
+		end
+		def convert_bg(r,g,b)
+			r/=51;
+			g/=51;
+			b/=51;
+
+			[48,5,16+r*36+g*6+b];
 		end
 	end
 
@@ -89,10 +99,23 @@ class Screen::Color
 			i=r+g*2+b*4;
 
 			if i>0;
-				#$console.log("#{i} becomes " << "\e[9#{i.to_s}mthis\e[m");
-				"\e[9" << i.to_s << 'm';
+				[90+i];
 			else
-				"\e[0;30m"; # Black is still black.
+				[0,30]; # Black is still black. FIXME: This resets everything, shouldn't this be 22 instead of 0?
+			end
+		end
+
+		def convert_bg(r,g,b)
+			r/=128;
+			g/=128;
+			b/=128;
+
+			i=r+g*2+b*4;
+
+			if i>0;
+				[100+i];
+			else
+				[0,40]; # Black is still black. FIXME: This resets everything, shouldn't this be 22 instead of 0?
 			end
 		end
 	end
@@ -104,7 +127,14 @@ class Screen::Color
 			g/=128;
 			b/=128;
 
-			"\e[3" << (r+g*2+b*4).to_s << 'm';
+			[30+r+g*2+b*4];
+		end
+		def convert_bg(r,g,b)
+			r/=128;
+			g/=128;
+			b/=128;
+
+			[40+r+g*2+b*4];
 		end
 	end
 end
@@ -137,8 +167,11 @@ class Screen::Color
 	def to_s
 		@colstr||''
 	end
+end
 
-	#def initialize(r,g,b)
-	#	raise "A screen color mode was not set. Please set a color mode using Screen::Color.mode=:reduced";
-	#end
+class Screen::Background < Screen::Color
+	def initialize(r,g,b)
+		@original=[r,g,b];
+		@colstr=convert_bg(r,g,b).join(';');
+	end
 end

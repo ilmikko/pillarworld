@@ -1,7 +1,7 @@
 require_relative('../view');
 
 w=10;
-view=View.new(10,10,w,10);
+view=View.new(w,10);
 
 view.scene=->{
 	view.put(0,1,"This text should not clip");

@@ -7,9 +7,6 @@
 #
 
 require('screen');
-
-Screen::Color.mode=:reduced;
-
 require('view/caching');
 
 class View
@@ -86,19 +83,33 @@ class View
 		end
 	end
 
-	def set(**sets)
-		if sets[:color]
-			col=sets[:color].to_s;
-			$console.log("Setting color to #{col}");
-			print(col);
-		else
-			print("\e[m") # HACK: reset the modifiers
+	def set_color(color)
+		#if color
+		#	col=color.to_s;
+		#	$console.log("Setting color to #{col}");
+		#	print("\e[#{col}m");
+		#else
+		#	print("\e[m") # HACK: reset the modifiers
+		#end
+	end
+
+	def set_modifiers(mods)
+		#print("\e[#{mods.join(';')}m");
+	end
+
+	def set(modifiers:nil,**sets)
+		if modifiers.nil?
+			$console.log("Forcing set: #{sets}");
+			modifiers=Screen::State.new(**sets);
 		end
-		print(Screen::Modifier.negate) if sets[:negate];
-		print(Screen::Modifier.bold) if sets[:bold];
-		print(Screen::Modifier.faint) if sets[:faint];
-		print(Screen::Modifier.italic) if sets[:italic];
-		print(Screen::Modifier.underline) if sets[:underline];
+		$console.log("Set: #{modifiers}");
+		print(modifiers);
+		#set_color(sets[:color]);
+		#print(Screen::Modifier.negate) if sets[:negate];
+		#print(Screen::Modifier.bold) if sets[:bold];
+		#print(Screen::Modifier.faint) if sets[:faint];
+		#print(Screen::Modifier.italic) if sets[:italic];
+		#print(Screen::Modifier.underline) if sets[:underline];
 	end
 
 	def put(x,y,char,**sets)
