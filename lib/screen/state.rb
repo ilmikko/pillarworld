@@ -2,7 +2,9 @@ class Screen::State
 	attr_accessor :color,:background,:bold,:faint,:italic,:negate,:underline;
 
 	def use
-		print(to_s);
+		str=to_s;
+		$console.log("NEW STATE: #{str}");
+		print(str);
 	end
 
 	def to_s

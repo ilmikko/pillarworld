@@ -10,7 +10,7 @@ require('view');
 require('matrix');
 
 $screen=Screen.new;
-$view=View::Performance.new(90,30,screen:$screen,fps:60);
+$view=View::Performance.new(90,30,screen:$screen,fps:30);
 $view2=View.new(90,20,y:30,screen:$screen);
 
 $view2.scene=->(){

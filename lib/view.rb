@@ -97,11 +97,9 @@ class View
 		#print("\e[#{mods.join(';')}m");
 	end
 
-	def set(modifiers:nil,**sets)
-		if modifiers.nil?
-			$console.log("Forcing set: #{sets}");
-			modifiers=Screen::State.new(**sets);
-		end
+	def set(**sets)
+		$console.log("Forcing set: #{sets}");
+		modifiers=Screen::State.new(**sets);
 		$console.log("Set: #{modifiers}");
 		print(modifiers);
 		#set_color(sets[:color]);
@@ -140,8 +138,7 @@ class View
 	
 	def _put(x,y,char)
 		# We need these for caching
-		x=x.round.to_i if !x.is_a? Integer;
-		y=y.round.to_i if !y.is_a? Integer;
+		x,y=round_for_cache(x,y);
 
 		#$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h}");
 		# Prevent writing outside of the view
