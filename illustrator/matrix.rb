@@ -87,7 +87,9 @@ $view.scene=->(){
 	$w,$h=$view.wh;
 	$view.clear;
 	box.draw();
-	box.rotateY(0.05);
+	box.rotateY(0.07);
+	box.rotateX(0.01311);
+	box.rotateZ(0.041247);
 };
 
 sleep;

@@ -47,13 +47,11 @@ class Illustration::Parser
 				if line.start_with? '>'
 					# skip some indices
 					skip=line[1..-1].to_i;
-					@colors += [nil]*skip;
+					@colors += [@colors[i-1]]*skip;
 					i+=skip;
 				else
 					i+=1;
-					@colors << line.split(' ').map{|color|
-						color.to_i;
-					};
+					@colors << Screen::Color[*line.split(',').map{|s|s.to_i;}];
 				end
 			end
 		}

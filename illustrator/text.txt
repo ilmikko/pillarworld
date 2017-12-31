@@ -1,0 +1,9 @@
+Lava
+
+Just so that I don't forget
+I wanted to test how a lava lake would look like
+Where the lava would be made of these vertical loading bar pieces
+(so you could see the surface against something)
+Like a semi-isometric view
+The background color for the bar would be the foreground color for the rest
+And background color for the lava because you would have bubbles etc

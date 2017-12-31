@@ -25,16 +25,13 @@ UI.new.show(
 cursor=Cursor.new(test.width,test.height);
 
 view.scene=->{
-	# TODO: proper support for getting COLORS from the terminal screen
-	# And instead of using FORCE, we just need to check a bit more than just
-	# the character (if our colors aren't matching, we still want to write)
 	test.each_cell{|x,y,col,char|
-		$console.log("#{x},#{y},#{char}");
-		view.put(x,y,char,color: col);
+		$console.log("#{x},#{y},#{char},#{col}");
+		view.put(x,y,char,color:col);
 	}
-	#view.negate(*cursor.xy);
-	print("\e[m");
-	view.put(*cursor.xy,"+");
+
+	cursorpos=cursor.xy;
+	view.put(*cursorpos,test.get_char(*cursorpos),color:test.get_col(*cursorpos),negate:true);
 };
 
 $input.listen({

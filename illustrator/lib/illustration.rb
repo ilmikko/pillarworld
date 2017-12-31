@@ -30,10 +30,23 @@ class Illustration
 			x=i % w;
 			y=i / w;
 			char=characters[i];
-			col='';
-			col=colors[i].map{|c|"\e[#{c}m"}.join if !@colors[i].nil?;
+			col=colors[i];
 			yield [x,y,col,char];
 		end
+	end
+
+	def get_char(x,y)
+		@characters[geti(x,y)];
+	end
+
+	def geti(x,y)
+		w,h=@width,@height;
+		# Get a specific cell's character
+		i=(x % w)+(y * w);
+	end
+
+	def get_col(x,y)
+		@colors[geti(x,y)];
 	end
 	
 	def initialize(width,height)

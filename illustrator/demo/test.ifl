@@ -4,7 +4,7 @@ IMILL 10x5
 2bcdefghij
 3bcdefghij
 4bcdefghij
-31
->24
-30 42
->24
+255,0,0
+>44
+0,255,0
+>4
