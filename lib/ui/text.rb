@@ -39,7 +39,7 @@ class UI::Text < UI::Node
 
 		self.p_wh=[0,0];
 
-		self.color=color;
+		#self.color=color;
 		self.text=text;
 	end
 end
