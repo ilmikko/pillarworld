@@ -4,6 +4,11 @@ class View::Performance < View
 		rethread;
 	end
 
+	def redraw
+		super;
+		_redraw;
+	end
+
 	def set(**sets)
 		state=Screen::State.new(**sets);
 		@current_state=state.to_s;
@@ -43,13 +48,6 @@ class View::Performance < View
 					sleep(1/@fps);
 				}
 			}
-		else
-			@thread=Thread.new{
-				loop{
-					_redraw;
-					sleep(1/20.0);
-				}
-			}
 		end
 	end
 
@@ -75,11 +73,11 @@ class View::Performance < View
 	end
 	
 	def initialize(*args,fps:-1,**_)
-		super(*args,**_);
-
 		@fps=fps.to_f;
 
 		@current_state=nil;
 		@state_cache={};
+
+		super(*args,**_);
 	end
 end
