@@ -36,7 +36,11 @@ class Illustration
 	end
 
 	def get_char(x,y)
-		@characters[geti(x,y)];
+		@characters[geti(x,y)].dup;
+	end
+
+	def set_char(x,y,v)
+		@characters[geti(x,y)]=v;
 	end
 
 	def geti(x,y)
@@ -46,7 +50,11 @@ class Illustration
 	end
 
 	def get_col(x,y)
-		@colors[geti(x,y)];
+		@colors[geti(x,y)].dup;
+	end
+
+	def set_col(x,y,col)
+		@colors[geti(x,y)]=col;
 	end
 	
 	def initialize(width,height)
