@@ -54,10 +54,8 @@ class Screen::Color
 	end
 
 	module Screen::Color::Defaults
-		def initialize(r,g,b)
-			# Reduce this to an ANSI color - this way we can then check for color overlaps in screen
-			@original=[r,g,b];
-			@colstr=convert(r,g,b).join(';');
+		def recalc
+			@colstr=convert(@r,@g,@b).join(';');
 		end
 	end
 
@@ -164,14 +162,29 @@ class Screen::Color
 		end
 	end
 
+	attr_reader :r,:g,:b
+
+	def rgb;
+		[@r,@g,@b];
+	end
+
+	def r=(v);@r=v;recalc;end
+	def g=(v);@g=v;recalc;end
+	def b=(v);@b=v;recalc;end
+
+	def initialize(r,g,b)
+		# Reduce this to an ANSI color - this way we can then check for color overlaps in screen
+		@r,@g,@b=r,g,b;
+		recalc;
+	end
+
 	def to_s
 		@colstr||''
 	end
 end
 
 class Screen::Background < Screen::Color
-	def initialize(r,g,b)
-		@original=[r,g,b];
-		@colstr=convert_bg(r,g,b).join(';');
+	def recalc
+		@colstr=convert_bg(@r,@g,@b).join(';');
 	end
 end
