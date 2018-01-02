@@ -58,11 +58,11 @@ class View::Performance < View
 	def _redraw
 		# Real redraw from cache
 
-		@state_cache.each{|state,so|
+		@state_cache.dup.each{|state,so|
 			$console.log("New state: #{state}");
 			print(state);
-			so.each{|x,v|
-				v.each{|y,char|
+			so.dup.each{|x,v|
+				v.dup.each{|y,char|
 					next if char.nil?;
 					_put(x,y,char);
 				}
