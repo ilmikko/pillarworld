@@ -4,6 +4,11 @@ class Illustration
 		return parse(filedata);
 	end
 
+	def self.save(ill,path)
+		$console.log("Saving illustration to #{path}...");
+		File.write(path,ill.to_ifl);
+	end
+
 	def self.parse(data)
 		parser=Illustration::Parser.new;
 		parsed=parser.parse(data);
@@ -15,6 +20,8 @@ class Illustration
 
 	attr_reader :width, :height
 	attr_accessor :characters,:colors
+
+	def wh;[@width,@height];end
 
 	def each_cell
 		# Loop through cells and print out colors and stuff
@@ -55,6 +62,11 @@ class Illustration
 
 	def set_col(x,y,col)
 		@colors[geti(x,y)]=col;
+	end
+
+	def to_ifl
+		# Turn this object to IFL (save) data
+		Illustration::Parser.new.convert_ifl(self);
 	end
 	
 	def initialize(width,height)

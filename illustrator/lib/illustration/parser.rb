@@ -2,6 +2,54 @@ class Illustration::Parser
 	attr_reader :width, :height
 	attr_reader :characters, :colors
 
+	def convert_ifl(ill)
+		# This is a bit like an inverse 'parse'.
+		data='';
+
+		w,h=ill.wh;
+
+		data+='IMILL '; # Magic
+		data+="#{w}x#{h}"; # Size
+
+		data+="\n"; # End headers
+
+		# Rows of characters
+		y_last=0;
+		ill.each_cell{|x,y,col,char|
+			if y!=y_last;
+				data+="\n"; # Insert newlines when y changes
+				y_last=y;
+			end
+			data+=char; # Insert char
+		}
+
+		data+="\n"; # End characters
+
+		col_last=nil;
+		same_cols=0;
+		ill.each_cell{|x,y,col,char|
+			col=col.rgb.join(',');
+			if col==col_last
+				same_cols+=1;
+			else
+				if same_cols>0
+					# Increment skip
+					data+=">#{same_cols}\n";
+					same_cols=0;
+				end
+				data+="#{col}\n";
+			end
+			col_last=col;
+		}
+
+		# Add the last skip which is required for sanity check
+		if same_cols>0
+			data+=">#{same_cols}\n";
+		end
+
+		return data;
+	end
+
 	def parse(data)
 		parsing=:header;
 		x=0;
