@@ -24,7 +24,7 @@ class UI::Node
 	def redraw
 		if !@write.nil? && !@@screen.nil?
 			$console.debug("Write (no debug)");
-			@@screen.write(*@xy,@write,color:@color);
+			@@screen.write(*@xy,@write);
 		end
 	end
 end

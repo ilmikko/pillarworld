@@ -5,19 +5,20 @@ class UI::Node
 		col=@@debugcolors.sample;
 		if UI.debug?
 			if @write.nil?
-				text=self.class;
-				# Generate a thing to write
-				$console.debug("Write #{self}!");
-				@@screen.write(*@xy,"<#{text}",color:"\e[#{col}m");
-				@@screen.write(*[@xy[0]+@wh[0]-1-"#{text}".length,@xy[1]+@wh[1]-1],"#{text}>",color:"\e[#{col}m");
+				text=self.class.to_s;
+				# Generate a thing to write for debug
+				#@@screen.write(*@xy,"<#{text}",color:"\e[#{col}m");
+				@@screen.write(*@xy,"<#{text}");
+				#@@screen.write(*[@xy[0]+@wh[0]-1-"#{text}".length,@xy[1]+@wh[1]-1],"#{text}>",color:"\e[#{col}m");
+				@@screen.write(@xy[0]+@wh[0]-1-text.length,@xy[1]+@wh[1]-1,"#{text}>");
 			else
-				$console.debug("Write #{self}!");
-				@@screen.write(*@xy,@write,color:"\e[#{col}m");
+				#@@screen.write(*@xy,@write,color:"\e[#{col}m");
+				@@screen.write(*@xy,@write);
 			end
 		else
 			if !@write.nil?
-				$console.debug("Write #{self}!");
-				@@screen.write(*@xy,@write,color:@color);
+				#@@screen.write(*@xy,@write,color:@color);
+				@@screen.write(*@xy,@write);
 			end
 		end
 	end

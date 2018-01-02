@@ -44,7 +44,6 @@ class View::Performance < View
 			@thread=Thread.new{
 				loop{
 					redraw;
-					_redraw;
 					sleep(1/@fps);
 				}
 			}

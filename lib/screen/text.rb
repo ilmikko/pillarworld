@@ -1,5 +1,5 @@
 class Screen
-	def write(x,y,str,color: nil)
+	def write(x,y,str)
 		w,h=@w,@h;
 		return if (x<-str.length+1||x>=w||y>=h||y<0); # Starting point out of bounds
 
@@ -16,9 +16,7 @@ class Screen
 		x=(x+1).round.to_i;
 		y=(y+1).round.to_i;
 
-		if color
-			str=color+str+"\e[0m";
-		end
-		$stdout.write("\e[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
+		# HACK: Clear colors before writing
+		$stdout.write("\e[m\e[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
 	end
 end

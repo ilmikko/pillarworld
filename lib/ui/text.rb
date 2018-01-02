@@ -34,12 +34,10 @@ class UI::Text < UI::Node
 		end
 	end
 
-	def initialize(text='',color: nil,**_)
+	def initialize(text='',**_)
 		super(**_);
 
 		self.p_wh=[0,0];
-
-		#self.color=color;
 		self.text=text;
 	end
 end

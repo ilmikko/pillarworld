@@ -9,8 +9,8 @@ $LOAD_PATH.push('lib');
 require 'illustration';
 require 'cursor';
 
-illustration=Illustration.load('demo/illustration-saved.ifl');
-#illustration=Illustration.load('demo/test.ifl');
+#illustration=Illustration.load('demo/illustration-saved.ifl');
+illustration=Illustration.load('demo/test.ifl');
 
 # Set view w and h
 UI.debug=true;
