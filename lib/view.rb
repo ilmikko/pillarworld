@@ -179,7 +179,7 @@ class View
 		return true;
 	end
 
-	def initialize(w=0,h=0,x:0,y:0,screen:nil,scene:nil)
+	def initialize(w=nil,h=nil,x:0,y:0,screen:nil,scene:nil)
 		@x,@y,@w,@h=x,y,w,h;
 
 		@cache=View::Cache.new;
@@ -204,7 +204,7 @@ class View
 
 		# If we haven't defined a width & height, assume that we want full screen.
 		# Otherwise keep the width & height of the view static.
-		if w==0 and h==0
+		if w.nil? or h.nil?
 			$console.log("Attaching a resize event... (redraw & resize)");
 			screen.on('resize',->{
 				self.wh=screen.wh;
