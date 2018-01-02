@@ -6,34 +6,35 @@ class View::Performance < View
 
 	def redraw
 		super;
+		# We call the actual redraw function after calling the scene
 		_redraw;
 	end
 
 	def set(**sets)
 		state=Screen::State.new(**sets);
 		@current_state=state.to_s;
+		@state_cache[@current_state]={} if !@state_cache.key? @current_state;
 	end
 
 	def put(x,y,char,**sets)
 		set(**sets) if sets;
-		@state_cache[@current_state]={} if !@state_cache.key? @current_state;
 
 		current=@state_cache[@current_state];
 
-		x,y=round_for_cache(x,y);
+		x,y=_round(x,y);
 
+		# Prevent writing outside of the view
+		# TODO: This might increase performance / memory a bit,
+		# or it might not. Check it out later.
+		return false if _outside?(x,y);
+
+		# TODO: Port these to cache as well.
 		# Return if this write request has already been done
 		return if current.key?(x) && current[x][y]==char;
 
 		# Save the write request into the 2D tree
 		current[x]={} if !current.key? x;
 		current[x][y]=char;
-	end
-
-	def erase(x,y)
-		current=@state_cache[@current_state];
-		# TODO: Make erase conform to the same rules as put
-		put(x,y,' ');
 	end
 
 	def rethread
@@ -70,7 +71,7 @@ class View::Performance < View
 
 		@state_cache={};
 	end
-	
+
 	def initialize(*args,fps:-1,**_)
 		@fps=fps.to_f;
 

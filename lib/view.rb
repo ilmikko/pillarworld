@@ -7,29 +7,36 @@
 #
 
 require('screen');
-require('view/caching');
 
 class View
-	include View::Caching
 	def scene=(v)
 		@scene=v;
+
+		# Redraw the view when the scene changes
 		redraw;
 	end
 
-	def w;@w;end
-	def h;@h;end
+	attr_reader :w,:h
+
 	def wh;[@w,@h];end
 
+	# Resize when the size changes (resize redraws)
 	def w=(v);
 		@w=v;
-		redraw;
+		resize;
 	end
 	def h=(v);
 		@h=v;
-		redraw;
+		resize;
 	end
 	def wh=(wh);
 		@w,@h=wh;
+		resize;
+	end
+
+	# What to do when the view resizes
+	def resize
+		$console.log("View registered a resize event: #{[@w,@h]}");
 		redraw;
 	end
 
@@ -38,31 +45,33 @@ class View
 	alias height h
 	alias height= h=
 
-	def x;@x;end
-	def y;@y;end
+	attr_reader :x,:y
 	def xy;[@x,@y];end
 
+	# Redraw when position changes (clear the old position before that?)
 	def x=(v);
+		clear;
 		@x=v;
 		redraw;
 	end
 	def y=(v);
+		clear;
 		@y=v;
 		redraw;
 	end
 	def xy=(xy)
+		clear;
 		@x,@y=xy;
 		redraw;
 	end
 
 	def clear
 		# TODO: Clearing optimizations
-		@cached.dup.each{|x,v|
-			v.dup.each{|y,v|
-				erase(x,y);
-			}
+		@cache.each_write{|x,y|
+			erase(x,y);
 		}
-		clear_cache;
+		@cache.look_at_writes;
+		@cache.clear_writes;
 	end
 
 	def redraw
@@ -111,12 +120,14 @@ class View
 	end
 
 	def put(x,y,char,**sets)
+		x,y=_round(x,y);
 		# Cache optimizations - we don't need to clear the whole screen
 		# (and in fact, a single View should never clear a whole Screen)
 		#
 		# Return if we have this particular one already cached
 		# return if cached?(x,y); (TODO: This is still buggy as we need to check color as well)
 		set(**sets);
+
 		_put(x,y,char);
 	end
 
@@ -129,25 +140,39 @@ class View
 	#end
 
 	def erase(x,y)
-		_put(x,y,' ');
+		# Erase got its own private function as using _put causes the erase to get cached, what we don't want
+		x,y=_round(x,y);
+		return false if _outside?(x,y);
+		@screen.put(@x+x,@y+y,' ');
+		return true;
 	end
 
 	#######
 	private
 	#######
 	
+	def _round(x,y)
+		x=x.round.to_i;
+		y=y.round.to_i;
+		return [x,y];
+	end
+
+	def _outside?(x,y)
+		#$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h} -> #{x<0 or y<0 or x>=@w or y>=@h}");
+		# Prevent writing outside of the view
+		return true if x<0 or y<0 or x>=@w or y>=@h;
+		return false;
+	end
+
 	def _put(x,y,char)
 		# We need these for caching
-		x,y=round_for_cache(x,y);
-
-		#$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h}");
-		# Prevent writing outside of the view
-		return false if x<0 or y<0 or x>=@w or y>=@h;
 		
+		return false if _outside?(x,y);
+
 		# Cache the current character and color to be put on screen
 		# FIXME: Currently only saving write positions.
 		# TODO: What about \e[7m, bold and so on?
-		cache(x,y);
+		@cache.write(x,y);
 		
 		# TODO: instead of this, we could cache the writes over to our FPS thread.
 		@screen.put(@x+x,@y+y,char);
@@ -156,7 +181,8 @@ class View
 
 	def initialize(w=0,h=0,x:0,y:0,screen:nil,scene:nil)
 		@x,@y,@w,@h=x,y,w,h;
-		@cached={};
+
+		@cache=View::Cache.new;
 
 		if screen.nil?
 			# CONVENIENCE: Check if there are any active Screens.
@@ -196,4 +222,5 @@ class View
 	end
 end
 
+require('view/cache');
 require('view/performance');
