@@ -1,5 +1,5 @@
 class Cursor
-	attr_accessor :xy
+	attr_accessor :xy,:copy
 	def moveX(d)
 		@xy[0]+=d;
 		@xy[0]=@xy[0].clamp(0,@wh[0]-1);
@@ -11,5 +11,6 @@ class Cursor
 	def initialize(w,h)
 		@xy=[0,0];
 		@wh=[w,h];
+		@copy=[];
 	end
 end
