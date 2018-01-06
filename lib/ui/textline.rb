@@ -4,7 +4,7 @@ class UI::TextLine < UI::Array
 			if !item.is_a? UI::Node
 				# Convert strings to UIText by their words.
 				if item.is_a? String
-					item.split(/(\s+)/).map{|word| UI::Text.new(word)}
+					item.split(/(\s+)/).map{|word| UI::Text.new(word); }
 				else
 					raise "Error: Cannot append #{item.class} into #{self.class}";
 				end
@@ -44,7 +44,7 @@ class UI::TextLine < UI::Array
 		# Fit children in maxw,maxh (word wrap)
 		for i in 0...@children.length
 			c=@children[i];
-			if offset>=maxw || offset+c.w>=maxw
+			if offset>=maxw or offset+c.w>=maxw
 				line+=1;
 				# Conveniently, offset now contains the width of the current line. Check if it is the width of our element.
 				widthmax=offset if offset>widthmax;
@@ -73,7 +73,7 @@ class UI::TextLine < UI::Array
 	end
 
 	def redraw
-		$console.log("Heya! I'm redrawing with #{@wh}");
+		$console.log("Heya! I'm #{self} and I'm redrawing with #{@wh}");
 		super;
 	end
 
