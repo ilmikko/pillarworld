@@ -32,6 +32,8 @@ class UI::Node
 			@wh[0]=v; # No preferred width
 		elsif v>pw
 			@wh[0]=pw; # Use preferred width as we have the space
+		else
+			@wh[0]=v;
 		end
 	end
 	def h=(v);
@@ -41,6 +43,8 @@ class UI::Node
 			@wh[1]=v; # No preferred height
 		elsif v>ph
 			@wh[1]=ph; # Use preferred height as we have the space
+		else
+			@wh[1]=v;
 		end
 	end
 
