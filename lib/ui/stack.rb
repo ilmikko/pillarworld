@@ -50,7 +50,8 @@ class UI::Stack < UI::Align
 	end
 
 	def initialize(direction: :col,**_)
-		super(**_);
+		# Default stack align to top left
+		super(va: :top, ha: :left, **_);
 
 		@direction=direction;
 	end

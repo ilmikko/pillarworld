@@ -18,7 +18,7 @@ UI.debug=true;
 # FIXME: Why are the stack contents aligned to the center...?
 UI.new.show(
 	UI::Align.new.append(
-		UI::Stack.new(width:50, height:30, direction: :col).append(
+		UI::Stack.new(direction: :col).append(
 			UI::Border.new(width: illustration.width+2, height: illustration.height+2).append(
 				view=UI::View.new
 			),
