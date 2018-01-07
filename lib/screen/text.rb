@@ -17,6 +17,7 @@ class Screen
 		y=(y+1).round.to_i;
 
 		# HACK: Clear colors before writing
+		$console.log("Screen: Write #{str}");
 		$stdout.write("\e[m\e[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
 	end
 end

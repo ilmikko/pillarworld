@@ -11,8 +11,8 @@ class Screen::Modifier
 	def self.underline(state=true)
 		Screen::Modifier::Underline.new(state);
 	end
-	def self.negate(state=true)
-		Screen::Modifier::Negate.new(state);
+	def self.inverted(state=true)
+		Screen::Modifier::Inverted.new(state);
 	end
 	def self.invisible(state=true)
 		Screen::Modifier::Invisible.new(state);
@@ -33,5 +33,5 @@ require('screen/modifiers/bold');
 require('screen/modifiers/faint');
 require('screen/modifiers/italic');
 require('screen/modifiers/underline');
-require('screen/modifiers/negate');
+require('screen/modifiers/inverted');
 require('screen/modifiers/invisible');

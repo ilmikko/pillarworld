@@ -1,4 +1,4 @@
-class Screen::Modifier::Negate < Screen::Modifier
+class Screen::Modifier::Inverted < Screen::Modifier
 	@@state_on=7; # Reverse video on
 	@@state_off=27; # Reverse video off
 

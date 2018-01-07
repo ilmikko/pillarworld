@@ -42,7 +42,7 @@ view.scene=->{
 		view.put(x,y,char,color:col);
 	}
 
-	view.put(*cursorpos,illustration.get_char(*cursorpos),color:illustration.get_col(*cursorpos),negate:true);
+	view.put(*cursorpos,illustration.get_char(*cursorpos),color:illustration.get_col(*cursorpos),inverted:true);
 
 };
 

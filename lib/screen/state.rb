@@ -1,5 +1,5 @@
 class Screen::State
-	attr_accessor :color,:background,:bold,:faint,:italic,:negate,:underline;
+	attr_accessor :color,:background,:bold,:faint,:italic,:inverted,:underline;
 
 	def use
 		str=to_s;
