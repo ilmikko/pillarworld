@@ -29,6 +29,6 @@ class UI::Node
 	end
 end
 
-require 'ui/node/hierarchy'
-require 'ui/node/positioning'
-require 'ui/node/debug'
+require('ui/node/debug');
+require('ui/node/hierarchy');
+require('ui/node/positioning');

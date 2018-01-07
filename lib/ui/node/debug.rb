@@ -1,9 +1,10 @@
 class UI::Node
 	@@debugcolors=(41..47).to_a+(100..107).to_a;
-	def redraw()
+	def redraw
 		return if @@screen.nil?;
-		col=@@debugcolors.sample;
+		$console.log("Debug redraw");
 		if UI.debug?
+			col=@@debugcolors.sample;
 			if @write.nil?
 				text=self.class.to_s;
 				# Generate a thing to write for debug
@@ -16,8 +17,8 @@ class UI::Node
 				@@screen.write(*@xy,@write);
 			end
 		else
-			if !@write.nil?
-				#@@screen.write(*@xy,@write,color:@color);
+			if !@write.nil? && !@@screen.nil?
+				$console.debug("Write (no debug)");
 				@@screen.write(*@xy,@write);
 			end
 		end
