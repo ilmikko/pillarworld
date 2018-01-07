@@ -34,14 +34,20 @@ class Screen
 		@h;
 	end
 	def clear
-		print("\e[2J");
+		$stdout.print("\e[2J");
+	end
+
+	def use(state)
+		raise "Cannot use state: #{state}" if !state.is_a? Screen::State;
+		$console.log("Using state: #{state}");
+		$stdout.print(state.to_s);
 	end
 
 	def put(x,y,char)
 		x=x.round.to_i+1;
 		y=y.round.to_i+1;
 		return if x<0 or y<0 or x>@w or y>@h;
-		print("\e[" << y.to_s << ';' << x.to_s << 'H' << char.to_s);
+		$stdout.print("\e[" << y.to_s << ';' << x.to_s << 'H' << char.to_s);
 	end
 
 	#######
@@ -54,7 +60,7 @@ class Screen
 
 		# Set the screen to our default state
 		@state=Screen::State.default;
-		@state.use;
+		use(@state);
 
 		@@screens << self;
 

@@ -1,4 +1,4 @@
-print("\e[?25l"); # Hide cursor
+$stdout.print("\e[?25l"); # Hide cursor
 
 # New thread for resizing check
 Thread.new{
@@ -16,5 +16,5 @@ Thread.new{
 }
 
 at_exit{
-	print("\e[?25h\e[H\e[m"); # Clear screen, Show cursor, Reset color
+	$stdout.print("\e[?25h\e[H\e[m"); # Clear screen, Show cursor, Reset color
 }

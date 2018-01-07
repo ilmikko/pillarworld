@@ -151,14 +151,19 @@ class Screen::Color
 
 	def self.[](*args)
 		if args.length==1
-			#return args[0] if args[0].is_a? Screen::Color;
-			# Assume symbol
-			self.new(*@@colors[args[0]]);
+			arg=args[0];
+			if arg.is_a? Symbol
+				self.new(*@@colors[args[0]]);
+			elsif arg.is_a? Screen::Color
+				arg
+			else
+				raise "Cannot parse color: #{arg}";
+			end
 		elsif args.length==3
 			# Assume r,g,b
 			self.new(*args);
 		else
-			throw "Cannot parse color: #{args}";
+			raise "Cannot parse color: #{args}";
 		end
 	end
 

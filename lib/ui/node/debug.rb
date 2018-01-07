@@ -14,11 +14,13 @@ class UI::Node
 				@@screen.write(@xy[0]+@wh[0]-1-text.length,@xy[1]+@wh[1]-1,"#{text}>");
 			else
 				#@@screen.write(*@xy,@write,color:"\e[#{col}m");
+				@@screen.use(@state) if @state;
 				@@screen.write(*@xy,@write);
 			end
 		else
 			if !@write.nil? && !@@screen.nil?
 				$console.debug("Write (no debug)");
+				@@screen.use(@state) if @state;
 				@@screen.write(*@xy,@write);
 			end
 		end

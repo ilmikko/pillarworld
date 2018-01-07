@@ -2,7 +2,7 @@ class View::Cache
 	def write(x,y)
 		x=x.to_i;
 		y=y.to_i;
-		$console.log("Write #{x},#{y}");
+		#$console.log("Write #{x},#{y}");
 		@writes["#{x},#{y}"]=true;
 	end
 	def each_write

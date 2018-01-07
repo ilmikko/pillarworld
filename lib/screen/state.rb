@@ -24,8 +24,8 @@ class Screen::State
 	#######
 
 	def initialize(color:nil,background:nil,**modifiers)
-		@color=color if !color.nil?;
-		@background=background if !background.nil?;
+		@color=Screen::Color[*color] if !color.nil?;
+		@background=Screen::Color[*background] if !background.nil?;
 		#@modifiers={
 		#	bold: Screen::Modifier.bold(modifiers[:bold]),
 		#	faint: Screen::Modifier.faint(modifiers[:faint]),

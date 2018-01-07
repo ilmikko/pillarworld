@@ -18,6 +18,6 @@ class Screen
 
 		# HACK: Clear colors before writing
 		$console.log("Screen: Write #{str}");
-		$stdout.write("\e[m\e[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
+		$stdout.write("\e[" << y.to_s << ';' << x.to_s << 'H' << str.to_s);
 	end
 end
