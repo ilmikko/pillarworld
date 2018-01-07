@@ -3,7 +3,7 @@ class Screen::State
 
 	def use
 		str=to_s;
-		$console.log("NEW STATE: #{str}");
+		$console.log("Using #{self.class} #{self.object_id} (#{str})");
 		print(str);
 	end
 
@@ -15,7 +15,7 @@ class Screen::State
 		a=@modifiers.values;
 		a << @color if @color;
 		a << @background if @background;
-		str="\e[0;#{a.join(';')}m";
+		str="\e[;#{a.join(';')}m";
 		return str;
 	end
 

@@ -1,5 +1,5 @@
 # 
-# View < Screen
+# View
 #
 # Basically there is only one Screen which is the whole terminal screen.
 # But this screen can be divided into multiple Views, independent of any UI layouts or other inconveniences.
@@ -78,19 +78,20 @@ class View
 		@scene.call if !@scene.nil?;
 	end
 
-	def write(x,y,str,**sets)
-		# TODO: write centered or right-aligned?
-		len=str.length;
-
-		# TODO: Get the bounds - sometimes we don't need to loop through the entire string.
-		set(**sets);
-
-		for i in 0...len
-			# Break if put fails, because that means it's out of bounds
-			# TODO: What about if we start from behind?
-			_put(x+i,y,str[i]);
-		end
-	end
+#	def write(x,y,str,**sets)
+#		# TODO: What's the difference between screen.write and view.write?
+#		# TODO: write centered or right-aligned?
+#		len=str.length;
+#
+#		# TODO: Get the bounds - sometimes we don't need to loop through the entire string.
+#		set(**sets);
+#
+#		for i in 0...len
+#			# Break if put fails, because that means it's out of bounds
+#			# TODO: What about if we start from behind?
+#			_put(x+i,y,str[i]);
+#		end
+#	end
 
 	def set_color(color)
 		#if color
@@ -223,4 +224,5 @@ class View
 end
 
 require('view/cache');
+require('view/text');
 require('view/performance');
