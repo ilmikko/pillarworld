@@ -158,7 +158,7 @@ class View
 	end
 
 	def _outside?(x,y)
-		#$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h} -> #{x<0 or y<0 or x>=@w or y>=@h}");
+		#$console.log("Outside of the view? x:#{x} y:#{y} w:#{@w} h:#{@h}");
 		# Prevent writing outside of the view
 		return true if x<0 or y<0 or x>=@w or y>=@h;
 		return false;
@@ -195,7 +195,7 @@ class View
 				$console.log("Creating a new screen and attaching...");
 				screen=Screen.new;
 
-				if w==0 and h==0
+				if w==nil and h==nil
 					$console.log("Resizing to the created screen...");
 					self.wh=screen.wh;
 				end
