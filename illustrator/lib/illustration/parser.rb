@@ -77,7 +77,7 @@ class Illustration::Parser
 					ord=char.ord;
 					if ord==10 # enter
 						if x!=@width
-							raise "Malformed columns in illustration, parsing failed.";
+							raise "Malformed columns in illustration, parsing failed. (#{x}!=#{@width})";
 						end
 						x=0;
 					else
@@ -103,6 +103,9 @@ class Illustration::Parser
 				end
 			end
 		}
+		if i==0
+			raise "Malformed illustration: no colors set.";
+		end
 		if i!=@width*@height
 			raise "Malformed illustration (#{i}!=#{@width*@height}), parsing failed.";
 		end
