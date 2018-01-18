@@ -26,7 +26,7 @@
 class Console
 	# How different types are formatted. String substitution is used.
 	@@formats={
-                default:"  %s",
+		default:"  %s",
 		"log":"l %s",
 		"debug":"D %s",
 		"error":"E %s",
@@ -44,12 +44,12 @@ class Console
 		"verbose":-50
 	};
 
-        def dump=(v);@filedump=v;end
-        def echo=(v);@echo=v;end
+	def dump=(v);@filedump=v;end
+	def echo=(v);@echo=v;end
 
-        def lines
-                @lines
-        end
+	def lines
+		@lines
+	end
 
 	def loglevel
 		@level
@@ -68,16 +68,18 @@ class Console
 	end
 
 	def initialize(level=0)
-                @echo=false;
-                @filedump=true;
+		@echo=false;
+		@filedump=true;
 
 		@timings={};
 
 		# Which level we are on (log levels below this are not displayed)
 		@level=level;
 
-                # To hold the console lines
-                @lines=[];
+		# To hold the console lines
+		@lines=[];
+
+		log('Console initialized');
 	end
 
 	# Catch-all for all methods that don't exist
@@ -87,32 +89,31 @@ class Console
 
 		return if !@@levels[type].nil?&&@@levels[type]<@level;
 
-                # global formatting
-                args[0]="%s %s" % [(Time.now.to_f*1000).floor.to_s.slice(-8,8),args[0]];
+		# global formatting
+		args[0]="%s %s" % [(Time.now.to_f*1000).floor.to_s.slice(-8,8),args[0]];
 
 		# If formatting for this type, format
 		if @@formats.key? type.to_sym
 			args[0]=@@formats[type] % args[0];
-                else
-                        args[0]=@@formats[:default] % args[0];
+		else
+			args[0]=@@formats[:default] % args[0];
 		end
 
 
 		# Output our string (currently via puts)
-                if @echo
-                        $stdout.write(*args);
-                        $stdout.write("\r\n");
-                end
-                @lines.push(*args);
+		if @echo
+			$stdout.write(*args);
+			$stdout.write("\r\n");
+		end
+		@lines.push(*args);
+	end
+end
+
+at_exit do
+	if ($console.dump&&$console.lines.length>0)
+		$console.log("Writing to log file, bye.");
+		File.write("last.log",$console.lines.join("\n"));
 	end
 end
 
 $console=Console.new(ENV['LOGLEVEL'].to_i);
-$console.log("Console initialized");
-
-at_exit do
-        if ($console.dump&&$console.lines.length>0)
-                $console.log("Writing to log file, bye.");
-                File.write("last.log",$console.lines.join("\n"));
-        end
-end
