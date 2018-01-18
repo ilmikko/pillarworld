@@ -20,7 +20,8 @@ class UI::Array < UI::Node
 
 	def change
 		@children.each{ |c|
-			c.xywh=[*@xy,*@wh];
+			c.xy=@xy;
+			c.resize_wh=@wh;
 			c.change;
 		}
 	end

@@ -11,7 +11,9 @@ class UI::Text < UI::Node
 
 		# We can know the size of this element by the length of the text
 		# UIText never spans multiple lines
-		self.wh=(self.p_wh=[@length,1]);
+		self.max_width=@length;
+		self.max_height=1;
+
 		$console.log("#{self} resized to #{@wh} (#{[@length,1]})");
 		change;
 	end
@@ -42,7 +44,6 @@ class UI::Text < UI::Node
 	def initialize(text='',**_)
 		super(**_);
 
-		self.p_wh=[0,0];
 		self.text=text;
 	end
 end

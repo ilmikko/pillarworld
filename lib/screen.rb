@@ -1,10 +1,14 @@
 Thread.abort_on_exception=true;
 
 require('io/console');
-require('evented');
+
+require('tool/evented');
+require('tool/resizable');
 
 class Screen
-	include Evented
+	include Tool::Evented
+	include Tool::Resizable
+
 	@@screens=[];
 	def self.list
 		@@screens
@@ -15,32 +19,21 @@ class Screen
 		}
 	end
 
-	def resize(w,h)
-		@w,@h=w,h;
-
-		clear;
-
-		# Fire event
-		fire('resize');
-	end
-
-	def wh;
-		[@w,@h];
-	end
-	def width;
-		@w;
-	end
-	def height;
-		@h;
-	end
 	def clear
 		$stdout.print("\e[2J");
 	end
 
 	def use(state)
-		raise "Cannot use state: #{state}" if !state.is_a? Screen::State;
+		state=state.to_s if state.is_a? Screen::State;
+		raise "Cannot use state: #{state}" if !state.is_a? String;
 		$console.log("Using state: #{state}");
 		$stdout.print(state.to_s);
+	end
+
+	def set(**sets)
+		$console.log("Screen: set: #{sets}");
+		modifiers=Screen::State.new(**sets);
+		$stdout.print(modifiers);
 	end
 
 	def put(x,y,char)
@@ -76,4 +69,3 @@ require('screen/modifiers');
 require('screen/state');
 require('screen/resize');
 require('screen/text');
-require('screen/lines');

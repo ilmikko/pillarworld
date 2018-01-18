@@ -16,14 +16,14 @@ class UI::Stack < UI::Align
 		contentsize=[0,0];
 		if @direction==:row
 			@children.each{|c|
-				c.wh=@wh;
+				c.resize_wh=@wh;
 				c.change;
 				contentsize[0]+=c.w;
 				contentsize[1]=c.h if c.h>contentsize[1];
 			}
 		else
 			@children.each{|c|
-				c.wh=@wh;
+				c.resize_wh=@wh;
 				c.change;
 				contentsize[1]+=c.h;
 				contentsize[0]=c.w if c.w>contentsize[0];
@@ -35,13 +35,15 @@ class UI::Stack < UI::Align
 
 		if @direction==:row
 			@children.each{|c|
-				c.xywh=[x+offset+align[0],y+align[1],w-offset-align[0],h-align[1]];
+				c.xy=[x+offset+align[0],y+align[1]];
+				c.resize_wh=[w-offset-align[0],h-align[1]];
 				c.change;
 				offset+=c.w;
 			}
 		else
 			@children.each{|c|
-				c.xywh=[x+align[0],y+offset+align[1],w-align[0],h-offset-align[1]];
+				c.xy=[x+align[0],y+offset+align[1]];
+				c.resize_wh=[w-align[0],h-offset-align[1]];
 				c.change;
 				offset+=c.h;
 			}

@@ -21,6 +21,7 @@ class UI::Align < UI::Array
 		@@verticalaligns.key(@verticalalign);
 	end
 	def verticalalign=(v);
+		raise "Unknown vertical align: #{v}" if !@@verticalaligns.key?v;
 		@verticalalign=@@verticalaligns[v];
 	end
 
@@ -28,6 +29,7 @@ class UI::Align < UI::Array
 		@@horizontalaligns.key(@horizontalalign);
 	end
 	def horizontalalign=(v);
+		raise "Unknown horizontal align: #{v}" if !@@horizontalaligns.key?v;
 		@horizontalalign=@@horizontalaligns[v];
 	end
 
@@ -36,10 +38,12 @@ class UI::Align < UI::Array
 		x,y=@xy;
 
 		@children.each{ |child|
-			child.wh=@wh;
+			child.resize_wh=@wh;
 			child.change;
 			# calc aligns, position
 			cw,ch=child.wh;
+
+			$console.log("Child size: #{child.wh}");
 
 			ha=(w-cw)*@horizontalalign;
 			va=(h-ch)*@verticalalign;
@@ -52,7 +56,7 @@ class UI::Align < UI::Array
 	def initialize(ha: nil, va: nil, horizontalalign: :center, verticalalign: :center,**_)
 		super(**_);
 
-		self.horizontalalign=ha || horizontalalign;
-		self.verticalalign=va || verticalalign;
+		self.horizontalalign=ha||horizontalalign;
+		self.verticalalign=va||verticalalign;
 	end
 end

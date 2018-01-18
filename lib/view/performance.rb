@@ -12,29 +12,14 @@ class View::Performance < View
 
 	def set(**sets)
 		state=Screen::State.new(**sets);
+		$console.log("#{self} sets screen #{@screen} to #{state} (#{state.object_id})");
 		@current_state=state.to_s;
 		@state_cache[@current_state]={} if !@state_cache.key? @current_state;
 	end
 
 	def put(x,y,char,**sets)
 		set(**sets) if sets;
-
-		current=@state_cache[@current_state];
-
-		x,y=_round(x,y);
-
-		# Prevent writing outside of the view
-		# TODO: This might increase performance / memory a bit,
-		# or it might not. Check it out later.
-		return false if _outside?(x,y);
-
-		# TODO: Port these to cache as well.
-		# Return if this write request has already been done
-		return if current.key?(x) && current[x][y]==char;
-
-		# Save the write request into the 2D tree
-		current[x]={} if !current.key? x;
-		current[x][y]=char;
+		_put(x,y,char);
 	end
 
 	def rethread
@@ -55,16 +40,39 @@ class View::Performance < View
 	private
 	#######
 	
+	alias _screen_put _put
+
+	def _put(x,y,char)
+		current=@state_cache[@current_state];
+		
+		return if current.nil?;
+
+		x,y=_round(x,y);
+
+		# Prevent writing outside of the view
+		# TODO: This might increase performance / memory a bit,
+		# or it might not. Check it out later.
+		return false if _outside?(x,y);
+
+		# TODO: Port these to cache as well.
+		# Return if this write request has already been done
+		return if current.key?(x) && current[x][y]==char;
+
+		# Save the write request into the 2D tree
+		current[x]={} if !current.key? x;
+		current[x][y]=char;
+	end
+
 	def _redraw
 		# Real redraw from cache
 
 		@state_cache.dup.each{|state,so|
 			$console.log("New state: #{state}");
-			print(state);
+			@screen.use(state) if state;
 			so.dup.each{|x,v|
 				v.dup.each{|y,char|
 					next if char.nil?;
-					_put(x,y,char);
+					_screen_put(x,y,char);
 				}
 			}
 		}

@@ -8,60 +8,19 @@
 
 require('screen');
 
+require('tool/evented');
+require('tool/resizable');
+require('tool/positionable');
+
 class View
+	include Tool::Evented;
+	include Tool::Resizable;
+	include Tool::Positionable;
+
 	def scene=(v)
 		@scene=v;
 
 		# Redraw the view when the scene changes
-		redraw;
-	end
-
-	attr_reader :w,:h
-
-	def wh;[@w,@h];end
-
-	# Resize when the size changes (resize redraws)
-	def w=(v);
-		@w=v;
-		resize;
-	end
-	def h=(v);
-		@h=v;
-		resize;
-	end
-	def wh=(wh);
-		@w,@h=wh;
-		resize;
-	end
-
-	# What to do when the view resizes
-	def resize
-		$console.log("View registered a resize event: #{[@w,@h]}");
-		redraw;
-	end
-
-	alias width w
-	alias width= w=
-	alias height h
-	alias height= h=
-
-	attr_reader :x,:y
-	def xy;[@x,@y];end
-
-	# Redraw when position changes (clear the old position before that?)
-	def x=(v);
-		clear;
-		@x=v;
-		redraw;
-	end
-	def y=(v);
-		clear;
-		@y=v;
-		redraw;
-	end
-	def xy=(xy)
-		clear;
-		@x,@y=xy;
 		redraw;
 	end
 
@@ -93,43 +52,24 @@ class View
 #		end
 #	end
 
-	def set_color(color)
-		#if color
-		#	col=color.to_s;
-		#	$console.log("Setting color to #{col}");
-		#	print("\e[#{col}m");
-		#else
-		#	print("\e[m") # HACK: reset the modifiers
-		#end
-	end
+	#def set_color(color)
+	#	#if color
+	#	#	col=color.to_s;
+	#	#	$console.log("Setting color to #{col}");
+	#	#	print("\e[#{col}m");
+	#	#else
+	#	#	print("\e[m") # HACK: reset the modifiers
+	#	#end
+	#end
 
-	def set_modifiers(mods)
-		#print("\e[#{mods.join(';')}m");
-	end
+	#def set_modifiers(mods)
+	#	#print("\e[#{mods.join(';')}m");
+	#end
 
 	def set(**sets)
-		$console.log("Forcing set: #{sets}");
-		modifiers=Screen::State.new(**sets);
-		$console.log("Set: #{modifiers}");
-		print(modifiers);
-		#set_color(sets[:color]);
-		#print(Screen::Modifier.negate) if sets[:negate];
-		#print(Screen::Modifier.bold) if sets[:bold];
-		#print(Screen::Modifier.faint) if sets[:faint];
-		#print(Screen::Modifier.italic) if sets[:italic];
-		#print(Screen::Modifier.underline) if sets[:underline];
-	end
-
-	def put(x,y,char,**sets)
-		x,y=_round(x,y);
-		# Cache optimizations - we don't need to clear the whole screen
-		# (and in fact, a single View should never clear a whole Screen)
-		#
-		# Return if we have this particular one already cached
-		# return if cached?(x,y); (TODO: This is still buggy as we need to check color as well)
-		set(**sets);
-
-		_put(x,y,char);
+		# TODO: do we need this?
+		$console.log("#{self} sets screen #{@screen}");
+		@screen.set(**sets);
 	end
 
 	# NOTE: This has been commented out because getting stuff from the view is really unreliable.
@@ -167,13 +107,14 @@ class View
 
 	def _put(x,y,char)
 		# We need these for caching
+		x,y=_round(x,y);
 		
 		return false if _outside?(x,y);
 
 		# Cache the current character and color to be put on screen
 		# FIXME: Currently only saving write positions.
 		# TODO: What about \e[7m, bold and so on?
-		@cache.write(x,y);
+		@cache.write(x,y,char);
 		
 		# TODO: instead of this, we could cache the writes over to our FPS thread.
 		@screen.put(@x+x,@y+y,char);
@@ -189,18 +130,20 @@ class View
 			# CONVENIENCE: Check if there are any active Screens.
 			list=Screen.list;
 			$console.log("Screen was nil; I see #{list.length} active screen(s).");
+
 			if list.length>0
 				screen=list.last;
 				$console.log("Attached to the last screen (#{screen})");
 			else
 				$console.log("Creating a new screen and attaching...");
 				screen=Screen.new;
-
-				if w==nil and h==nil
-					$console.log("Resizing to the created screen...");
-					self.wh=screen.wh;
-				end
 			end
+		end
+
+		if w==nil and h==nil
+			$console.log("Resizing to the screen with available space...");
+			self.w=screen.w-x;
+			self.h=screen.h-y;
 		end
 
 		# If we haven't defined a width & height, assume that we want full screen.
@@ -208,6 +151,7 @@ class View
 		if w.nil? or h.nil?
 			$console.log("Attaching a resize event... (redraw & resize)");
 			screen.on('resize',->{
+				$console.log("redraw & resize fired for #{self}");
 				self.wh=screen.wh;
 			});
 		else
@@ -225,4 +169,5 @@ end
 
 require('view/cache');
 require('view/text');
+require('view/draw');
 require('view/performance');

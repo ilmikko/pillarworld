@@ -1,9 +1,18 @@
 class View::Cache
-	def write(x,y)
+	def write(x,y,char)
 		x=x.to_i;
 		y=y.to_i;
-		#$console.log("Write #{x},#{y}");
-		@writes["#{x},#{y}"]=true;
+
+		if char.length==1
+			# no complications
+			@writes["#{x},#{y}"]=true;
+		else
+			# split and write
+			for i in x...x+char.length
+				@writes["#{i},#{y}"]=true;
+			end
+		end
+		#$console.log("Caching: #{x},#{y} => #{char.length} (#{char})");
 	end
 	def each_write
 		@writes.each{|key,tru|

@@ -18,9 +18,10 @@ class UI::Padding < UI::Pass
 		x,y=@xy;
 
 		width=@padding;
-		@children.each{ |child|
-			child.xywh=[x+width,y+width,w-width*2,h-width*2];
-			child.change;
+		@children.each{|c|
+			c.xy=[x+width,y+width];
+			c.resize_wh=[w-width*2,h-width*2];
+			c.change;
 		}
 	end
 

@@ -3,17 +3,28 @@ require 'console';
 require 'view';
 
 class UI
-	attr_reader :screen;
-	attr_reader :root;
+	@@view=View.new;
+	def self.view=(view)
+		@@view=view;
+	end
+	def self.view;
+		@@view;
+	end
 
 	@@debug=false;
 
 	def self.debug=(v)
 		@@debug=v;
 	end
-
 	def self.debug?
 		!!@@debug
+	end
+
+	attr_reader :view;
+	attr_reader :root;
+
+	def clear;
+		@view.clear;
 	end
 
 	def show(*elems)
@@ -28,10 +39,10 @@ class UI
 	private
 	#######
 	
-	def initialize
-		@screen=::Screen.new;
-		@root=UI::Root.new(@screen);
-		@screen.on('resize',->{
+	def initialize(view: @@view)
+		@view=view;
+		@root=UI::Root.new(@view);
+		@view.on('resize',->{
 			@root.update;
 		});
 	end

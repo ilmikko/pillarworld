@@ -93,9 +93,6 @@ class UI::Border < UI::Padding
 		x,y=@xy;
 		#$console.log("Border #{self} pos: #{@xy} size: #{@wh}");
 
-		# change color
-		print(@color) if @color;
-
 		# corners
 		nw=[x,y];
 		ne=[(x+w-1),y];
@@ -140,11 +137,7 @@ class UI::Border < UI::Padding
 		end
 		# Else draw nothing
 
-
-		# Reset color
-		print("\e[m") if @color;
-
-		super; # remember to draw the child
+		super; # remember to draw the child (invoking UI::Array)
 	end
 
 	# Use ww instead of w because w is width

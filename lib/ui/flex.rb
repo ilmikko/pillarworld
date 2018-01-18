@@ -27,7 +27,8 @@ class UI::Flex < UI::Array
 
 				for i in 0...len
 					c=@children[i];
-					c.xywh=[x+part*i,y,part,h];
+					c.xy=[x+part*i,y];
+					c.resize_wh=[part,h];
 					c.change;
 				end
 			else
@@ -35,7 +36,8 @@ class UI::Flex < UI::Array
 
 				for i in 0...len
 					c=@children[i];
-					c.xywh=[x,y+part*i,w,part];
+					c.xy=[x,y+part*i];
+					c.resize_wh=[w,part];
 					c.change;
 				end
 			end

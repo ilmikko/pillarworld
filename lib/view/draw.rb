@@ -1,11 +1,17 @@
-class Screen
+class View
+	def bounds(x,y,w,h,text)
+		# Debug bounds, extremely useful
+		write(x,y,"<#{text}");
+		write(x+w-1-text.length,y+h-1,"#{text}>");
+	end
+
 	def hline(x,y,w,char: '#')
 		return if !char.is_a? String or char.empty? or w==0;
 
 		if (w<0)
-			put(x+w,y,char*(-w+1));
+			_put(x+w,y,char*(-w+1));
 		else
-			put(x,y,char*w);
+			_put(x,y,char*w);
 
 			# HACK: This is one solution to combat a calculation mistake in the rounding errors for floating points.
 			# Sometimes the width is one point less than what we originally intended due to the fact that
@@ -13,7 +19,7 @@ class Screen
 			# and running test/border.rb
 			#
 			# The reason this is not present in vline is because we use a different solution (namely, a for loop).
-			put(x+w-1,y,char);
+			_put(x+w-1,y,char);
 		end
 	end
 
@@ -24,12 +30,23 @@ class Screen
 		# If someone has a better solution let me know
 		if (h<0)
 			for y in y+h+1...y+1
-				put(x,y,char);
+				_put(x,y,char);
 			end
 		else
 			for y in y...y+h
-				put(x,y,char);
+				_put(x,y,char);
 			end
 		end
+	end
+
+	def put(x,y,char,**sets)
+		# Cache optimizations - we don't need to clear the whole screen
+		# (and in fact, a single View should never clear a whole Screen)
+		#
+		# Return if we have this particular one already cached
+		# return if cached?(x,y); (TODO: This is still buggy as we need to check color as well)
+		set(**sets) if sets;
+
+		_put(x,y,char);
 	end
 end
