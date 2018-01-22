@@ -22,15 +22,15 @@ defaultstate=Screen::State.new;
 $console.log("Italic state: #{italicstate}");
 
 screen.put(1,y+=1,'This text should be yellow (not a state)');
-bluestate.use;
+screen.use(bluestate);
 screen.put(1,y+=1,'This text should be blue.');
-italicstate.use;
+screen.use(italicstate);
 screen.put(1,y+=1,'This text should be default color italic.');
-greenboldstate.use;
+screen.use(greenboldstate);
 screen.put(1,y+=1,'This text should be inverted green.');
-defaultstate.use;
+screen.use(defaultstate);
 screen.put(1,y+=1,'This text should be default color.');
-Screen::State.default.use;
+screen.use(Screen::State.default);
 screen.put(1,y+=1,'This text should be the screen default color (same as the first one).');
 
 sleep;
