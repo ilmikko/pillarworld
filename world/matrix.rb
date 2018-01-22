@@ -9,13 +9,12 @@ require('view');
 
 require('matrix');
 
-$screen=Screen.new;
-$view=View::Performance.new(90,30,screen:$screen,fps:30);
-$view2=View.new(90,20,y:30,screen:$screen);
+$view=View::Performance.new(90,30,fps:30);
+$view2=View.new(90,20,y:30);
 
 $view2.scene=->(){
 	$console.log("Redrawing scene2");
-	$view2.put(0,0,"Hello World!");
+	$view2.put(0,0,"Hello World!",color: :red);
 };
 
 $perspective=1.1;

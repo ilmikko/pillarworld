@@ -13,6 +13,14 @@ require('tool/resizable');
 require('tool/positionable');
 
 class View
+	@@screen=Screen.new;
+	def self.screen=(screen);
+		@@screen=screen;
+	end
+	def self.screen;
+		@@screen;
+	end
+
 	include Tool::Evented;
 	include Tool::Resizable;
 	include Tool::Positionable;
@@ -37,48 +45,18 @@ class View
 		@scene.call if !@scene.nil?;
 	end
 
-#	def write(x,y,str,**sets)
-#		# TODO: What's the difference between screen.write and view.write?
-#		# TODO: write centered or right-aligned?
-#		len=str.length;
-#
-#		# TODO: Get the bounds - sometimes we don't need to loop through the entire string.
-#		set(**sets);
-#
-#		for i in 0...len
-#			# Break if put fails, because that means it's out of bounds
-#			# TODO: What about if we start from behind?
-#			_put(x+i,y,str[i]);
-#		end
-#	end
-
-	#def set_color(color)
-	#	#if color
-	#	#	col=color.to_s;
-	#	#	$console.log("Setting color to #{col}");
-	#	#	print("\e[#{col}m");
-	#	#else
-	#	#	print("\e[m") # HACK: reset the modifiers
-	#	#end
-	#end
-
-	#def set_modifiers(mods)
-	#	#print("\e[#{mods.join(';')}m");
-	#end
-
 	def set(**sets)
-		# TODO: do we need this?
-		$console.log("#{self} sets screen #{@screen}");
-		@screen.set(**sets);
-	end
+		# TODO: We don't have to create a new screen state for every single set, because usually we will set `nil` or `color: :black` or something similar
+		# Thus, we can improve our performance if we cache the state options and use a generated state for only one set of options.
 
-	# NOTE: This has been commented out because getting stuff from the view is really unreliable.
-	# There is probably always a better method than just a plain "get whatever I have put there previously".
-	# Also this will degrade performance even if you're not using it, because you would have to store
-	# EVERY WRITE EVER just because someone MIGHT need ONE THING from it sometime.
-	#def get
-	#	# TODO: A way to get a drawn character and/or it's color?
-	#end
+		if sets.nil? or sets.empty?
+			state=Screen::State.default;
+		else
+			state=Screen::State.new(**sets);
+		end
+
+		@screen.use(state);
+	end
 
 	def erase(x,y)
 		# Erase got its own private function as using _put causes the erase to get cached, what we don't want
@@ -91,7 +69,7 @@ class View
 	#######
 	private
 	#######
-	
+
 	def _round(x,y)
 		x=x.round.to_i;
 		y=y.round.to_i;
@@ -121,47 +99,54 @@ class View
 		return true;
 	end
 
-	def initialize(w=nil,h=nil,x:0,y:0,screen:nil,scene:nil)
+	def initialize(w=nil,h=nil,x:0,y:0,screen:@@screen,scene:nil)
 		@x,@y,@w,@h=x,y,w,h;
 
 		@cache=View::Cache.new;
 
-		if screen.nil?
-			# CONVENIENCE: Check if there are any active Screens.
-			list=Screen.list;
-			$console.log("Screen was nil; I see #{list.length} active screen(s).");
+		@screen=screen;
 
-			if list.length>0
-				screen=list.last;
-				$console.log("Attached to the last screen (#{screen})");
-			else
-				$console.log("Creating a new screen and attaching...");
-				screen=Screen.new;
-			end
-		end
+		# TODO: rewrite this mess
+
+		#if screen.nil?
+		#	# CONVENIENCE: Check if there are any active Screens.
+		#	list=Screen.list;
+		#	$console.log("Screen was nil; I see #{list.length} active screen(s).");
+
+		#	if list.length>0
+		#		screen=list.last;
+		#		$console.log("Attached to the last screen (#{screen})");
+		#	else
+		#		$console.log("Creating a new screen and attaching...");
+		#		screen=Screen.new;
+		#	end
+		#end
 
 		if w==nil and h==nil
 			$console.log("Resizing to the screen with available space...");
-			self.w=screen.w-x;
-			self.h=screen.h-y;
+			self.wh=[screen.w-x,screen.h-y];
 		end
 
 		# If we haven't defined a width & height, assume that we want full screen.
 		# Otherwise keep the width & height of the view static.
 		if w.nil? or h.nil?
-			$console.log("Attaching a resize event... (redraw & resize)");
+			$console.log("Attaching a resize event for #{self}... (redraw & resize)");
 			screen.on('resize',->{
 				$console.log("redraw & resize fired for #{self}");
-				self.wh=screen.wh;
+				# TODO: Do you need the clear/redraw functions?
+				clear;
+				self.wh=[screen.w-x,screen.h-y];
+				redraw;
 			});
 		else
-			$console.log("Attaching a resize event... (redraw)");
+			$console.log("Attaching a resize event for #{self}... (redraw)");
 			screen.on('resize',->{
+				clear;
 				redraw;
 			});
 		end
 
-		@screen=screen;
+		#@screen=screen;
 
 		self.scene=scene if !scene.nil?;
 	end

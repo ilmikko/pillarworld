@@ -16,6 +16,10 @@ module Tool
 		alias size wh
 		alias size= wh=
 
+		def resize(w,h)
+			self.wh=[w,h];
+		end
+
 		#########
 		protected
 		#########
