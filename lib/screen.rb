@@ -14,8 +14,10 @@ class Screen
 		@@screens
 	end
 	def self.resize(w,h)
+		$console.log("Master screen resize event fired");
 		@@screens.each{|screen|
-			screen.resize(w,h);
+			screen.clear;
+			screen.fire('resize');
 		}
 	end
 
@@ -32,6 +34,7 @@ class Screen
 
 	def set(**sets)
 		$console.log("Screen: set: #{sets}");
+		# TODO: Do we need to create a new state every time?
 		modifiers=Screen::State.new(**sets);
 		$stdout.print(modifiers);
 	end
