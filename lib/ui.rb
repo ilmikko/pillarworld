@@ -42,7 +42,9 @@ class UI
 	def initialize(view: @@view)
 		@view=view;
 		@root=UI::Root.new(@view);
+		$console.log("#{self} is attaching resize event to #{@view}");
 		@view.on('resize',->{
+			$console.log("RESIZE STUFF");
 			@root.update;
 		});
 	end

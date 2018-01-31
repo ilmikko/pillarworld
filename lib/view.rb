@@ -137,12 +137,14 @@ class View
 				clear;
 				self.wh=[screen.w-x,screen.h-y];
 				redraw;
+				fire('resize');
 			});
 		else
 			$console.log("Attaching a resize event for #{self}... (redraw)");
 			screen.on('resize',->{
 				clear;
 				redraw;
+				fire('resize');
 			});
 		end
 

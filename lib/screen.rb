@@ -17,6 +17,7 @@ class Screen
 		$console.log("Master screen resize event fired");
 		@@screens.each{|screen|
 			screen.clear;
+			screen.resize(w,h);
 			screen.fire('resize');
 		}
 	end
