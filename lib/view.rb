@@ -106,22 +106,6 @@ class View
 
 		@screen=screen;
 
-		# TODO: rewrite this mess
-
-		#if screen.nil?
-		#	# CONVENIENCE: Check if there are any active Screens.
-		#	list=Screen.list;
-		#	$console.log("Screen was nil; I see #{list.length} active screen(s).");
-
-		#	if list.length>0
-		#		screen=list.last;
-		#		$console.log("Attached to the last screen (#{screen})");
-		#	else
-		#		$console.log("Creating a new screen and attaching...");
-		#		screen=Screen.new;
-		#	end
-		#end
-
 		if w==nil and h==nil
 			$console.log("Resizing to the screen with available space...");
 			self.wh=[screen.w-x,screen.h-y];

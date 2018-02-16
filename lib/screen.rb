@@ -6,21 +6,30 @@ require('tool/evented');
 require('tool/resizable');
 
 class Screen
-	include Tool::Evented
-	include Tool::Resizable
-
 	@@screens=[];
+	@@screen_wh=[nil,nil];
 	def self.list
 		@@screens
 	end
 	def self.resize(w,h)
 		$console.log("Master screen resize event fired");
+		@@screen_wh=[w,h];
 		@@screens.each{|screen|
 			screen.clear;
 			screen.resize(w,h);
 			screen.fire('resize');
 		}
 	end
+	# At the moment, there cannot be more screens, so why not have these publicly available to everyone, for now.
+	def self.width
+		@@screen_wh[0];
+	end
+	def self.height
+		@@screen_wh[1];
+	end
+
+	include Tool::Evented
+	include Tool::Resizable
 
 	def clear
 		$stdout.print("\e[2J");
