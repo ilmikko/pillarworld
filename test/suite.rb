@@ -6,6 +6,15 @@ require_relative('ui');
 
 class Suite
 	class Test
+		def Test.create(pr)
+			if pr.is_a? Proc
+				return Test.new(pr);
+			elsif pr.is_a? String
+				return Test::File.new(pr);
+			else
+				raise "Cannot create a test with class #{pr.class}";
+			end
+		end
 		@@id=0;
 		def to_s
 			"<Test ##{@id}>"
@@ -18,9 +27,15 @@ class Suite
 			@id=(@@id+=1);
 		end
 	end
+	class Test::File < Test
+		def run
+			load(@proc); # treat proc as src
+		end
+	end
+
 	class Status
 		def redraw;
-			$stdout.print("\e[H\e[K\e[m#{@msg}");
+			$stdout.print("\e[H\e[K\e[m#{@msg}\e[2H");
 		end
 		def msg(msg)
 			$console.log("S: #{msg.gsub(/\e\[[0-9;]+m/,'')}");
@@ -47,9 +62,13 @@ class Suite
 		end
 	end
 
+	def reset;
+		print("\e[2J");
+	end
+
 	def queue(test)
 		@total+=1;
-		@test_queue << Suite::Test.new(test);
+		@test_queue << Suite::Test.create(test);
 	end
 
 	def test(*tests)
@@ -60,6 +79,7 @@ class Suite
 	end
 
 	def run_test(test)
+		reset;
 		@status.msg("Running test #{test}");
 		begin
 			test.run;
@@ -89,57 +109,29 @@ class Suite
 
 		$console.log("Creating a testing thread...");
 		Thread.new{
-			if @test_queue.length>0
-				@current+=1;
-				run_test(@test_queue.shift);
-				sleep 0.5;
-			else
-				@status.final(@successes,@failures,@total);
-				#@status.msg("Waiting for tests...");
-				sleep 2;
-			end
+			# Wait initially for a moment
+			@status.msg("Initializing...");
 			sleep 0.5;
+			loop{
+				if @test_queue.length>0
+					@current+=1;
+					run_test(@test_queue.shift);
+					sleep 0.5;
+				else
+					@status.final(@successes,@failures,@total);
+					#@status.msg("Waiting for tests...");
+					sleep 2;
+				end
+				sleep 0.5;
+			}
 		}
 	end
 end
 
 suite=Suite.new;
 
-suite.test(
-	->{
-		ui=UI.new;
-		ui.show(
-			UI::Border.new.append(
-				UI::Align.new.append(
-					UI::Text.new('Test #1')
-				)
-			)
-		)
-		sleep 2;
-		ui.clear;
-	},
-	->{
-		ui=UI.new;
-		ui.show(
-			UI::Bogus.new.append(
-				UI::Align.new.apparent()
-			)
-		)
-		sleep 2;
-		ui.clear;
-	},
-	->{
-		ui=UI.new;
-		ui.show(
-			UI::Align.new.append(
-				UI::Border.new.append(
-					UI::Text.new('Test #2')
-				)
-			)
-		)
-		sleep 2;
-		ui.clear;
-	}
-)
+Dir[__dir__+'/suite/*'].each{|file|
+	suite.test(file);
+};
 
-sleep;
+sleep; # Keep main thread alive
