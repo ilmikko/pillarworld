@@ -25,6 +25,8 @@ class View
 	include Tool::Resizable;
 	include Tool::Positionable;
 
+	attr_reader :screen;
+
 	def scene=(v)
 		@scene=v;
 
@@ -131,8 +133,6 @@ class View
 				fire('resize');
 			});
 		end
-
-		#@screen=screen;
 
 		self.scene=scene if !scene.nil?;
 	end

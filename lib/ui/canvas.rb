@@ -5,6 +5,6 @@
 
 class UI::Canvas < UI::Node
 	def write(*args)
-		@@screen.write(*args);
+		@@view.write(*args);
 	end
 end

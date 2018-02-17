@@ -1,18 +1,18 @@
 class UI::Root < UI::Array
 	def update
 		self.xy=[0,0];
-		$console.log("RESIZE TO #{@@screen.wh}");
-		self.resize_wh=@@screen.wh;
+		$console.log("RESIZE TO #{@@view.wh}");
+		self.resize_wh=@@view.wh;
 		change;
-		@@screen.clear();
+		@@view.clear();
 		redraw;
 	end
 
-	def initialize(screen)
+	def initialize(view)
 		@parent=self;
-		@@screen=screen;
+		@@view=view;
 
-		$console.log("Root screen is set as #{@@screen}");
+		$console.log("Root view is set as #{@@view}");
 
 		super();
 	end

@@ -1,7 +1,7 @@
 class UI::Node
 	attr_reader :parent
 
-	@@screen=nil;
+	@@view=nil;
 
 	def own(parent);
 		@parent=parent;

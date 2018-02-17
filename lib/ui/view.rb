@@ -43,6 +43,6 @@ class UI::View < UI::Node
 	def initialize(scene=nil,fps:-1,**_)
 		super(**_);
 		x,y=@xy;
-		@view=View::Performance.new(*@wh,x:x,y:y,scene:scene,screen:@@screen,fps:fps);
+		@view=View::Performance.new(*@wh,x:x,y:y,scene:scene,screen:@@view.screen,fps:fps);
 	end
 end

@@ -28,7 +28,6 @@ class UI::Node
 
 	def height=(v)
 		self.min_height=self.max_height=v;
-		# TODO
 		self.resize_h=v;
 	end
 
@@ -45,6 +44,11 @@ class UI::Node
 
 	alias w width
 	alias h height
+
+	def resize(w,h)
+		width=w;
+		height=h;
+	end
 
 	# TODO: Clean this up a bit - but these are protected so that a user doesn't accidentally call "resize_wh" when they want to resize an element.
 	# What should they call instead?

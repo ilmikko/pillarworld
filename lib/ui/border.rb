@@ -104,36 +104,36 @@ class UI::Border < UI::Padding
 
 			# Draw lines
 			# n
-			@@screen.hline(*nw,w,char: @lines[0]);
+			@@view.hline(*nw,w,char: @lines[0]);
 			# s
-			@@screen.hline(*sw,w,char: @lines[2]);
+			@@view.hline(*sw,w,char: @lines[2]);
 			# w
-			@@screen.vline(*nw,h,char: @lines[3]);
+			@@view.vline(*nw,h,char: @lines[3]);
 			# e
-			@@screen.vline(*ne,h,char: @lines[1]);
+			@@view.vline(*ne,h,char: @lines[1]);
 
 			# Draw corners
 			# nw
-			@@screen.put(*nw,@corners[0]);
+			@@view.put(*nw,@corners[0]);
 			# ne
-			@@screen.put(*ne,@corners[1]);
+			@@view.put(*ne,@corners[1]);
 			# sw
-			@@screen.put(*sw,@corners[2]);
+			@@view.put(*sw,@corners[2]);
 			# se
-			@@screen.put(*se,@corners[3]);
+			@@view.put(*se,@corners[3]);
 
 		elsif h==1 && w>1
 			# Do not draw corners, draw caps
-			@@screen.hline(*nw,w,char: @doubles[0]);
-			@@screen.put(*nw,@caps[1])
-			@@screen.put(*ne,@caps[3])
+			@@view.hline(*nw,w,char: @doubles[0]);
+			@@view.put(*nw,@caps[1])
+			@@view.put(*ne,@caps[3])
 		elsif w==1 && h>1
 			# Do not draw corners, draw caps
-			@@screen.vline(*nw,h,char: @doubles[1]);
-			@@screen.put(*nw,@caps[0])
-			@@screen.put(*sw,@caps[2])
+			@@view.vline(*nw,h,char: @doubles[1]);
+			@@view.put(*nw,@caps[0])
+			@@view.put(*sw,@caps[2])
 		elsif w==1 && h==1
-			@@screen.put(*nw,@caps[4]);
+			@@view.put(*nw,@caps[4]);
 		end
 		# Else draw nothing
 
