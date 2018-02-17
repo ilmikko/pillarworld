@@ -186,7 +186,7 @@ class Suite
 
 	def queue_directory(dir)
 		$console.log("Queuing #{dir}...");
-		Dir[dir].each{|file|
+		Dir[dir].sort.each{|file|
 			if File.directory? file
 				# Directory, queue a bit differently
 				test(*Dir[file<<'/*'].sort);
