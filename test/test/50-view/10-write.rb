@@ -1,3 +1,5 @@
+raise "Take a look at this test later";
+
 w=10;
 view=View.new(w,10);
 
