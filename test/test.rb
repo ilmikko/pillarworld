@@ -6,6 +6,41 @@ $LOAD_PATH << (__dir__<<'/../lib');
 require 'ui';
 
 class Suite
+	def self.get_directory(dir,*criteria)
+		# Make all criteria regexes
+		criteria.map!{|c|
+			if !c.is_a? Regexp
+				Regexp.new c
+			else
+				c
+			end
+		}
+
+		return Dir[dir<<'/*'].sort
+		.map{|f|
+			if File.directory? f
+				get_directory(f,*criteria);
+			else
+				f=f.sub(__dir__,'');
+				match=true;
+				
+				criteria.each{|c|
+					if c.match(f).nil?
+						match=false;
+						break;
+					end
+				}
+
+				if match
+					f
+				else
+					nil
+				end
+			end
+		}
+		.delete_if{|f| f.nil? || f.empty? };
+	end
+
 	class Progress
 		class Queue
 			def to_s
@@ -184,18 +219,6 @@ class Suite
 		@test_queue << test;
 	end
 
-	def queue_directory(dir)
-		$console.log("Queuing #{dir}...");
-		Dir[dir].sort.each{|file|
-			if File.directory? file
-				# Directory, queue a bit differently
-				test(*Dir[file<<'/*'].sort);
-			else
-				test(file);
-			end
-		};
-	end
-
 	def test(*tests)
 		tests.map!{|test| Suite::Test.create(test)}
 
@@ -215,7 +238,8 @@ class Suite
 	end
 
 	def run_test(test)
-		reset;
+		reset;opts={};
+		ARGV.each{|arg| opts[arg]=True if arg[0]=='-'; }
 
 		begin
 			test.run_start;
@@ -223,12 +247,16 @@ class Suite
 			test.run;
 			sleep 1;
 		rescue Exception => e
-			@status.msg("Test #{test} \e[31mFAILED: #{e}\e[m");
+			@status.msg("Test #{test} \e[31mFAILED: #{e}\n#{e.backtrace}\e[m");
 			sleep 2;
 		end
-
-		reset;
 	end
+
+	def destroy
+		@thread.kill;
+	end
+
+	private
 
 	def initialize
 		@test_queue=[];
@@ -243,7 +271,7 @@ class Suite
 		})
 
 		$console.log("Creating a testing thread...");
-		Thread.new{
+		@thread=Thread.new{
 			# Wait initially for a moment
 			@status.msg("Initializing...");
 			sleep 0.2;
@@ -261,14 +289,38 @@ class Suite
 	end
 end
 
-suite=Suite.new;
+require 'optparse';
 
-if ARGV.length==0
-	# Test all
-	suite.queue_directory(__dir__<<'/test/*');
-else
-	dir=ARGV[0];
-	suite.queue_directory(__dir__<<"/test/**/*#{dir}*");
+ARGV << '.' if ARGV.empty?;
+
+OptionParser.new{|opts|
+	opts.banner="Usage: test.rb [options] {test {test {..}}";
+	opts.version=1.0;
+
+	opts.on('-h','--help','Get help'){|v|
+		puts(opts);
+	};
+	opts.on('-t','--test FILE','Test a single file'){|file|
+		return puts("Cannot find file: #{file}") if !File.exists? file;
+		suite=Suite.new;
+		suite.test(file);
+		sleep;
+		suite.destroy;
+	};
+	opts.on('-l','--list one,two',Array,'List all available tests using criteria, one & two'){|criteria|
+		puts("Tests matching criteria: #{criteria.join(' & ')}");
+		puts(Suite.get_directory(__dir__<<'/test',*criteria));
+	};
+}.parse!;
+
+if ARGV.length>0
+	tests=Suite.get_directory(__dir__<<'/test',*ARGV);
+	if tests.length>0
+		suite=Suite.new;
+		tests.each{|file|
+			file=[file] if !file.is_a? Array;
+			suite.test(*file.map{|f| __dir__ << f});
+		}
+		sleep;
+	end
 end
-
-sleep; # Keep main thread alive
