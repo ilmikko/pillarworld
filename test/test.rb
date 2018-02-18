@@ -307,9 +307,11 @@ OptionParser.new{|opts|
 		sleep;
 		suite.destroy;
 	};
-	opts.on('-l','--list one,two',Array,'List all available tests using criteria, one & two'){|criteria|
-		puts("Tests matching criteria: #{criteria.join(' & ')}");
-		puts(Suite.get_directory(__dir__<<'/test',*criteria));
+	opts.on('-l','--list [one,two]',Array,'List all available tests using criteria, one & two'){|criteria|
+		criteria=['.'] if criteria.nil?;
+		tests=Suite.get_directory(__dir__<<'/test',*criteria);
+		puts("#{tests.count} test(s) matching criteria: #{criteria.join(' & ')}");
+		puts(tests);
 	};
 }.parse!;
 
