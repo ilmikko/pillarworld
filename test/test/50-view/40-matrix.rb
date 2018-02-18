@@ -88,6 +88,15 @@ class MatrixTest
 			@box.rotateZ(0.004);
 		};
 	end
+	def destroy
+		@view.destroy;
+		@view2.destroy;
+	end
 end
 
-MatrixTest.new;
+matrix=MatrixTest.new;
+
+sleep 1;
+
+$console.log("End test!");
+matrix.destroy();

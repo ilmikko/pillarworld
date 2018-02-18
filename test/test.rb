@@ -91,13 +91,13 @@ class Suite
 		def to_s
 			@@test_symbols[@status]||'?';
 		end
-		
+
 		def run_test
 			@proc.();
 		end
 
 		def run_start
-				@status=:running;
+			@status=:running;
 		end
 
 		def run
@@ -148,7 +148,7 @@ class Suite
 		end
 		def final(progress)
 			# Calculate failures and successes
-			
+
 			f=progress.failures;
 			s=progress.successes;
 			t=progress.total;

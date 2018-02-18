@@ -68,6 +68,13 @@ class View
 		return true;
 	end
 
+	# Destroying a view, for example if we leave a menu screen or something, we don't want the fps thread to keep living without the view.
+	def destroy()
+		# Destroy the event
+		@screen.off(@event);
+		# TODO: Anything more to destroy?
+	end
+
 	#######
 	private
 	#######
@@ -105,7 +112,6 @@ class View
 		@x,@y,@w,@h=x,y,w,h;
 
 		@cache=View::Cache.new;
-
 		@screen=screen;
 
 		if w==nil and h==nil
@@ -115,9 +121,11 @@ class View
 
 		# If we haven't defined a width & height, assume that we want full screen.
 		# Otherwise keep the width & height of the view static.
+		# TODO: this is wrong - the view should never resize to the full screen, unless it's a UI element.
+		# However, until the UI is properly made stable, this is what we have to make do with.
 		if w.nil? or h.nil?
 			$console.log("Attaching a resize event for #{self}... (redraw & resize)");
-			screen.on('resize',->{
+			@event=screen.on('resize',->{
 				$console.log("redraw & resize fired for #{self}");
 				# TODO: Do you need the clear/redraw functions?
 				clear;
@@ -127,7 +135,7 @@ class View
 			});
 		else
 			$console.log("Attaching a resize event for #{self}... (redraw)");
-			screen.on('resize',->{
+			@event=screen.on('resize',->{
 				clear;
 				redraw;
 				fire('resize');

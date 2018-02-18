@@ -36,6 +36,14 @@ class View::Performance < View
 		end
 	end
 
+	def destroy
+		# Kill the thread on destroy
+		@thread.kill if !@thread.nil?;
+		# Remove state cache
+		@state_cache={};
+		super;
+	end
+
 	#######
 	private
 	#######
