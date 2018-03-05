@@ -9,8 +9,13 @@ class View
 		return if !char.is_a? String or char.empty? or w==0;
 
 		if (w<0)
+			# Currently cropping is not supported in negative numbers
 			_put(x+w,y,char*(-w+1));
 		else
+			# Crop the line according to our available width
+			d=@w-x-w;
+			w+=d if d<=0;
+			
 			_put(x,y,char*w);
 
 			# HACK: This is one solution to combat a calculation mistake in the rounding errors for floating points.
