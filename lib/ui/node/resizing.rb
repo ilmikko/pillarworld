@@ -1,3 +1,6 @@
+#TODO: Instead of resize_wh and xy set all to change_wh and change_xy and change_xywh
+#TODO: Rename this to change.rb and let it handle all the change code
+
 class UI::Node
 	def min_width=(v)
 		# SET user wanted min_width
@@ -33,8 +36,8 @@ class UI::Node
 
 	attr_reader :wh;
 
+	# REALIZED width and heights
 	def width;
-		# GET REALIZED width
 		@wh[0];
 	end
 
