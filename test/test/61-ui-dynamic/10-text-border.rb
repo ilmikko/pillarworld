@@ -6,7 +6,9 @@
 UI.new.show(
 	UI::Flex.new.append(
 		UI::Wrap.new.append(
-			UI::Text.new("This text should be bordered")
+			UI::Wrap.new.append(
+				UI::Text.new("This text should be bordered")
+			)
 		),
 		UI::Border.new.append(
 			UI::Text.new("This text is inside a border")

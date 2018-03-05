@@ -66,4 +66,6 @@ require 'ui/paragraph';
 require 'ui/view';
 require 'ui/canvas';
 
+require 'ui/wrap';
+
 require 'ui/root';
