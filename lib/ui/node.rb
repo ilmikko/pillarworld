@@ -7,6 +7,7 @@
 class UI::Node
 	attr_accessor :id;
 
+	# TODO: Rename this to 'changed' or alternatively make it an event.
 	def change;end # Hook for when something has changed
 
 	def initialize(id: nil, width: nil, height: nil, **sets)

@@ -8,11 +8,6 @@
 # UIFlex.new(direction: :col).append(...)
 #
 class UI::Flex < UI::Array
-	def append(*items)
-		super(*items);
-		self;
-	end
-
 	def change
 		len=@children.length.to_f;
 

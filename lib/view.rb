@@ -95,15 +95,18 @@ class View
 	def _put(x,y,char)
 		# We need these for caching
 		x,y=_round(x,y);
-		
+
+		#$console.log("#{self} PUT #{char} to #{[x,y]} in #{[@w,@h]}!");
+
 		return false if _outside?(x,y);
+
+		#$console.log("#{self} PUT #{char} to #{[x,y]}!");
 
 		# Cache the current character and color to be put on screen
 		# FIXME: Currently only saving write positions.
 		# TODO: What about \e[7m, bold and so on?
 		@cache.write(x,y,char);
-		
-		# TODO: instead of this, we could cache the writes over to our FPS thread.
+
 		@screen.put(@x+x,@y+y,char);
 		return true;
 	end

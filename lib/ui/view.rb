@@ -29,20 +29,20 @@ class UI::View < UI::Node
 	end
 
 	def redraw
+		#$console.log("Redraw UI::View");
 		@view.redraw;
 	end
 
 	def change
-		# when our attributes change, we need to redraw the view (whose job is this?)
-		# TODO:
-		$console.log("UI::View resized to #{@wh}");
-		@view.xy=@xy;
-		@view.wh=@wh;
+		# Resize the view
+		#$console.log("UI::View resized; resize VIEW to #{@wh}");
+		@view.xy=[@@view.xy[0]+@xy[0],@@view.xy[1]+@xy[1]];
+		@view.resize(*@wh);
 	end
 
-	def initialize(scene=nil,fps:-1,**_)
+	def initialize(scene=nil,**_)
 		super(**_);
 		x,y=@xy;
-		@view=View::Performance.new(*@wh,x:x,y:y,scene:scene,screen:@@view.screen,fps:fps);
+		@view=View.new(*@wh,x:x,y:y,scene:scene,screen:@@view.screen);
 	end
 end

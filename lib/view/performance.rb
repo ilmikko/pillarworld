@@ -5,6 +5,7 @@ class View::Performance < View
 	end
 
 	def redraw
+		$console.log("View::Performance redraw");
 		super;
 		# We call the actual redraw function after calling the scene
 		_redraw;
@@ -40,7 +41,7 @@ class View::Performance < View
 		# Kill the thread on destroy
 		@thread.kill if !@thread.nil?;
 		# Remove state cache
-		@state_cache={};
+		#@state_cache={};
 		super;
 	end
 

@@ -123,6 +123,8 @@ class Suite
 		};
 		@@id=0;
 
+		attr_reader :id
+
 		def to_s
 			@@test_symbols[@status]||'?';
 		end
@@ -149,15 +151,21 @@ class Suite
 
 		private
 
-		def initialize(pr)
+		def initialize(pr, id:@@id+=1)
 			@status=:nothing;
 			@proc=pr;
-			@id=(@@id+=1);
+			@id=id;
 		end
 	end
 	class Test::File < Test
 		def run_test
 			load(@proc); # treat proc as src
+		end
+
+		private
+
+		def initialize(pr)
+			super(pr, id:pr[/(?<=\/)[^\/]*$/]);
 		end
 	end
 
@@ -243,7 +251,7 @@ class Suite
 
 		begin
 			test.run_start;
-			@status.msg("Running test #{test} (#{@test_queue.length})");
+			@status.msg("Running test #{test.id} (#{@test_queue.length})");
 			test.run;
 			sleep 1;
 		rescue Exception => e
