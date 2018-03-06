@@ -9,8 +9,8 @@ class Illustrator::UI
 		@cursor.resize(w,h);
 		w+=2;
 		h+=2;
-		$console.log("Resize border to #{[w,h]}");
-		@border.wh=(@border.p_wh=[w,h]);
+		$console.log("ILL:Resize border to #{[w,h]}");
+		@border.resize(w,h);
 		redraw;
 	end
 	def load(illustration)
