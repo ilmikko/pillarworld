@@ -4,8 +4,8 @@
 
 UI.new.show(
         UI::Padding.new(padding:1).append(
-                UI::Flex.new(direction: :column).append(
-                        UI::Flex.new.append(
+                UI::Split.new(direction: :column).append(
+                        UI::Split.new.append(
                                 UI::Border.new.append(
                                         UI::Align.new().append(
                                                 UI::Text.new('Default')
@@ -27,7 +27,7 @@ UI.new.show(
                                         )
                                 )
                         ),
-                        UI::Flex.new.append(
+                        UI::Split.new.append(
                                 UI::Border.new.append(
                                         UI::Align.new(ha: :left).append(
                                                 UI::Text.new('West')
@@ -49,7 +49,7 @@ UI.new.show(
                                         )
                                 )
                         ),
-                        UI::Flex.new.append(
+                        UI::Split.new.append(
                                 UI::Border.new.append(
                                         UI::Align.new(va: :bottom, ha: :left).append(
                                                 UI::Text.new('SW')

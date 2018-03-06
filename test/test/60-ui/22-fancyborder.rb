@@ -5,12 +5,12 @@
 UI.new.show(
         UI::Align.new.append(
                 UI::Border.new(width:22,height:12).append(
-                        UI::Flex.new.append(
-                                UI::Flex.new(direction: :col).append(
+                        UI::Split.new.append(
+                                UI::Split.new(direction: :col).append(
                                         UI::Border.new,
                                         UI::Border.new,
                                 ),
-                                UI::Flex.new(direction: :col).append(
+                                UI::Split.new(direction: :col).append(
                                         UI::Border.new,
                                         UI::Border.new,
                                 )

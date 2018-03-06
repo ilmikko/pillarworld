@@ -54,7 +54,7 @@ require 'ui/node';
 require 'ui/array';
 require 'ui/align';
 require 'ui/stack';
-require 'ui/flex';
+require 'ui/split';
 require 'ui/text';
 require 'ui/textline';
 require 'ui/textarea';

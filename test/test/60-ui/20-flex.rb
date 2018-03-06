@@ -3,15 +3,15 @@
 #
 
 UI.new.show(
-        UI::Flex.new.append(
-                UI::Flex.new(direction: :col).append(
+        UI::Split.new.append(
+                UI::Split.new(direction: :col).append(
                         UI::Border.new.append(
-                                UI::Flex.new.append(
-                                        UI::Flex.new(direction: :col).append(
+                                UI::Split.new.append(
+                                        UI::Split.new(direction: :col).append(
                                                 UI::Border.new,
                                                 UI::Border.new
                                         ),
-                                        UI::Flex.new(direction: :col).append(
+                                        UI::Split.new(direction: :col).append(
                                                 UI::Border.new,
                                                 UI::Border.new
                                         )
@@ -19,7 +19,7 @@ UI.new.show(
                         ),
                         UI::Border.new
                 ),
-                UI::Flex.new(direction: :col).append(
+                UI::Split.new(direction: :col).append(
                         UI::Border.new,
                         UI::Border.new
                 )

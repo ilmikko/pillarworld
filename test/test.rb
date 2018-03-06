@@ -5,6 +5,8 @@
 $LOAD_PATH << (__dir__<<'/../lib');
 require 'ui';
 
+$interval=0.1;
+
 class Suite
 	def self.get_directory(dir,*criteria)
 		# Make all criteria regexes
@@ -253,9 +255,9 @@ class Suite
 			test.run_start;
 			@status.msg("Running test #{test.id} (#{@test_queue.length})");
 			test.run;
-			sleep 1;
+			sleep $interval;
 		rescue Exception => e
-			@status.msg("Test #{test} \e[31mFAILED: #{e}\n#{e.backtrace}\e[m");
+			@status.msg("Test #{test.id} \e[31mFAILED: #{e}\n#{e.backtrace}\e[m");
 			sleep 2;
 		end
 	end

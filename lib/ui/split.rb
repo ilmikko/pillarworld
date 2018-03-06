@@ -1,13 +1,13 @@
 # 
-# UIFlex
-# 'Flexes' the children to use most of the available space they possibly can.
+# UISplit
+# Splits the children to use most of the available space they possibly can.
 # For example, if there are two children, they both use 50% of the space.
 # The splitting axis can be determined on initialization.
 #
 # Usage:
-# UIFlex.new(direction: :col).append(...)
+# UISplit.new(direction: :col).append(...)
 #
-class UI::Flex < UI::Array
+class UI::Split < UI::Array
 	def change
 		len=@children.length.to_f;
 
@@ -16,6 +16,7 @@ class UI::Flex < UI::Array
 
 		# Don't need to reflow
 		# If you don't have any children
+		# *taps temple*
 		if len>0
 			if @direction==:row
 				part=w/len;
