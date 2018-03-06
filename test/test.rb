@@ -301,12 +301,13 @@ end
 
 require 'optparse';
 
-ARGV << '.' if ARGV.empty?;
-
 OptionParser.new{|opts|
 	opts.banner="Usage: test.rb [options] {test {test {..}}";
 	opts.version=1.0;
 
+	opts.on('-i','--interval INTERVAL'){|interval|
+		$interval=interval.to_f;
+	};
 	opts.on('-h','--help','Get help'){|v|
 		puts(opts);
 	};
@@ -324,6 +325,8 @@ OptionParser.new{|opts|
 		puts(tests);
 	};
 }.parse!;
+
+ARGV << '.' if ARGV.empty?;
 
 if ARGV.length>0
 	tests=Suite.get_directory(__dir__<<'/test',*ARGV);
