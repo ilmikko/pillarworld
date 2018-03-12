@@ -308,8 +308,13 @@ OptionParser.new{|opts|
 	opts.on('-i','--interval INTERVAL'){|interval|
 		$interval=interval.to_f;
 	};
-	opts.on('-h','--help','Get help'){|v|
+	opts.on('-h','--help','Get help'){
 		puts(opts);
+		exit;
+	};
+	opts.on('-v','--version','Show version'){
+		puts(opts.version);
+		exit;
 	};
 	opts.on('-t','--test FILE','Test a single file'){|file|
 		return puts("Cannot find file: #{file}") if !File.exists? file;
