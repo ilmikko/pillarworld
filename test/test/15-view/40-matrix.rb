@@ -94,9 +94,8 @@ class MatrixTest
 	end
 end
 
-matrix=MatrixTest.new;
+$matrix=MatrixTest.new;
 
-sleep [1, $interval].max;
-
-$console.log("End test!");
-matrix.destroy();
+def destroy
+	$matrix.destroy;
+end

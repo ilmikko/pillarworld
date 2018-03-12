@@ -7,6 +7,9 @@ require 'ui';
 
 $interval=0.1;
 
+def destroy
+end
+
 class Suite
 	def self.get_directory(dir,*criteria)
 		# Make all criteria regexes
@@ -149,6 +152,10 @@ class Suite
 			end
 		end
 
+		def destroy
+			Kernel.send(:destroy);
+		end
+
 		attr_reader :status;
 
 		private
@@ -256,6 +263,7 @@ class Suite
 			@status.msg("Running test #{test.id} (#{@test_queue.length})");
 			test.run;
 			sleep $interval;
+			test.destroy;
 		rescue Exception => e
 			@status.msg("Test #{test.id} \e[31mFAILED: #{e}\n#{e.backtrace}\e[m");
 			sleep 2;
