@@ -5,7 +5,7 @@
 # Usage:
 # UIAlign.new(horizontalalign: :center, verticalalign: :center).append(...)
 #
-class UI::Align < UI::Array
+class UI::Align < UI::Pass
 	@@verticalaligns={
 		top:0,
 		center:0.5,
@@ -38,7 +38,7 @@ class UI::Align < UI::Array
 		x,y=@xy;
 
 		@children.each{ |child|
-			child.resize_wh=@wh;
+			child.change_wh=@wh;
 			child.change;
 			# calc aligns, position
 			cw,ch=child.wh;
@@ -48,7 +48,7 @@ class UI::Align < UI::Array
 			ha=(w-cw)*@horizontalalign;
 			va=(h-ch)*@verticalalign;
 
-			child.xy=[x+ha,y+va];
+			child.change_xy=[x+ha,y+va];
 			child.change;
 		}
 	end

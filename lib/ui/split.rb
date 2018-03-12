@@ -23,8 +23,8 @@ class UI::Split < UI::Array
 
 				for i in 0...len
 					c=@children[i];
-					c.xy=[x+part*i,y];
-					c.resize_wh=[part,h];
+					c.change_xy=[x+part*i,y];
+					c.change_wh=[part,h];
 					c.change;
 				end
 			else
@@ -32,8 +32,8 @@ class UI::Split < UI::Array
 
 				for i in 0...len
 					c=@children[i];
-					c.xy=[x,y+part*i];
-					c.resize_wh=[w,part];
+					c.change_xy=[x,y+part*i];
+					c.change_wh=[w,part];
 					c.change;
 				end
 			end

@@ -52,13 +52,13 @@ end
 
 require 'ui/node';
 require 'ui/array';
+require 'ui/pass';
 require 'ui/align';
 require 'ui/stack';
 require 'ui/split';
 require 'ui/text';
 require 'ui/textline';
 require 'ui/textarea';
-require 'ui/pass';
 require 'ui/padding';
 require 'ui/border';
 require 'ui/paragraph';

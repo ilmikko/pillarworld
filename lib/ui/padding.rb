@@ -10,22 +10,35 @@
 class UI::Padding < UI::Pass
 	@@default_padding=1;
 
-	def padding;@padding;end
-	def padding=(v);@padding=v;end
+	attr_reader :padding;
+
+	# TODO: Make the element update when padding changes
+	def padding=(v);
+		@padding=v;
+	end
+
+	# We modify content width by adding padding
+	def content_width
+		super+@padding*2;
+	end
+
+	def content_height
+		super+@padding*2;
+	end
 
 	def change;
 		w,h=@wh;
 		x,y=@xy;
 
 		width=@padding;
-		@children.each{|c|
-			c.xy=[x+width,y+width];
-			c.resize_wh=[w-width*2,h-width*2];
+		@children.each{ |c|
+			c.change_xy=[x+width,y+width];
+			c.change_wh=[w-width*2,h-width*2];
 			c.change;
 		}
 	end
 
-	def initialize(padding:1,**_)
+	def initialize(padding:@@default_padding,**_)
 		super(**_);
 
 		self.padding=padding;

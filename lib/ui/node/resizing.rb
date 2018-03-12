@@ -1,37 +1,45 @@
-#TODO: Instead of resize_wh and xy set all to change_wh and change_xy and change_xywh
-#TODO: Rename this to change.rb and let it handle all the change code
-
 class UI::Node
-	def min_width=(v)
-		# SET user wanted min_width
-		@min_wh[0]=v;
+	# Min-max control
+	attr_reader :width_min, :height_min, :width_max, :height_max;
+
+	def width_min=(v)
+		raise "width_min cannot be larger than width_max! (#{v}>#{@width_max})" if !@width_max.nil? and v>@width_max;
+		@width_min=v;
 	end
 	
-	def min_height=(v)
-		@min_wh[1]=v;
+	def height_min=(v)
+		raise "height_min cannot be larger than height_max! (#{v}>#{@height_max})" if !@height_max.nil? and v>@height_max;
+		@height_min=v;
 	end
 
 
-	def max_width=(v)
-		@max_wh[0]=v;
+	def width_max=(v)
+		raise "width_max cannot be smaller than width_min! (#{v}<#{@width_min})" if !@width_min.nil? and v<@width_min;
+		@width_max=v;
 	end
 
-	def max_height=(v)
-		@max_wh[1]=v;
+	def height_max=(v)
+		raise "height_max cannot be smaller than height_min! (#{v}<#{@height_min})" if !@height_min.nil? and v<@height_min;
+		@height_max=v;
+	end
+
+	
+	# Content size control
+	attr_reader :content_width, :content_height;
+
+	def content_size
+		[content_width,content_height];
 	end
 
 
 	def width=(v)
-		# OLD preferred_width
-		# SET user wanted min_width and max_width
-		self.min_width=self.max_width=v;
-		# UPDATE everything as our PREFERRED width is now different
-		self.resize_w=v;
+		@width_min=@width_max=v;
+		self.change_w=v;
 	end
 
 	def height=(v)
-		self.min_height=self.max_height=v;
-		self.resize_h=v;
+		@height_min=@height_max=v;
+		self.change_h=v;
 	end
 
 	attr_reader :wh;
@@ -51,44 +59,5 @@ class UI::Node
 	def resize(w,h)
 		width=w;
 		height=h;
-	end
-
-	# TODO: Clean this up a bit - but these are protected so that a user doesn't accidentally call "resize_wh" when they want to resize an element.
-	# What should they call instead?
-
-	#########
-	protected
-	#########
-
-	def resize_w=(v)
-		# SET parent resized width to v!
-		# CALC our own REALIZED width
-		if !@min_wh[0].nil? or !@max_wh[0].nil?
-			# TODO: What if max_width < min_width?
-			if !@max_wh[0].nil? and v>@max_wh[0]
-				v=@max_wh[0];
-			elsif !@min_wh[0].nil? and v<@min_wh[0]
-				v=@min_wh[0];
-			end
-		end
-		@wh[0]=v;
-	end
-
-	def resize_h=(v)
-		if !@min_wh[1].nil? or !@max_wh[1].nil?
-			# TODO: What if max_width < min_width?
-			if !@max_wh[1].nil? and v>@max_wh[1]
-				v=@max_wh[1];
-			elsif !@min_wh[1].nil? and v<@min_wh[1]
-				v=@min_wh[1];
-			end
-		end
-		@wh[1]=v;
-	end
-
-	def resize_wh=(wh)
-		# SET parent has resized!
-		self.resize_w=wh[0];
-		self.resize_h=wh[1];
 	end
 end

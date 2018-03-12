@@ -1,59 +1,96 @@
 # 
 # UIStack
-# An opposer to UIFlex - where Flex tries to use all the space as it can, Stack tries to stack as many child elements next to each other as it can.
+# An opposer to UISplit - where Split tries to use all the space as it can, Stack tries to stack as many child elements next to each other as it can.
 #
 
-class UI::Stack < UI::Align
+class UI::Stack < UI::Array
 	def change
 		w,h=@wh;
 		x,y=@xy;
-		
-		len=@children.length;
-		offset=0;
-		align=0;
 
-		# calculate content size
-		contentsize=[0,0];
+		# As said before, we want to identify the widths and heights before the positions.
+
+		# TODO: all of these can be improved
 		if @direction==:row
-			@children.each{|c|
-				c.resize_wh=@wh;
-				c.change;
-				contentsize[0]+=c.w;
-				contentsize[1]=c.h if c.h>contentsize[1];
-			}
+			size_available = w;
 		else
-			@children.each{|c|
-				c.resize_wh=@wh;
-				c.change;
-				contentsize[1]+=c.h;
-				contentsize[0]=c.w if c.w>contentsize[0];
+			size_available = h;
+		end
+
+		# A child can be:
+		# width_grower (use available space)
+		# 	-> with width_min (don't go below this width, ever)
+		# 	-> with width_max (grow only so large)
+		# width_shrinker (use only space we need)
+		# 	-> with width_min (this is the min space we need, regardless of children)
+		# 	-> with width_max (never go above this width)
+
+		growers = [];
+		@children.each{ |child|
+			# Check if child is a grower or not
+			if child.grow > 0
+				growers << child;
+			else
+				content_size=@wh;
+
+				if @direction==:row
+					content_width = child.content_width;
+					content_size[0] = content_width;
+					size_available -= content_width;
+				else
+					content_height = child.content_height;
+					content_size[1] = content_height;
+					size_available -= content_height;
+				end
+
+				child.change_wh = content_size;
+			end
+		}
+
+		# If we have available size, allow our growers to use that space
+		if size_available>0 and growers.count>0
+			grow_sum = growers.reduce(0){ |sum, child| sum+child.grow };
+			
+			growers.each{|child|
+				portion = child.grow.to_f / grow_sum;
+
+				child_size = @wh;
+				if @direction==:row
+					child_size[0] = portion*size_available;
+				else
+					child_size[1] = portion*size_available;
+				end
+
+				child.change_wh = child_size;
+				child.change;
 			}
 		end
 
-		# Calc align offsets
-		align=[(w-contentsize[0])*@horizontalalign,(h-contentsize[1])*@verticalalign];
-
+		# Calc positions
 		if @direction==:row
-			@children.each{|c|
-				c.xy=[x+offset+align[0],y+align[1]];
-				c.resize_wh=[w-offset-align[0],h-align[1]];
-				c.change;
-				offset+=c.w;
-			}
+			offset = x;
 		else
-			@children.each{|c|
-				c.xy=[x+align[0],y+offset+align[1]];
-				c.resize_wh=[w-align[0],h-offset-align[1]];
-				c.change;
-				offset+=c.h;
-			}
+			offset = y;
 		end
 
+		@children.each{|child|
+			child_pos = [x,y];
+
+			if @direction==:row
+				child_pos[0] = offset;
+				offset+=child.width;
+			else
+				child_pos[1] = offset;
+				offset+=child.height;
+			end
+
+			child.change_xy = child_pos;
+			child.change;
+		}
 	end
 
 	def initialize(direction: :col,**_)
-		# Default stack align to top left
-		super(va: :top, ha: :left, **_);
+		super(**_);
 
 		@direction=direction;
 	end

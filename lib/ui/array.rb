@@ -1,7 +1,7 @@
 # 
-# UIArray
+# UI::Array
 # Contains 0 or more UI elements, by default merely acts as a fork.
-# Inherited mostly to create more complex behavior (see UIFlex for example)
+# Inherited mostly to create more complex behavior (see UI::Split for example)
 #
 class UI::Array < UI::Node
 	def append(*items)
@@ -13,6 +13,19 @@ class UI::Array < UI::Node
 		self;
 	end
 
+	def content_width
+		# As the content is layered on top of each other, our content width will be the maximum width of a child.
+		@children.reduce(0){ |max,child|
+			child.content_width > max ? child.content_width : max;
+		};
+	end
+
+	def content_height
+		@children.reduce(0){ |max,child|
+			child.content_height > max ? child.content_height : max;
+		};
+	end
+
 	def empty
 		$console.debug("Emptying #{self}");
 		@children.clear;
@@ -20,8 +33,8 @@ class UI::Array < UI::Node
 
 	def change
 		@children.each{ |c|
-			c.xy=@xy;
-			c.resize_wh=@wh;
+			c.change_xy=@xy;
+			c.change_wh=@wh;
 			c.change;
 		}
 	end

@@ -3,8 +3,8 @@
 #
 class UI::Wrap < UI::Border
 	def change
-		@children.first.resize_wh=@wh;
-		@children.first.xy=[@xy[0]+@padding,@xy[1]+@padding];
+		@children.first.change_wh=@wh;
+		@children.first.change_xy=[@xy[0]+@padding,@xy[1]+@padding];
 		@children.first.change;
 		@wh=[@children.first.w+@padding*2,@children.first.h+@padding*2];
 	end

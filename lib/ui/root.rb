@@ -1,9 +1,9 @@
 class UI::Root < UI::Array
 	def update
-		self.xy=[0,0];
 		$console.log("RESIZE TO #{@@view.wh}");
-		self.resize_wh=@@view.wh;
-		change;
+		self.change_xy=[0,0];
+		self.change_wh=@@view.wh;
+		self.change;
 		@@view.clear();
 		redraw;
 	end

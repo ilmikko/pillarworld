@@ -96,7 +96,7 @@ end
 
 matrix=MatrixTest.new;
 
-sleep 1;
+sleep [1, $interval].max;
 
 $console.log("End test!");
 matrix.destroy();
