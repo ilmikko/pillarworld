@@ -51,6 +51,7 @@ class UI
 end
 
 require 'ui/node';
+require 'ui/block';
 require 'ui/array';
 require 'ui/pass';
 require 'ui/align';
