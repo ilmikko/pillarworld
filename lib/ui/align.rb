@@ -41,9 +41,9 @@ class UI::Align < UI::Pass
 			child.change_wh=@wh;
 			child.change;
 			# calc aligns, position
-			cw,ch=child.wh;
+			cw,ch=child.content_size;
 
-			$console.log("Child size: #{child.wh}");
+			$console.log("Child size: #{[cw,ch]}");
 
 			ha=(w-cw)*@horizontalalign;
 			va=(h-ch)*@verticalalign;

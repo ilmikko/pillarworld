@@ -4,13 +4,33 @@
 #
 
 class UI::Stack < UI::Array
+	def content_width
+		if @direction==:row
+			# sum of all the widths
+			@children.reduce(0){|sum,x| sum+x.width;};
+		else
+			# just maximum width
+			super
+		end
+	end
+	
+	def content_height
+		if @direction==:row
+			# just maximum height
+			super
+		else
+			# sum of all the heights
+			@children.reduce(0){|sum,x| sum+x.height;};
+		end
+	end
+
 	def change
 		w,h=@wh;
 		x,y=@xy;
 
 		# As said before, we want to identify the widths and heights before the positions.
 
-		# TODO: all of these can be improved
+		# TODO: all of these can be improved, as there is a lot of repetition
 		if @direction==:row
 			size_available = w;
 		else
@@ -27,6 +47,7 @@ class UI::Stack < UI::Array
 
 		growers = [];
 		@children.each{ |child|
+
 			# Check if child is a grower or not
 			if child.grow > 0
 				growers << child;
