@@ -9,7 +9,7 @@ class UI::Wrap < UI::Border
 end
 
 UI.new.show(
-	UI::Align.new(ha: :right).append(
+	UI::Align.new(ha: :left).append(
 		UI::Stack.new(direction: :row).append(
 			UI::Wrap.new.append(
 				UI::Text.new('This is a text')

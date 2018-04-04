@@ -121,7 +121,6 @@ class UI::Border < UI::Padding
 			@@view.put(*sw,@corners[2]);
 			# se
 			@@view.put(*se,@corners[3]);
-
 		elsif h==1 && w>1
 			# Do not draw corners, draw caps
 			@@view.hline(*nw,w,char: @doubles[0]);
@@ -133,6 +132,7 @@ class UI::Border < UI::Padding
 			@@view.put(*nw,@caps[0])
 			@@view.put(*sw,@caps[2])
 		elsif w==1 && h==1
+			# Only draw a dot
 			@@view.put(*nw,@caps[4]);
 		end
 		# Else draw nothing

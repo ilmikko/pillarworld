@@ -6,33 +6,45 @@ class View
 	end
 
 	def hline(x,y,w,char: '#')
-		return if !char.is_a? String or char.empty? or w==0;
+		return if char.empty? or w==0;
 
-		if (w<0)
-			# Currently cropping is not supported in negative numbers
-			_put(x+w,y,char*(-w+1));
-		else
-			# Crop the line according to our available width
-			d=@w-x-w;
-			w+=d if d<=0;
+		# y out of bounds
+		return if y < 0 or y > @h;
 
-			# Return if we're out of bounds
-			return if w<0;
-			
-			_put(x,y,char*w);
+		# Check if out of bounds
+		return if x+w < 0 or x > @w;
 
-			# HACK: This is one solution to combat a calculation mistake in the rounding errors for floating points.
-			# Sometimes the width is one point less than what we originally intended due to the fact that
-			# 0.33333333+0.66666666 < 1. You can see this by commenting this line out (or replacing the character)
-			# and running test/border.rb
-			#
-			# The reason this is not present in vline is because we use a different solution (namely, a for loop).
-			_put(x+w-1,y,char);
+		# Check if crop
+		if x < 0 or x+w > @w
+			if x < 0
+				# Left crop
+				return hline(0,y,w+x,char:char);
+			else
+				# Right crop
+				return hline(x,y,@w-x,char:char);
+			end
 		end
+
+		# Safe to put
+		_put(x,y,char*w);
+
+		# HACK: This is one solution to combat a calculation mistake in the rounding errors for floating points.
+		# Sometimes the width is one point less than what we originally intended due to the fact that
+		# 0.33333333+0.66666666 < 1. You can see this by commenting this line out (or replacing the character)
+		# and running test/border.rb
+		#
+		# The reason this is not present in vline is because we use a different solution (namely, a for loop).
+		_put(x+w-1,y,char);
 	end
 
 	def vline(x,y,h,char: '#')
-		return if !char.is_a? String or char.empty?;
+		return if char.empty? or h==0;
+
+		# X out of bounds
+		return if x < 0 or x > @w;
+
+		
+
 		y=y.round.to_i;
 		h=h.round.to_i;
 		# If someone has a better solution let me know
