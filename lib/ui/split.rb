@@ -19,7 +19,7 @@ class UI::Split < UI::Array
 		# *taps temple*
 		if len>0
 			if @direction==:row
-				part=w/len;
+				part=w.to_f/len;
 
 				for i in 0...len
 					c=@children[i];
@@ -28,7 +28,7 @@ class UI::Split < UI::Array
 					c.change;
 				end
 			else
-				part=h/len;
+				part=h.to_f/len;
 
 				for i in 0...len
 					c=@children[i];

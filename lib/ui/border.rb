@@ -91,7 +91,7 @@ class UI::Border < UI::Padding
 		$console.log("Border redrawing");
 		w,h=@wh;
 		x,y=@xy;
-		#$console.log("Border #{self} pos: #{@xy} size: #{@wh}");
+		$console.log("Border #{self} pos: #{@xy} size: #{@wh}");
 
 		# corners
 		nw=[x,y];

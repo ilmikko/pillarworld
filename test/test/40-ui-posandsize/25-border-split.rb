@@ -8,6 +8,11 @@ UI.new.show(
 		UI::Border.new,
 		UI::Border.new,
 		UI::Border.new,
+		UI::Border.new,
+		UI::Border.new,
+		UI::Border.new,
+		UI::Border.new,
+		UI::Border.new,
 		UI::Border.new
 	)
 );

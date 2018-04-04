@@ -26,6 +26,7 @@ class UI::Node
 				v=min;
 			end
 		end
+
 		return v;
 	end
 
@@ -33,14 +34,14 @@ class UI::Node
 		min = @width_min;
 		max = @width_max;
 
-		@wh[0]=clamp(v.floor,min,max);
+		@wh[0]=clamp(v,min,max);
 	end
 
 	def change_h=(v)
 		min = @height_min;
 		max = @height_max;
 
-		@wh[1]=clamp(v.floor,min,max);
+		@wh[1]=clamp(v,min,max);
 	end
 
 	def change_wh=(wh)
