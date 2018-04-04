@@ -15,6 +15,9 @@ class View
 			# Crop the line according to our available width
 			d=@w-x-w;
 			w+=d if d<=0;
+
+			# Return if we're out of bounds
+			return if w<0;
 			
 			_put(x,y,char*w);
 

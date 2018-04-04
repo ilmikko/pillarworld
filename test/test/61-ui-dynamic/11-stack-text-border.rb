@@ -2,6 +2,12 @@
 # Stacked text border elements
 #
 
+class UI::Wrap < UI::Border
+	def initialize
+		super(grow:0);
+	end
+end
+
 UI.new.show(
     UI::Stack.new(direction: :row).append(
         UI::Wrap.new.append(
