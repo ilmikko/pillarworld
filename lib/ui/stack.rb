@@ -1,6 +1,6 @@
 # 
-# UIStack
-# An opposer to UISplit - where Split tries to use all the space as it can, Stack tries to stack as many child elements next to each other as it can.
+# UI::Stack
+# An opposer to UI::Split - where Split tries to use all the space as it can, Stack tries to stack as many child elements next to each other as it can.
 #
 
 class UI::Stack < UI::Array
