@@ -24,6 +24,18 @@ class UI::Stack < UI::Array
 		end
 	end
 
+	def full?
+		if @direction==:row
+			ret = content_width >= @wh[0];
+		else
+			ret = content_height >= @wh[1];
+		end
+
+		$console.log("Is stack full? #{ret} #{content_width} >= #{@wh[0]}");
+
+		return ret;
+	end
+
 	def change
 		w,h=@wh;
 		x,y=@xy;
