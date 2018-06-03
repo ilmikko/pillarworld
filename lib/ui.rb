@@ -53,6 +53,7 @@ end
 require 'ui/node';
 require 'ui/block';
 require 'ui/array';
+require 'ui/layer';
 require 'ui/pass';
 require 'ui/align';
 require 'ui/stack';
