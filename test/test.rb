@@ -4,6 +4,7 @@
 
 $LOAD_PATH << (__dir__<<'/../lib');
 require 'ui';
+require 'menu';
 
 $interval=0.1;
 
