@@ -7,4 +7,7 @@ menu=Menu.new.append(
 	Menu::Item.new("Item 4"),
 	Menu::Item.new("Item 5"),
 );
+
+menu.show;
+
 menu.focus; # Make menu active?
